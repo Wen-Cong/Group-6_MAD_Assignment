@@ -20,12 +20,13 @@ public class MainActivity extends AppCompatActivity {
     public EditText emailId,password;
     Button btnSignUp;
     TextView signIn;
+    //create firebase object
     FirebaseAuth mFirebaseAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        //create firebase instance
         mFirebaseAuth = FirebaseAuth.getInstance();
         //find email from text input
         emailId = findViewById(R.id.email);
