@@ -34,11 +34,12 @@
             android:textStyle="bold"
             android:textSize="40sp"
             android:textColor="#fff"
-            android:text="Sign in"
+            android:text="Sign Up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <EditText
+            android:id="@+id/email"
             android:textColor="#fff"
             android:textColorHint="#eee"
             android:paddingStart="10dp"
@@ -50,6 +51,7 @@
             android:background="@drawable/rounded_corner"
             android:textSize="17sp" />
         <EditText
+            android:id="@+id/password"
             android:textColor="#fff"
             android:textColorHint="#eee"
             android:paddingStart="10dp"
@@ -62,17 +64,19 @@
             android:background="@drawable/rounded_corner"
             android:textSize="17sp" />
         <Button
+            android:id="@+id/button"
             android:paddingRight="20dp"
             android:paddingLeft="20dp"
             android:background="@drawable/rounded_corner_button"
-            android:text="sign in"
+            android:text="sign up"
             android:textColor="#777"
             android:layout_width="wrap_content"
             android:layout_height="35dp" />
         <TextView
+            android:id="@+id/signinlink"
             android:layout_marginTop="20dp"
             android:textColor="#fff"
-            android:text="Forgot Password?"
+            android:text="Already have an account? Sign in here!"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
