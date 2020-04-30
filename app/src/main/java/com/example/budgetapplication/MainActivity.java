@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     mFirebaseAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            //if signup not successful display message
+                            //if sign up not successful display message
                             if(!task.isSuccessful()){
                                 Toast.makeText(MainActivity.this,"Sign Up Unsuccessful... Please Try Again",Toast.LENGTH_SHORT).show();
                             }
