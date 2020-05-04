@@ -32,8 +32,8 @@ public class HomeActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     FirebaseAuth mFireBaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
-    CircleImageView profileImage;
     StorageReference storageReference;
+    CircleImageView profileImage;
 
 
     @Override
@@ -42,19 +42,20 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         storageReference = (StorageReference) FirebaseStorage.getInstance().getReference();
+        profileImage = (CircleImageView) findViewById(R.id.profile_pic);
 
-        StorageReference profileRef =
-                storageReference.child("users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid() +"/profile.jpg");
-        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(profileImage);
-            }
-        });
+        //StorageReference profileRef =
+                //storageReference.child("users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid() +"/profile.jpg");
+        //profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            //@Override
+            //public void onSuccess(Uri uri) {
+                //Picasso.get().load(uri).into(profileImage);
+            //}
+        //});
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            //@Override
             Fragment frag = null;
+            @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.dashboard:
@@ -80,22 +81,21 @@ public class HomeActivity extends AppCompatActivity {
         });
         getSupportFragmentManager().beginTransaction().replace(R.id.container,new DashboardFragment()).commit();
 
-
     }
 
-
-
-
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1001){
             if(resultCode == Activity.RESULT_OK){
                 Uri imageUri = data.getData();
+                profileImage.setImageURI(imageUri);
 
                 UploadProfileImage(imageUri);
             }
         }
     }
+
 
     private void UploadProfileImage(Uri imageUri) {
         //Upload profile image to firebase storage
@@ -128,9 +128,8 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intToMain);
     }
 
-    public void clickOnPic(View view){
+    public void ProfileImageHandler(View view) {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(gallery, 1001);
     }
 }
-
