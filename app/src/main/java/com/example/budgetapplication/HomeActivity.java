@@ -86,7 +86,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(gallery, 1000);
+                startActivityForResult(gallery, 1001);
 
             }
         });
@@ -96,7 +96,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1000){
+        if(requestCode == 1001){
             if(resultCode == Activity.RESULT_OK){
                 Uri imageUri = data.getData();
 
