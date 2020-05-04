@@ -5,11 +5,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -34,24 +36,27 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     StorageReference storageReference;
     CircleImageView profileImage;
+    private static final String TAG = "MyActivity";
+    Uri imageURI;
 
-
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         storageReference = (StorageReference) FirebaseStorage.getInstance().getReference();
-        profileImage = (CircleImageView) findViewById(R.id.profile_pic);
 
-        //StorageReference profileRef =
-                //storageReference.child("users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid() +"/profile.jpg");
-        //profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            //@Override
-            //public void onSuccess(Uri uri) {
-                //Picasso.get().load(uri).into(profileImage);
-            //}
-        //});
+
+
+//        StorageReference profileRef =
+//                storageReference.child("users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid() +"/profile.jpg");
+//        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                Picasso.get().load(uri).into(profileImage);
+//            }
+//        });
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             Fragment frag = null;
@@ -83,13 +88,33 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+
+    public void LogOut(View view) {
+        FirebaseAuth.getInstance().signOut();
+        Intent intToMain = new Intent(HomeActivity.this,MainActivity.class);
+        startActivity(intToMain);
+    }
+
+    public CircleImageView ProfileImageHandler(View view) {
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, 1001);
+        profileImage = findViewById(view.getId());
+        profileImage.setImageURI(null);
+        profileImage.setImageURI(imageURI);
+        Log.v(TAG, String.valueOf(view.getId()));
+        return profileImage;
+
+    }
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1001){
             if(resultCode == Activity.RESULT_OK){
                 Uri imageUri = data.getData();
-                profileImage.setImageURI(imageUri);
+                imageURI = imageUri;
 
                 UploadProfileImage(imageUri);
             }
@@ -120,16 +145,5 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(HomeActivity.this, "Uploading Failed", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    public void LogOut(View view) {
-        FirebaseAuth.getInstance().signOut();
-        Intent intToMain = new Intent(HomeActivity.this,MainActivity.class);
-        startActivity(intToMain);
-    }
-
-    public void ProfileImageHandler(View view) {
-        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(gallery, 1001);
     }
 }
