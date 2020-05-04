@@ -40,8 +40,8 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        bottomNavigationView = findViewById(R.id.bottomNavigation);
-        storageReference = FirebaseStorage.getInstance().getReference();
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        storageReference = (StorageReference) FirebaseStorage.getInstance().getReference();
 
         StorageReference profileRef =
                 storageReference.child("users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid() +"/profile.jpg");
@@ -52,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        profileImage = findViewById(R.id.profile_pic);
+        profileImage = (CircleImageView) findViewById(R.id.profile_pic);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             //@Override
             Fragment frag = null;
