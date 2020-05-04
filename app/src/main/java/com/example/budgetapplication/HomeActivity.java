@@ -52,7 +52,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        profileImage = (CircleImageView) findViewById(R.id.profile_pic);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             //@Override
             Fragment frag = null;
@@ -81,19 +80,12 @@ public class HomeActivity extends AppCompatActivity {
         });
         getSupportFragmentManager().beginTransaction().replace(R.id.container,new DashboardFragment()).commit();
 
-        //Add profile image for account fragment
-        profileImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(gallery, 1001);
-
-            }
-        });
 
     }
 
-    @Override
+
+
+
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1001){
@@ -135,4 +127,10 @@ public class HomeActivity extends AppCompatActivity {
         Intent intToMain = new Intent(HomeActivity.this,MainActivity.class);
         startActivity(intToMain);
     }
+
+    public void clickOnPic(View view){
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, 1001);
+    }
 }
+
