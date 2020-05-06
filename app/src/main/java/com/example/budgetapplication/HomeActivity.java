@@ -35,9 +35,8 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseAuth mFireBaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     StorageReference storageReference;
-    CircleImageView profileImage;
+    CircleImageView tempProfileImage;
     private static final String TAG = "MyActivity";
-    //Uri imageURI;
 
     @SuppressLint("ResourceType")
     @Override
@@ -88,9 +87,8 @@ public class HomeActivity extends AppCompatActivity {
     public void ProfileImageHandler(View view) {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(gallery, 1001);
-        //profileImage = findViewById(view.getId());
-        //profileImage.setImageURI(null);
-        //profileImage.setImageURI(imageURI);
+        tempProfileImage = findViewById(view.getId());
+        tempProfileImage.setImageURI(null);
 
     }
 
@@ -102,6 +100,7 @@ public class HomeActivity extends AppCompatActivity {
         if(requestCode == 1001){
             if(resultCode == Activity.RESULT_OK){
                 Uri imageUri = data.getData();
+                tempProfileImage.setImageURI(imageUri);
 
                 UploadProfileImage(imageUri);
             }
@@ -121,8 +120,7 @@ public class HomeActivity extends AppCompatActivity {
                 imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uploadedUri) {
-                        //load the uploaded image from firebase as profileImage
-                        //Picasso.get().load(uploadedUri).into(profileImage);
+                        Toast.makeText(HomeActivity.this, "Upload Successful", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
