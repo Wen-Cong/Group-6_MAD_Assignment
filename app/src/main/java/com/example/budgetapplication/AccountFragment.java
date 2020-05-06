@@ -9,9 +9,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,35 +24,22 @@ import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AccountFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AccountFragment extends Fragment {
     private static final String TAG = "Account Activity";
 
     StorageReference storageReference;
     CircleImageView profileImage;
+    LinearLayout changeusername;
 
 
     public AccountFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static AccountFragment newInstance(String param1, String param2) {
-        AccountFragment fragment = new AccountFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override
@@ -65,7 +54,7 @@ public class AccountFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         profileImage = view.findViewById(R.id.profile_pic);
         storageReference = (StorageReference) FirebaseStorage.getInstance().getReference();
-
+        changeusername = view.findViewById(R.id.changeusername);
         StorageReference profileRef =
                 storageReference.child("users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid() +"/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -75,6 +64,17 @@ public class AccountFragment extends Fragment {
             }
         });
 
+        changeusername.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openChangeUsernamePage();
+            }
+        });
+    }
+
+    private void openChangeUsernamePage(){
+        Intent intent = new Intent(getActivity(), ChangeUsernameActivity.class);
+        startActivity(intent);
     }
 
 
