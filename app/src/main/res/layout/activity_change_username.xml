@@ -5,7 +5,7 @@
     android:id="@+id/usernameSubmit"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditUsernameFragment">
+    tools:context=".ChangeUsernameActivity">
 
 
     <TextView
@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@+id/subtitle" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/username_submit_button"
         android:layout_width="250dp"
         android:layout_height="60dp"
         android:layout_marginBottom="390dp"

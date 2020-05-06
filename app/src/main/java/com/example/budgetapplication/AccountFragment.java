@@ -29,7 +29,7 @@ public class AccountFragment extends Fragment {
 
     StorageReference storageReference;
     CircleImageView profileImage;
-    LinearLayout changeusername;
+    private LinearLayout changeusername;
 
 
     public AccountFragment() {
