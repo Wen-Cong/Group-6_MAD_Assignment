@@ -37,7 +37,7 @@ public class HomeActivity extends AppCompatActivity {
     StorageReference storageReference;
     CircleImageView profileImage;
     private static final String TAG = "MyActivity";
-    Uri imageURI;
+    //Uri imageURI;
 
     @SuppressLint("ResourceType")
     @Override
@@ -45,18 +45,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
-        storageReference = (StorageReference) FirebaseStorage.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference();
 
-
-
-//        StorageReference profileRef =
-//                storageReference.child("users/"+ FirebaseAuth.getInstance().getCurrentUser().getUid() +"/profile.jpg");
-//        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Picasso.get().load(uri).into(profileImage);
-//            }
-//        });
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             Fragment frag = null;
@@ -95,14 +85,12 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(intToMain);
     }
 
-    public CircleImageView ProfileImageHandler(View view) {
+    public void ProfileImageHandler(View view) {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(gallery, 1001);
-        profileImage = findViewById(view.getId());
-        profileImage.setImageURI(null);
-        profileImage.setImageURI(imageURI);
-        Log.v(TAG, String.valueOf(view.getId()));
-        return profileImage;
+        //profileImage = findViewById(view.getId());
+        //profileImage.setImageURI(null);
+        //profileImage.setImageURI(imageURI);
 
     }
 
@@ -114,7 +102,6 @@ public class HomeActivity extends AppCompatActivity {
         if(requestCode == 1001){
             if(resultCode == Activity.RESULT_OK){
                 Uri imageUri = data.getData();
-                imageURI = imageUri;
 
                 UploadProfileImage(imageUri);
             }
@@ -135,7 +122,7 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Uri uploadedUri) {
                         //load the uploaded image from firebase as profileImage
-                        Picasso.get().load(uploadedUri).into(profileImage);
+                        //Picasso.get().load(uploadedUri).into(profileImage);
                     }
                 });
             }
