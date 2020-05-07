@@ -31,7 +31,7 @@ public class ChangeUsernameActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = newUsername.getText().toString();
+                String username = newUsername.getText().toString().trim();
                 Log.v(UsernameTAG, username);
                 if(!TextUtils.isEmpty(username)){
                     UpdateUsername(username);
