@@ -12,10 +12,6 @@
 
 
     <!-- TODO: Update blank fragment layout -->
-
-
-
-
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="413dp"
@@ -67,6 +63,8 @@
             android:layout_marginEnd="112dp"
             android:layout_marginBottom="28dp"
             android:text="Username"
+            android:textColor="#000"
+            android:textStyle="bold"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -93,7 +91,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginLeft="70dp"
-            android:src="@drawable/ic_settings" />
+            android:src="@drawable/ic_person_black_24dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -122,7 +120,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_marginLeft="70dp"
-            android:src="@drawable/ic_settings" />
+            android:src="@drawable/ic_help_black_24dp" />
 
         <TextView
             android:layout_width="wrap_content"

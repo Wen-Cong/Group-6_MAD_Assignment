@@ -38,6 +38,7 @@ public class AccountFragment extends Fragment {
     CircleImageView profileImage;
     String userId;
     private LinearLayout changeusername;
+    private  LinearLayout supportbutton;
     TextView username;
 
 
@@ -62,7 +63,7 @@ public class AccountFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        supportbutton = view.findViewById(R.id.linearlayout_3);
         changeusername = view.findViewById(R.id.changeusername);
         username = view.findViewById(R.id.username);
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -84,11 +85,21 @@ public class AccountFragment extends Fragment {
                 openChangeUsernamePage();
             }
         });
-
+        supportbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                openSupportPage();
+            }
+        });
     }
 
     private void openChangeUsernamePage(){
         Intent intent = new Intent(getActivity(), ChangeUsernameActivity.class);
+        startActivity(intent);
+    }
+
+    private void openSupportPage(){
+        Intent intent = new Intent(getActivity(), SupportActivity.class);
         startActivity(intent);
     }
 
@@ -107,6 +118,8 @@ public class AccountFragment extends Fragment {
             }
         });
     }
+
+
 
 
 }
