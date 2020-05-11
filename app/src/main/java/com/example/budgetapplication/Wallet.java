@@ -1,20 +1,22 @@
 package com.example.budgetapplication;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Wallet {
+public class Wallet implements Serializable {
     private String name;
     private Double balance;
     private ArrayList<Transaction> transactionList;
 
     public Wallet() {
+        this.transactionList = new ArrayList<>();
     }
 
     public Wallet(String walletname, Double bal) {
-        name = walletname;
-        balance = bal;
-        transactionList = new ArrayList<>();
+        this.name = walletname;
+        this.balance = bal;
+        this.transactionList = new ArrayList<>();
     }
 
     public String getName() {
@@ -34,5 +36,8 @@ public class Wallet {
     }
     public void addTransactions(Transaction t){
         transactionList.add(t);
+    }
+    public String toString(){
+        return this.name;
     }
 }
