@@ -8,17 +8,22 @@
     android:background="@color/colorPrimaryDark"
     tools:context=".WalletFragment">
 
-    <ImageView
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/plusImage"
-        android:layout_width="99dp"
-        android:layout_height="101dp"
-        android:layout_marginBottom="56dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
         android:clickable="true"
         android:onClick="openWalletForm"
-        android:src="@android:drawable/ic_input_add"
+        android:src="@drawable/adddp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.954"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.893" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
