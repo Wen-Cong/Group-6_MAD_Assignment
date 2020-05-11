@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
     public EditText emailId,password;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     TextView signIn;
     //create firebase object
     FirebaseAuth mFirebaseAuth;
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
                             }
                             //else go to HomeActivity!
                             else {
+                                String id =  FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                databaseReference.child("Users").child(id).child("username").setValue("username");
                                 startActivity(new Intent(MainActivity.this,HomeActivity.class));
-
-
                             }
                         }
                     });

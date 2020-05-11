@@ -9,10 +9,12 @@
     tools:context=".WalletFragment">
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/plusImage"
         android:layout_width="99dp"
         android:layout_height="101dp"
         android:layout_marginBottom="56dp"
+        android:clickable="true"
+        android:onClick="openWalletForm"
         android:src="@android:drawable/ic_input_add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

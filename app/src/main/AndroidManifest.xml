@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".SupportActivity"></activity>
-        <activity android:name=".addAccount"></activity>
+        <activity android:name=".WalletFormActivity"></activity>
         <activity android:name=".ChangeUsernameActivity"></activity>
         <activity android:name=".HomeActivity" />
         <activity android:name=".LoginActivity" />
