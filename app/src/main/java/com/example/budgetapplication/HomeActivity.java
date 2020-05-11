@@ -33,6 +33,7 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     StorageReference storageReference;
     CircleImageView tempProfileImage;
+    public User user;
     private static final String TAG = "MyActivity";
     Button addButton;
 
@@ -41,6 +42,9 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        user = new User();
+        Intent user = new Intent();
+        user.putExtra("User", user);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         storageReference = FirebaseStorage.getInstance().getReference();
 

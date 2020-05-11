@@ -22,7 +22,7 @@
         android:textColor="@color/colorPrimary"/>
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/wallet_spinner"
         android:layout_width="320dp"
         android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,8 +30,7 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/transactionAmount_edittext"
-        app:layout_constraintVertical_bias="0.28"
-        android:entries="@array/wallet"/>
+        app:layout_constraintVertical_bias="0.28" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -40,7 +39,7 @@
         android:text="From Wallet"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/spinner"
+        app:layout_constraintBottom_toTopOf="@+id/wallet_spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.141"
         app:layout_constraintStart_toStartOf="parent" />
@@ -64,6 +63,7 @@
         android:background="@drawable/custom_edittext"
         android:gravity="center_horizontal"
         android:inputType="numberDecimal"
+        android:text="0.00"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.483"
