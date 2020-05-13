@@ -1,8 +1,10 @@
 package com.example.budgetapplication;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,12 +21,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
-    public EditText emailId,password;
+    public EditText emailId, password;
     Button btnSignUp;
     TextView signIn;
     //create firebase object
     FirebaseAuth mFirebaseAuth;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,47 +59,68 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //check whether password is empty
                 //it is then
-                else  if (pass.isEmpty())
-                {
+                else if (pass.isEmpty()) {
                     //set empty password error
                     password.setError("Please enter your password");
                     password.requestFocus();
                 }
                 //if both not empty then go ahead with signup
-                else if (!(email.isEmpty() && pass.isEmpty())){
-                    mFirebaseAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
+                else if (!(email.isEmpty() && pass.isEmpty())) {
+                    mFirebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             //if sign up not successful display message
-                            if(!task.isSuccessful()){
-                                Toast.makeText(MainActivity.this,"Sign Up Unsuccessful... Please Try Again",Toast.LENGTH_SHORT).show();
+                            if (!task.isSuccessful()) {
+                                Toast.makeText(MainActivity.this, "Sign Up Unsuccessful... Please Try Again", Toast.LENGTH_SHORT).show();
                             }
                             //else go to HomeActivity!
                             else {
-                                String id =  FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                 databaseReference.child("Users").child(id).child("username").setValue("username");
-                                startActivity(new Intent(MainActivity.this,HomeActivity.class));
+                                startActivity(new Intent(MainActivity.this, HomeActivity.class));
                             }
                         }
                     });
                 }
                 //if some other error occurred then display this msg
-                else{
-                    Toast.makeText(MainActivity.this,"Error Occurred!",Toast.LENGTH_SHORT).show();
+                else {
+                    Toast.makeText(MainActivity.this, "Error Occurred!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-
 
         //when sign in link is clicked instead
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this,LoginActivity.class);
+                Intent i = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(i);
             }
         });
     }
+
+
+    public void OnBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage("Are you sure you want to exit");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                MainActivity.super.onBackPressed();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+
 }
