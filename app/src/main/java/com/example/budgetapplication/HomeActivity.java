@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -34,7 +35,8 @@ public class HomeActivity extends AppCompatActivity {
     StorageReference storageReference;
     CircleImageView tempProfileImage;
     public User user;
-    private static final String TAG = "MyActivity";
+    public final static int REQ_USER_CODE = 2001;
+    private static final String TAG = "HomeActivity";
     Button addButton;
 
     @SuppressLint("ResourceType")
@@ -43,9 +45,10 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         user = new User();
-        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        bottomNavigationView = findViewById(R.id.bottomNavigation);
         storageReference = FirebaseStorage.getInstance().getReference();
 
+        getSupportFragmentManager().beginTransaction().replace(R.id.container,new DashboardFragment()).commit();
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             Fragment frag = null;
             @Override
@@ -72,9 +75,12 @@ public class HomeActivity extends AppCompatActivity {
                 return false;
             }
         });
-        getSupportFragmentManager().beginTransaction().replace(R.id.container,new DashboardFragment()).commit();
+
+        Intent walletForm = new Intent(getPackageName() , Uri.parse("com.example.budgetapplication.WalletFormActivity"));
+        startActivityForResult(walletForm, REQ_USER_CODE);
 
     }
+
     public User getUser(){
         return user;
     }
@@ -82,6 +88,7 @@ public class HomeActivity extends AppCompatActivity {
 //open wallet creation form
     public void openWalletForm(View view) {
         Intent createAccForm = new Intent(HomeActivity.this, WalletFormActivity.class);
+        createAccForm.putExtra("User", user);
         startActivity(createAccForm);
     }
 
@@ -111,6 +118,12 @@ public class HomeActivity extends AppCompatActivity {
                 tempProfileImage.setImageURI(imageUri);
 
                 UploadProfileImage(imageUri);
+            }
+        }
+        else if(requestCode == REQ_USER_CODE){
+            if(resultCode == 1){
+                Log.v(TAG, "user with updated wallet received from wallet form");
+                user = (User) data.getSerializableExtra("User");
             }
         }
     }

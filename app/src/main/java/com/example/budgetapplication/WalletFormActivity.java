@@ -2,6 +2,7 @@ package com.example.budgetapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,10 +19,12 @@ import java.io.Console;
 //  this java page is for activity_wallet_form
 public class WalletFormActivity extends AppCompatActivity {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    private final String TAG = "WalletForm";
     EditText accName;
     EditText accBal;
     Button Cancel;
     Button Save;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,7 @@ public class WalletFormActivity extends AppCompatActivity {
         accBal = findViewById(R.id.accountBal);
         Cancel = findViewById(R.id.cancel);
         Save = findViewById(R.id.saveNow);
+        user = (User) getIntent().getSerializableExtra("User");
 
 
         Cancel.setOnClickListener(new View.OnClickListener() {
@@ -55,8 +59,14 @@ public class WalletFormActivity extends AppCompatActivity {
                     //send data into database
                     String id =  FirebaseAuth.getInstance().getCurrentUser().getUid();
                     Wallet w = new Wallet(accountName, walletBalance);
+                    user.addWallet(w);
                     databaseReference.child("Users").child(id).child("wallets").push().setValue(w);
                     Toast.makeText(WalletFormActivity.this,"Wallet Added Successfully",Toast.LENGTH_SHORT).show();
+                    Log.v(TAG, user.getWallets().get(0).getName().toString() + " is added successfully");
+                    Intent userIntent = new Intent();
+                    userIntent.putExtra("User", user);
+                    setResult(1, userIntent);
+                    Log.v(TAG, "Send result to HomeActivity");
                     finish();
                 }
 
