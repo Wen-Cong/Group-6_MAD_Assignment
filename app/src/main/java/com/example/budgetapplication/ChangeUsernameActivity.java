@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class ChangeUsernameActivity extends AppCompatActivity {
     Button submit;
+    Button cancel;
     EditText newUsername;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     final String UsernameTAG = "Username Activity";
@@ -27,7 +28,14 @@ public class ChangeUsernameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_username);
         submit = findViewById(R.id.username_submit_button);
+        cancel = findViewById(R.id.cancel_changeUsername);
         newUsername = findViewById(R.id.newUsername);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

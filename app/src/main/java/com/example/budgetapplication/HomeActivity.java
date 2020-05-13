@@ -35,7 +35,8 @@ public class HomeActivity extends AppCompatActivity {
     StorageReference storageReference;
     CircleImageView tempProfileImage;
     public User user;
-    public final static int REQ_USER_CODE = 2001;
+    public final static int REQ_WALLET_CODE = 2001;
+    public final static  int REQ_PROFILEPIC_CODE = 1001;
     private static final String TAG = "HomeActivity";
     Button addButton;
 
@@ -76,8 +77,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        Intent walletForm = new Intent(getPackageName() , Uri.parse("com.example.budgetapplication.WalletFormActivity"));
-        startActivityForResult(walletForm, REQ_USER_CODE);
 
     }
 
@@ -89,7 +88,7 @@ public class HomeActivity extends AppCompatActivity {
     public void openWalletForm(View view) {
         Intent createAccForm = new Intent(HomeActivity.this, WalletFormActivity.class);
         createAccForm.putExtra("User", user);
-        startActivity(createAccForm);
+        startActivityForResult(createAccForm, REQ_WALLET_CODE);
     }
 
 
@@ -101,7 +100,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public void ProfileImageHandler(View view) {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(gallery, 1001);
+        startActivityForResult(gallery, REQ_PROFILEPIC_CODE);
         tempProfileImage = findViewById(view.getId());
         tempProfileImage.setImageURI(null);
 
@@ -112,7 +111,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1001){
+        if(requestCode == REQ_PROFILEPIC_CODE){
             if(resultCode == Activity.RESULT_OK){
                 Uri imageUri = data.getData();
                 tempProfileImage.setImageURI(imageUri);
@@ -120,7 +119,7 @@ public class HomeActivity extends AppCompatActivity {
                 UploadProfileImage(imageUri);
             }
         }
-        else if(requestCode == REQ_USER_CODE){
+        else if(requestCode == REQ_WALLET_CODE){
             if(resultCode == 1){
                 Log.v(TAG, "user with updated wallet received from wallet form");
                 user = (User) data.getSerializableExtra("User");
