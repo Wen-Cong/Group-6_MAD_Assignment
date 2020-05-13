@@ -35,8 +35,7 @@ public class ChangeUsernameActivity extends AppCompatActivity {
                 Log.v(UsernameTAG, username);
                 if(!TextUtils.isEmpty(username)){
                     UpdateUsername(username);
-                    Intent intent = new Intent(ChangeUsernameActivity.this, HomeActivity.class);
-                    startActivity(intent);
+                    finish();
 
                 }
 

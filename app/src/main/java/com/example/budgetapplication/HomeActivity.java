@@ -43,8 +43,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         user = new User();
-        Intent user = new Intent();
-        user.putExtra("User", user);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         storageReference = FirebaseStorage.getInstance().getReference();
 
@@ -76,6 +74,9 @@ public class HomeActivity extends AppCompatActivity {
         });
         getSupportFragmentManager().beginTransaction().replace(R.id.container,new DashboardFragment()).commit();
 
+    }
+    public User getUser(){
+        return user;
     }
 
 //open wallet creation form

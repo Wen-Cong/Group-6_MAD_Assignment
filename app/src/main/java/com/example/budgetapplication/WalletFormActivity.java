@@ -54,8 +54,10 @@ public class WalletFormActivity extends AppCompatActivity {
                 else if(!accountName.isEmpty()){
                     //send data into database
                     String id =  FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    databaseReference.child("Users").child(id).child("wallets").setValue(accountName);
-                    databaseReference.child("Users").child(id).child("wallets").child(accountName).setValue(walletBalance);
+                    Wallet w = new Wallet(accountName, walletBalance);
+                    databaseReference.child("Users").child(id).child("wallets").push().setValue(w);
+                    Toast.makeText(WalletFormActivity.this,"Wallet Added Successfully",Toast.LENGTH_SHORT).show();
+                    finish();
                 }
 
                 else{

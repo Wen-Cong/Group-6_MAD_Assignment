@@ -21,10 +21,8 @@
     <string name="account_balance">Account Balance</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string-array name="wallet">
-        <item></item>
-        <item>Cash</item>
-        <item>Banks</item>
-        <item>Savings</item>
+    <string-array name="TransactionTypeList">
+        <item>Income</item>
+        <item>Expenses</item>
     </string-array>
 </resources>
