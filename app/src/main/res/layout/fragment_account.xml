@@ -163,18 +163,18 @@
 
     <Button
         android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
+        android:layout_width="275dp"
+        android:layout_height="40dp"
 
-        android:background="@drawable/rounded_corner_button"
+        android:background="@drawable/submit_button"
         android:onClick="LogOut"
         android:text="log out"
-        android:textColor="#777"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.883" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

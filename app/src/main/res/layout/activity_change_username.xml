@@ -63,7 +63,7 @@
         android:layout_width="275dp"
         android:layout_height="40dp"
         android:background="@drawable/cancel_button"
-        android:text="Button"
+        android:text="Cancel"
         android:textColor="#66B9F9"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
