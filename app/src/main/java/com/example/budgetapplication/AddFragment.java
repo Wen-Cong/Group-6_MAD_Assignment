@@ -19,8 +19,11 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +41,8 @@ public class AddFragment extends Fragment {
     private Wallet wallet;
     private Button submit;
     private  Double finalAmount;
+    private String uid;
+    private String walletKey;
     private final String TAG = "Add Transaction";
 
     public AddFragment() {
@@ -65,12 +70,14 @@ public class AddFragment extends Fragment {
         transactionName = view.findViewById(R.id.transactionName_edittext);
         transactionAmt = view.findViewById(R.id.transactionAmount_edittext);
         databaseReference = FirebaseDatabase.getInstance().getReference();
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         fromWallet = view.findViewById(R.id.wallet_spinner);
         fromWallet.setAdapter(walletAdapter);
         fromWallet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 wallet = (Wallet) parent.getSelectedItem();
+                getWalletKey(wallet);
             }
 
             @Override
@@ -99,8 +106,10 @@ public class AddFragment extends Fragment {
                             finalAmount = amt;
                         }
                         Transaction t = new Transaction(name, finalAmount,wallet, TransactionType);
-                        String id =  FirebaseAuth.getInstance().getCurrentUser().getUid();
-                        databaseReference.child("Users").child(id).child("Transactions").push().setValue(t);
+                        Double newWalletBal =((Double) wallet.getBalance()) + finalAmount;
+                        databaseReference.child("Users").child(uid).child("wallets").child(walletKey).child("balance")
+                                .setValue(newWalletBal);
+                        databaseReference.child("Users").child(uid).child("Transactions").push().setValue(t);
                         Toast.makeText(getActivity(), "Transaction Create Successfully", Toast.LENGTH_SHORT).show();
                         transactionAmt.getText().clear();
                         transactionName.getText().clear();
@@ -113,6 +122,23 @@ public class AddFragment extends Fragment {
                     Toast.makeText(getActivity(),"Error Occurred!",Toast.LENGTH_SHORT).show();
                 }
 
+            }
+        });
+    }
+    private void getWalletKey(Wallet w) {
+        String walletname = w.getName().toString();
+        databaseReference.child("Users").child(uid).child("wallets").orderByChild("name")
+                .equalTo(walletname).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    walletKey = childSnapshot.getKey();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), "Error retriving from database", Toast.LENGTH_SHORT);
             }
         });
     }
