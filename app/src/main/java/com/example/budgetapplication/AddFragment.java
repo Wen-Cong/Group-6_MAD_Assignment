@@ -105,10 +105,10 @@ public class AddFragment extends Fragment {
                         }else if (TransactionType.equals("Income")){
                             finalAmount = amt;
                         }
-                        Transaction t = new Transaction(name, finalAmount,wallet, TransactionType);
                         Double newWalletBal =((Double) wallet.getBalance()) + finalAmount;
-                        databaseReference.child("Users").child(uid).child("wallets").child(walletKey).child("balance")
-                                .setValue(newWalletBal);
+                        wallet.setBalance(newWalletBal);
+                        Transaction t = new Transaction(name, finalAmount,wallet, TransactionType);
+                        databaseReference.child("Users").child(uid).child("wallets").child(walletKey).setValue(wallet);
                         databaseReference.child("Users").child(uid).child("Transactions").push().setValue(t);
                         Toast.makeText(getActivity(), "Transaction Create Successfully", Toast.LENGTH_SHORT).show();
                         transactionAmt.getText().clear();
