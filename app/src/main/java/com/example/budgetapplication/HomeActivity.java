@@ -48,7 +48,6 @@ public class HomeActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         storageReference = FirebaseStorage.getInstance().getReference();
         user = new User();
-        //user = (User) getIntent().getSerializableExtra("User");
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container,new DashboardFragment()).commit();
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
