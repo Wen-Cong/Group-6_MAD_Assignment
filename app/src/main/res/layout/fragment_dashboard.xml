@@ -14,27 +14,120 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="20dp"
         android:text="Dashboard"
         android:textColor="#FFF"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias= "0.498"
+
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="28dp"
+        android:text="Latest Transaction"
+        android:textStyle="italic"
+        android:textColor="#000"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias= "0.498"
+        android:translationY="50dp"
         />
-
-    <ImageView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="52dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/illustration"
+        android:layout_marginTop="28dp"
+        android:text="Favourites"
+        android:textStyle="italic"
+        android:textColor="#000"
+        android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias= "0.498"
+        android:translationY="240dp"
         />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-71dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
+            android:translationY="80dp"
+            app:cardCornerRadius="30dp"
+            app:cardMaxElevation="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Transaction Name"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textSize="25dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Wallet"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textSize="25dp"
+                android:translationY="50dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Amount"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textSize="25dp"
+                android:translationY="100dp" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
+            android:translationY="60dp"
+            app:cardCornerRadius="30dp"
+            app:cardMaxElevation="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Favourite Wallet"
+                android:textAlignment="center"
+                android:textColor="#000"
+                android:textSize="25dp"
+
+                />
+
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
