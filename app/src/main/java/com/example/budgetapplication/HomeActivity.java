@@ -45,9 +45,10 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        user = new User();
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         storageReference = FirebaseStorage.getInstance().getReference();
+        user = new User();
+        //user = (User) getIntent().getSerializableExtra("User");
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container,new DashboardFragment()).commit();
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -76,7 +77,6 @@ public class HomeActivity extends AppCompatActivity {
                 return false;
             }
         });
-
 
     }
 
