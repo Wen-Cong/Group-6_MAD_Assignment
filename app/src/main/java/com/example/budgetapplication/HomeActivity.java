@@ -77,7 +77,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     public User getUser(){

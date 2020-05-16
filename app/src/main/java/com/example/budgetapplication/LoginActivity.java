@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView signUp;
     //create firebase object
     FirebaseAuth mFirebaseAuth;
+    User user;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     @Override
@@ -39,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         btnSignIn = findViewById(R.id.button);
         //link to sign in
         signUp = findViewById(R.id.signinlink);
+
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -74,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                     password.setError("Please enter your password");
                     password.requestFocus();
                 }
-                //if both not empty then go ahead with signup
+                //if both not empty then go ahead with sign in
                 else if (!(email.isEmpty() && pass.isEmpty())) {
                     mFirebaseAuth.signInWithEmailAndPassword(email,pass).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override

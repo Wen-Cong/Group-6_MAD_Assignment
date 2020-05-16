@@ -105,6 +105,9 @@ public class AddFragment extends Fragment {
                         }else if (TransactionType.equals("Income")){
                             finalAmount = amt;
                         }
+                        else{
+                            finalAmount = 0.00;
+                        }
                         Double newWalletBal =((Double) wallet.getBalance()) + finalAmount;
                         wallet.setBalance(newWalletBal);
                         Transaction t = new Transaction(name, finalAmount,wallet, TransactionType);
