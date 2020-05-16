@@ -111,6 +111,7 @@ public class AddFragment extends Fragment {
                         Double newWalletBal =((Double) wallet.getBalance()) + finalAmount;
                         wallet.setBalance(newWalletBal);
                         Transaction t = new Transaction(name, finalAmount,wallet, TransactionType);
+                        wallet.addTransactions(t);
                         databaseReference.child("Users").child(uid).child("wallets").child(walletKey).setValue(wallet);
                         databaseReference.child("Users").child(uid).child("Transactions").push().setValue(t);
                         Toast.makeText(getActivity(), "Transaction Create Successfully", Toast.LENGTH_SHORT).show();
