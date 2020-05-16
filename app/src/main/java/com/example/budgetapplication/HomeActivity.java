@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-
+import com.google.firebase.auth.FirebaseAuth;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -21,9 +21,18 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -33,6 +42,10 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseAuth mFireBaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     StorageReference storageReference;
+    FirebaseDatabase database;
+
+
+
     CircleImageView tempProfileImage;
     public User user;
     public final static int REQ_WALLET_CODE = 2001;
@@ -77,6 +90,12 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        InitUser();
     }
 
     public User getUser(){
@@ -150,4 +169,38 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void InitUser(){
+        final List<Wallet> walletList = new ArrayList<Wallet>();
+        final List<Transaction> transactionList = new ArrayList<Transaction>();
+        final String currentId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference reff = FirebaseDatabase.getInstance().getReference().child("Users").child(currentId);
+        reff.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String userName = dataSnapshot.child("username").getValue().toString();
+                User currentUser = new User(currentId, userName);
+                //initate wallets
+                for(DataSnapshot walletId : dataSnapshot.child("wallets").getChildren())
+                {
+                    Wallet newWallet = new Wallet(walletId.child("name").getValue().toString(), Double.valueOf((Double) walletId.child("balance").getValue()));
+                    currentUser.addWallet(newWallet);
+                    Log.v(TAG, "Wallet Name: "+ newWallet.toString());
+                }
+                for(DataSnapshot transactionId : dataSnapshot.child("Transactions").getChildren())
+                {
+                    Transaction newTransaction = new Transaction(transactionId.child("name").getValue().toString(), Double.valueOf((Double) transactionId.child("amount").getValue()),transactionId.child("type").getValue().toString());
+                    //TO-DO: Database needs to be adjusted to match our diagram. put transactions into wallet.
+                }
+                Log.v(TAG, userName);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 }
