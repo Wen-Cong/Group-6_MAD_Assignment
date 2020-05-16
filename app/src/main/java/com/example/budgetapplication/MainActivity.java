@@ -81,12 +81,8 @@ public class MainActivity extends AppCompatActivity {
                                 databaseReference.child("Users").child(id).child("username").setValue("Username");
                                 databaseReference.child("Users").child(id).child("Transactions").push().setValue(t);
                                 databaseReference.child("Users").child(id).child("wallets").push().setValue(w);
-                                User user = new User();
-                                w.addTransactions(t);
-                                user.addWallet(w);
 
                                 Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                                intent.putExtra("User" , user);
                                 startActivity(intent);
                             }
                         }
