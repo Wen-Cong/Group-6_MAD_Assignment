@@ -51,7 +51,6 @@ public class HomeActivity extends AppCompatActivity {
     public final static int REQ_WALLET_CODE = 2001;
     public final static  int REQ_PROFILEPIC_CODE = 1001;
     private static final String TAG = "HomeActivity";
-    Button addButton;
 
     @SuppressLint("ResourceType")
     @Override
@@ -95,7 +94,8 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        InitUser();
+        //To be uncommented when database is Restructured -- line 98
+        //InitUser();
     }
 
     public User getUser(){
@@ -171,34 +171,33 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void InitUser(){
-        final List<Wallet> walletList = new ArrayList<Wallet>();
-        final List<Transaction> transactionList = new ArrayList<Transaction>();
         final String currentId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference reff = FirebaseDatabase.getInstance().getReference().child("Users").child(currentId);
         reff.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String userName = dataSnapshot.child("username").getValue().toString();
-                User currentUser = new User(currentId, userName);
-                //initate wallets
+                user = new User(currentId, userName);
+                //initiate wallets
                 for(DataSnapshot walletId : dataSnapshot.child("wallets").getChildren())
                 {
-                    Wallet newWallet = new Wallet(walletId.child("name").getValue().toString(), Double.valueOf((Double) walletId.child("balance").getValue()));
-                    currentUser.addWallet(newWallet);
+                    Wallet newWallet = new Wallet(walletId.child("name").getValue().toString(), Double.valueOf(walletId.child("balance").getValue().toString()));
                     Log.v(TAG, "Wallet Name: "+ newWallet.toString());
-                }
-                for(DataSnapshot transactionId : dataSnapshot.child("Transactions").getChildren())
-                {
-                    Transaction newTransaction = new Transaction(transactionId.child("name").getValue().toString(), Double.valueOf((Double) transactionId.child("amount").getValue()),transactionId.child("type").getValue().toString());
-                    //TO-DO: Database needs to be adjusted to match our diagram. put transactions into wallet.
+                    for(DataSnapshot transactionId : walletId.child("Transactions").getChildren()){
+                        Transaction t = new Transaction(transactionId.child("name").getValue().toString(),
+                                Double.valueOf(transactionId.child("amount").getValue().toString()),
+                        transactionId.child("type").getValue().toString());
+                        newWallet.addTransactions(t);
+                        Log.v(TAG, "Transactions: " + t.Name.toString() + " loaded!");
+                    }
+                    user.addWallet(newWallet);
                 }
                 Log.v(TAG, userName);
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.v(TAG, "Error getting database data");
             }
         });
     }

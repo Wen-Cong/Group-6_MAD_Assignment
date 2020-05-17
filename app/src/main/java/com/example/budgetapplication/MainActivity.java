@@ -78,9 +78,13 @@ public class MainActivity extends AppCompatActivity {
                                 String id = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                 Wallet w = new Wallet("Cash", 0.00);
                                 Transaction t = new Transaction("Initial Transactions", 0.00, "Initialisation");
+                                w.addTransactions(t);
                                 databaseReference.child("Users").child(id).child("username").setValue("Username");
-                                databaseReference.child("Users").child(id).child("Transactions").push().setValue(t);
-                                databaseReference.child("Users").child(id).child("wallets").push().setValue(w);
+                                String walletId = databaseReference.child("Users").child(id).child("wallets").push().getKey().toString();
+                                databaseReference.child("Users").child(id).child("wallets").child(walletId).setValue(w);
+                                databaseReference.child("Users").child(id).child("wallets").child(walletId).child("Transactions")
+                                        .push().setValue(t);
+
 
                                 Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                                 startActivity(intent);

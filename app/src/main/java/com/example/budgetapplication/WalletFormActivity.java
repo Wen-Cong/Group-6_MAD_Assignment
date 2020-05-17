@@ -59,8 +59,13 @@ public class WalletFormActivity extends AppCompatActivity {
                     //send data into database
                     String id =  FirebaseAuth.getInstance().getCurrentUser().getUid();
                     Wallet w = new Wallet(accountName, walletBalance);
+                    Transaction t = new Transaction("Initial Transactions", 0.00, "Initialisation");
+                    w.addTransactions(t);
                     user.addWallet(w);
-                    databaseReference.child("Users").child(id).child("wallets").push().setValue(w);
+                    String walletId = databaseReference.child("Users").child(id).child("wallets").push().getKey();
+                    databaseReference.child("Users").child(id).child("wallets").child(walletId).setValue(w);
+                    databaseReference.child("Users").child(id).child("wallets").child(walletId).child("Transactions")
+                            .push().setValue(t);
                     Toast.makeText(WalletFormActivity.this,"Wallet Added Successfully",Toast.LENGTH_SHORT).show();
                     Log.v(TAG, user.getWallets().get(0).getName().toString() + " is added successfully");
                     Intent userIntent = new Intent();

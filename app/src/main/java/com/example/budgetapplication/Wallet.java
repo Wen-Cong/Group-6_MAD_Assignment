@@ -37,6 +37,7 @@ public class Wallet implements Serializable {
     public void addTransactions(Transaction t){
         transactionList.add(t);
     }
+    public ArrayList<Transaction> getTransactions(){ return transactionList;}
     public String toString(){
         return this.name;
     }
