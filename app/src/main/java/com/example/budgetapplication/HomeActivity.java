@@ -94,8 +94,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //To be uncommented when database is Restructured -- line 98
-        //InitUser();
+        InitUser();
     }
 
     public User getUser(){
@@ -183,7 +182,7 @@ public class HomeActivity extends AppCompatActivity {
                 {
                     Wallet newWallet = new Wallet(walletId.child("name").getValue().toString(), Double.valueOf(walletId.child("balance").getValue().toString()));
                     Log.v(TAG, "Wallet Name: "+ newWallet.toString());
-                    for(DataSnapshot transactionId : walletId.child("Transactions").getChildren()){
+                    for(DataSnapshot transactionId : walletId.child("transactions").getChildren()){
                         Transaction t = new Transaction(transactionId.child("name").getValue().toString(),
                                 Double.valueOf(transactionId.child("amount").getValue().toString()),
                         transactionId.child("type").getValue().toString());

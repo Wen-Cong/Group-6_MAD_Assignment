@@ -82,8 +82,6 @@ public class MainActivity extends AppCompatActivity {
                                 databaseReference.child("Users").child(id).child("username").setValue("Username");
                                 String walletId = databaseReference.child("Users").child(id).child("wallets").push().getKey().toString();
                                 databaseReference.child("Users").child(id).child("wallets").child(walletId).setValue(w);
-                                databaseReference.child("Users").child(id).child("wallets").child(walletId).child("Transactions")
-                                        .push().setValue(t);
 
 
                                 Intent intent = new Intent(MainActivity.this, HomeActivity.class);
