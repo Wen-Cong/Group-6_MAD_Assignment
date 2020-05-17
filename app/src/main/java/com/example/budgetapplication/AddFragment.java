@@ -109,13 +109,18 @@ public class AddFragment extends Fragment {
                             finalAmount = 0.00;
                         }
                         Double newWalletBal =((Double) wallet.getBalance()) + finalAmount;
-                        wallet.setBalance(newWalletBal);
-                        Transaction t = new Transaction(name, finalAmount, TransactionType);
-                        wallet.addTransactions(t);
-                        databaseReference.child("Users").child(uid).child("wallets").child(walletKey).setValue(wallet);
-                        Toast.makeText(getActivity(), "Transaction Create Successfully", Toast.LENGTH_SHORT).show();
-                        transactionAmt.getText().clear();
-                        transactionName.getText().clear();
+                        if(newWalletBal < 0.00){
+                            Toast.makeText(getActivity(), "Invalid Amount!, Insufficient wallet balance", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            wallet.setBalance(newWalletBal);
+                            Transaction t = new Transaction(name, finalAmount, TransactionType);
+                            wallet.addTransactions(t);
+                            databaseReference.child("Users").child(uid).child("wallets").child(walletKey).setValue(wallet);
+                            Toast.makeText(getActivity(), "Transaction Create Successfully", Toast.LENGTH_SHORT).show();
+                            transactionAmt.getText().clear();
+                            transactionName.getText().clear();
+                        }
                     }
                     else{
                         Toast.makeText(getActivity(),"Error Occurred!",Toast.LENGTH_SHORT).show();
