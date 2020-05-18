@@ -61,7 +61,7 @@ public class HomeActivity extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         user = new User();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container,new DashboardFragment()).commit();
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             Fragment frag = null;
             @Override
@@ -85,9 +85,10 @@ public class HomeActivity extends AppCompatActivity {
 
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.container,frag).commit();
-                return false;
+                return true;
             }
         });
+        getSupportFragmentManager().beginTransaction().replace(R.id.container,new DashboardFragment()).commit();
 
     }
 
