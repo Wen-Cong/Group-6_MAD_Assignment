@@ -146,7 +146,7 @@ public class AddFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getActivity(), "Error retriving from database", Toast.LENGTH_SHORT);
+                Toast.makeText(getActivity(), "Error retrieving walletId from database", Toast.LENGTH_SHORT);
             }
         });
     }
