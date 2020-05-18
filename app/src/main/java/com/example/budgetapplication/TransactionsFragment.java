@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,8 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class TransactionsFragment extends Fragment {
-    ListView listView;
+    User user;
+    RecyclerView transactionView;
     public TransactionsFragment() {
         // Required empty public constructor
     }
@@ -36,11 +38,16 @@ public class TransactionsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        listView = (ListView)view.findViewById(R.id.listview);
-        ArrayList<String>arrayList = new ArrayList<>();
-        arrayList.add("a");
-        ArrayAdapter arrayAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1,arrayList);
-        listView.setAdapter(arrayAdapter);
+        user = ((HomeActivity)this.getActivity()).getUser();
+        transactionView = view.findViewById(R.id.transactionView);
+        ArrayList<Transaction> allTransactionsList = new ArrayList<Transaction>();
+
+        for(Wallet w : user.getWallets()){
+            for(Transaction t : w.getTransactions()){
+                allTransactionsList.add(t);
+            }
+        }
+
 
 
     }
