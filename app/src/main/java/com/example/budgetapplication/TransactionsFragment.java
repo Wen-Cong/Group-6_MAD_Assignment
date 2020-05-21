@@ -5,8 +5,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +25,7 @@ import java.util.ArrayList;
 public class TransactionsFragment extends Fragment {
     User user;
     RecyclerView transactionView;
+    final String TAG = "Transaction History";
     public TransactionsFragment() {
         // Required empty public constructor
     }
@@ -40,14 +44,23 @@ public class TransactionsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         user = ((HomeActivity)this.getActivity()).getUser();
         transactionView = view.findViewById(R.id.transactionView);
+        transactionView = view.findViewById(R.id.transactionView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         ArrayList<Transaction> allTransactionsList = new ArrayList<Transaction>();
 
         for(Wallet w : user.getWallets()){
             for(Transaction t : w.getTransactions()){
-                allTransactionsList.add(t);
+                if(t.getType().equals("Income") || t.getType().equals("Expenses")){
+                    allTransactionsList.add(t);
+                    Log.v(TAG, t.getName() + " loaded to history");
+                }
             }
         }
 
+        TransactionsAdapter adapter = new TransactionsAdapter(allTransactionsList, getActivity());
+        transactionView.setAdapter(adapter);
+        transactionView.setLayoutManager(layoutManager);
+        transactionView.setItemAnimator(new DefaultItemAnimator());
 
 
     }

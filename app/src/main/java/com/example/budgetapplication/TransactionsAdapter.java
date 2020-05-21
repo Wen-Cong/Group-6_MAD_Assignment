@@ -1,24 +1,145 @@
 package com.example.budgetapplication;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class TransactionsAdapter extends RecyclerView.Adapter {
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
+public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHolder> {
+    ArrayList<Transaction> transactionArrayList;
+    Activity activityMain;
+    User userData;
+    String walletKey;
+    String transactionKey;
+    private final String TAG = "Transaction Adapter";
+    public TransactionsAdapter(ArrayList<Transaction> input, Activity parentActivity){
+        transactionArrayList = input;
+        activityMain = parentActivity;
+        userData = ((HomeActivity) parentActivity).getUser();
+    }
+
+
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+    public TransactionsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.tranasaction_viewholder, parent, false);
+        TransactionsViewHolder viewHolder = new TransactionsViewHolder(v);
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull TransactionsViewHolder holder, int position) {
+        final Transaction t = transactionArrayList.get(position);
+        holder.name.setText(t.getName());
+        holder.amount.setText("$" + t.getAmount().toString());
+        holder.type.setText(t.getType());
+        holder.date.setText(t.getTime());
+        holder.view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showDeleteDialogBox(t);
+                return true;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return transactionArrayList.size();
+    }
+
+    private void removeFromDatabase(Transaction t){
+        Wallet wallet;
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        for(Wallet w : userData.getWallets()){
+            for(Transaction transaction: w.getTransactions()){
+                if(transaction == t){
+                    wallet = w;
+                    databaseReference.child("Users").child(uid).child("wallets").orderByChild("name")
+                            .equalTo(w.getName()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                                walletKey = childSnapshot.getKey();
+                                Log.v(TAG, walletKey);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
+                    if (!walletKey.equals(null)){
+                        Log.v(TAG, walletKey + " found");
+                        databaseReference.child("Users").child(uid).child("wallets").child(walletKey)
+                                .child("transactions").orderByChild("time")
+                                .equalTo(t.getTime()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                                    transactionKey = childSnapshot.getKey();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                            }
+                        });
+                        if(!transactionKey.equals(null)){
+                            Log.v(TAG, transactionKey + " Found!");
+                            databaseReference.child("Users").child(uid).child("wallets").child(walletKey).child("transactions")
+                                    .child(transactionKey).removeValue();
+                            int wpos = userData.getWallets().indexOf(transaction);
+                            userData.getWallets().get(wpos).getTransactions().remove(transaction);
+
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void showDeleteDialogBox(final Transaction t){
+        AlertDialog.Builder builder = new AlertDialog.Builder(activityMain);
+        builder.setTitle("Delete");
+        builder.setMessage("Are you sure you want to delete this transaction?");
+        builder.setCancelable(true);
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int pos = transactionArrayList.indexOf(t);
+                transactionArrayList.remove(pos);
+                notifyItemRemoved(pos);
+                removeFromDatabase(t);
+                ((HomeActivity) activityMain).user = userData;
+                Toast.makeText(activityMain, "Transaction Deleted!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

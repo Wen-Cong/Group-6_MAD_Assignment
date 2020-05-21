@@ -186,9 +186,9 @@ public class HomeActivity extends AppCompatActivity {
                     for(DataSnapshot transactionId : walletId.child("transactions").getChildren()){
                         Transaction t = new Transaction(transactionId.child("name").getValue().toString(),
                                 Double.valueOf(transactionId.child("amount").getValue().toString()),
-                        transactionId.child("type").getValue().toString());
+                        transactionId.child("type").getValue().toString(), transactionId.child("time").getValue().toString());
                         newWallet.addTransactions(t);
-                        Log.v(TAG, "Transactions: " + t.Name.toString() + " loaded!");
+                        Log.v(TAG, "Transactions: " + t.getName().toString() + " loaded!");
                     }
                     user.addWallet(newWallet);
                 }

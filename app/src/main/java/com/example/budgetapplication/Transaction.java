@@ -1,18 +1,30 @@
 package com.example.budgetapplication;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Transaction implements Serializable {
-    String Name;
-    Double Amount;
-    String Type;
+    private String Name;
+    private Double Amount;
+    private String Type;
+    private String time;
 
     public Transaction(){}
 
-    public  Transaction(String name, Double amt, String type){
+    public Transaction(String name, Double amt, String type){
         this.Name = name;
         this.Amount = amt;
         this.Type = type;
+        this.time = Calendar.getInstance().getTime().toString();
+    }
+
+    public Transaction(String name, Double amt, String type, String dateTime){
+        this.Name = name;
+        this.Amount = amt;
+        this.Type = type;
+        this.time = dateTime;
     }
 
     public String getName() {
@@ -38,4 +50,9 @@ public class Transaction implements Serializable {
     public void setType(String type) {
         Type = type;
     }
+
+    public String getTime() {
+        return time;
+    }
+
 }
