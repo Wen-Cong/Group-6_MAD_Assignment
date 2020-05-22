@@ -141,6 +141,7 @@ public class AddFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     walletKey = childSnapshot.getKey();
+                    Log.v(TAG, walletKey);
                 }
             }
 

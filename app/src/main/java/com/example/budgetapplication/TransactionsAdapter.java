@@ -27,6 +27,9 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHo
     User userData;
     String walletKey;
     String transactionKey;
+    DatabaseReference databaseReference;
+    String uid;
+    Wallet wallet;
     private final String TAG = "Transaction Adapter";
     public TransactionsAdapter(ArrayList<Transaction> input, Activity parentActivity){
         transactionArrayList = input;
@@ -53,7 +56,11 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHo
         holder.view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                databaseReference = FirebaseDatabase.getInstance().getReference();
+                loadKeys(t);
                 showDeleteDialogBox(t);
+                Log.v(TAG, "Out of showDeleteDialogBox");
                 return true;
             }
         });
@@ -64,57 +71,60 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHo
         return transactionArrayList.size();
     }
 
-    private void removeFromDatabase(Transaction t){
-        Wallet wallet;
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    private void getKey(Wallet w, final Transaction t) {
+        String walletname = w.getName().toString();
+        databaseReference.child("Users").child(uid).child("wallets").orderByChild("name")
+                .equalTo(walletname).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    walletKey = childSnapshot.getKey();
+                    Log.v(TAG,"Wallet: " + walletKey);
+                    getTransactionKey(t);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    private void getTransactionKey(Transaction t) {
+        String tTime = t.getTime().toString();
+        databaseReference.child("Users").child(uid).child("wallets").child(walletKey)
+                .child("transactions").orderByChild("time")
+                .equalTo(t.getTime()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    transactionKey = childSnapshot.getKey();
+                    Log.v(TAG, "Transactions: " + transactionKey);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    private void loadKeys(final Transaction t){
         for(Wallet w : userData.getWallets()){
             for(Transaction transaction: w.getTransactions()){
                 if(transaction == t){
+                    getKey(w, t);
                     wallet = w;
-                    databaseReference.child("Users").child(uid).child("wallets").orderByChild("name")
-                            .equalTo(w.getName()).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                                walletKey = childSnapshot.getKey();
-                                Log.v(TAG, walletKey);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
-                    });
-                    if (!walletKey.equals(null)){
-                        Log.v(TAG, walletKey + " found");
-                        databaseReference.child("Users").child(uid).child("wallets").child(walletKey)
-                                .child("transactions").orderByChild("time")
-                                .equalTo(t.getTime()).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                                    transactionKey = childSnapshot.getKey();
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                            }
-                        });
-                        if(!transactionKey.equals(null)){
-                            Log.v(TAG, transactionKey + " Found!");
-                            databaseReference.child("Users").child(uid).child("wallets").child(walletKey).child("transactions")
-                                    .child(transactionKey).removeValue();
-                            int wpos = userData.getWallets().indexOf(transaction);
-                            userData.getWallets().get(wpos).getTransactions().remove(transaction);
-
-                            break;
-                        }
-                    }
                 }
             }
         }
+    }
+
+    private void removeFromDatabase(final Transaction t){
+        databaseReference.child("Users").child(uid).child("wallets").child(walletKey).child("transactions")
+                .child(transactionKey).removeValue();
+        int wpos = userData.getWallets().indexOf(wallet);
+        userData.getWallets().get(wpos).getTransactions().remove(t);
     }
 
     private void showDeleteDialogBox(final Transaction t){
