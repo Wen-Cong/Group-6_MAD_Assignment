@@ -124,6 +124,10 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHo
         databaseReference.child("Users").child(uid).child("wallets").child(walletKey).child("transactions")
                 .child(transactionKey).removeValue();
         int wpos = userData.getWallets().indexOf(wallet);
+        double currentBal = userData.getWallets().get(wpos).getBalance();
+        double updatedBal = currentBal - t.getAmount();
+        databaseReference.child("Users").child(uid).child("wallets").child(walletKey).child("balance").setValue(updatedBal);
+        userData.getWallets().get(wpos).setBalance(updatedBal);
         userData.getWallets().get(wpos).getTransactions().remove(t);
     }
 

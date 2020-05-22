@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,6 +59,8 @@ public class TransactionsFragment extends Fragment {
         }
 
         TransactionsAdapter adapter = new TransactionsAdapter(allTransactionsList, getActivity());
+        DividerItemDecoration itemDecor = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
+        transactionView.addItemDecoration(itemDecor);
         transactionView.setAdapter(adapter);
         transactionView.setLayoutManager(layoutManager);
         transactionView.setItemAnimator(new DefaultItemAnimator());
