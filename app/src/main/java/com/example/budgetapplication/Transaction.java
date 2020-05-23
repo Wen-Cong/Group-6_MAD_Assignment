@@ -1,9 +1,12 @@
 package com.example.budgetapplication;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class Transaction implements Serializable {
     private String Name;
@@ -17,7 +20,7 @@ public class Transaction implements Serializable {
         this.Name = name;
         this.Amount = amt;
         this.Type = type;
-        this.time = Calendar.getInstance().getTime().toString();
+        this.time = getCurrentDateTime();
     }
 
     public Transaction(String name, Double amt, String type, String dateTime){
@@ -53,6 +56,13 @@ public class Transaction implements Serializable {
 
     public String getTime() {
         return time;
+    }
+
+    private String getCurrentDateTime() {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        TimeZone tz = TimeZone.getDefault();
+        Date date = Calendar.getInstance(tz).getTime();
+        return dateFormat.format(date);
     }
 
 }

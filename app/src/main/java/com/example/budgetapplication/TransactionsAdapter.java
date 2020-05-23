@@ -3,6 +3,7 @@ package com.example.budgetapplication;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +54,14 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHo
         holder.amount.setText("$" + t.getAmount().toString());
         holder.type.setText(t.getType());
         holder.date.setText(t.getTime());
+        if(t.getType().equals("Expenses")){
+            holder.type.setTextColor(Color.RED);
+            holder.amount.setTextColor(Color.RED);
+        }
+        else if (t.getType().equals("Income")){
+            holder.type.setTextColor(Color.GREEN);
+            holder.amount.setTextColor(Color.GREEN);
+        }
         holder.view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
