@@ -1,11 +1,18 @@
 package com.example.budgetapplication;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
@@ -13,7 +20,9 @@ import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +39,8 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.content.Context.ALARM_SERVICE;
+
 
 public class AccountFragment extends Fragment {
     private static final String TAG = "Account Activity";
@@ -41,6 +52,7 @@ public class AccountFragment extends Fragment {
     private LinearLayout changeusername;
     private  LinearLayout supportbutton;
     TextView username;
+    Switch reminderOnOff;
 
 
     public AccountFragment() {
@@ -51,6 +63,7 @@ public class AccountFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        createNotificationChannel();
     }
 
     @Override
@@ -67,6 +80,7 @@ public class AccountFragment extends Fragment {
         supportbutton = view.findViewById(R.id.linearlayout_3);
         changeusername = view.findViewById(R.id.changeusername);
         username = view.findViewById(R.id.username);
+        reminderOnOff = view.findViewById(R.id.notificationSwtich);
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         profileImage = getView().findViewById(R.id.profile_pic);
         StorageReference profileRef =
@@ -77,8 +91,8 @@ public class AccountFragment extends Fragment {
                 Picasso.get().load(uri).into(profileImage);
             }
         });
-        readUsername(userId);
 
+        readUsername(userId);
 
         changeusername.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +104,25 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v){
                 openSupportPage();
+            }
+        });
+
+        reminderOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    Intent intent = new Intent(getActivity(), NotificationBroadcast.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
+
+                    AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
+                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
+                            1000 * 60 * 60 * 24, pendingIntent);
+                    Toast.makeText(getActivity(), "Reminder set on everyday at this time", Toast.LENGTH_SHORT).show();
+
+                }
+                else {
+                    Toast.makeText(getActivity(), "Daily reminder is turned Off", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -120,7 +153,17 @@ public class AccountFragment extends Fragment {
         });
     }
 
+    private void createNotificationChannel(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name = "DailyReminderChannel";
+            String desc = "Channel for daily reminders";
+            NotificationChannel channel = new NotificationChannel("dailyReminders", name, NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(desc);
 
+            NotificationManager manager = getActivity().getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+    }
 
 
 }
