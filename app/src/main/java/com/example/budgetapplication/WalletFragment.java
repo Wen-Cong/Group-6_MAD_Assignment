@@ -46,17 +46,14 @@ public class WalletFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        user = ((HomeActivity)this.getActivity()).getUser();
-        Wallet last = user.getWallets().get(user.getWallets().size()-1);
-        Log.d(TAG, last.getName());
-        showNewEntry(recyclerView, user.getWallets());
+        onViewCreated(getView(), null);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
         user = ((HomeActivity)this.getActivity()).getUser();
-        recyclerView = getView().findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recyclerView);
         ArrayList<Wallet> dataList = user.getWallets();
 
         //Create adapter and pass in the data
@@ -67,6 +64,8 @@ public class WalletFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+
+        showNewEntry(recyclerView, dataList);
     }
 
 
@@ -78,6 +77,5 @@ public class WalletFragment extends Fragment {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(rv.getWindowToken(), 0);
 
-        Log.d(TAG, "showNewEntry: I did it!");
     }
 }
