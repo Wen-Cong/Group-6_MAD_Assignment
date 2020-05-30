@@ -88,7 +88,6 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             }
         });
-        getSupportFragmentManager().beginTransaction().replace(R.id.container,new DashboardFragment()).commit();
 
     }
 
@@ -193,6 +192,7 @@ public class HomeActivity extends AppCompatActivity {
                     user.addWallet(newWallet);
                 }
                 Log.v(TAG, userName);
+                getSupportFragmentManager().beginTransaction().replace(R.id.container,new DashboardFragment()).commit();
             }
 
             @Override

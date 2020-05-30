@@ -20,7 +20,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHolder> {
     ArrayList<Transaction> transactionArrayList;
@@ -50,16 +53,25 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHo
     @Override
     public void onBindViewHolder(@NonNull TransactionsViewHolder holder, int position) {
         final Transaction t = transactionArrayList.get(position);
+        String formatedDate;
         holder.name.setText(t.getName());
         holder.amount.setText("$" + t.getAmount().toString());
-        holder.type.setText(t.getType());
-        holder.date.setText(t.getTime());
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        try {
+            Date d = sdf.parse(t.getTime());
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            formatedDate = format.format(d);
+            holder.date.setText(formatedDate);
+        } catch (ParseException ex) {
+            Log.v("Exception", ex.getLocalizedMessage());
+            holder.date.setText(t.getTime());
+        }
+
         if(t.getType().equals("Expenses")){
-            holder.type.setTextColor(Color.RED);
             holder.amount.setTextColor(Color.RED);
         }
         else if (t.getType().equals("Income")){
-            holder.type.setTextColor(Color.GREEN);
             holder.amount.setTextColor(Color.GREEN);
         }
         holder.view.setOnLongClickListener(new View.OnLongClickListener() {

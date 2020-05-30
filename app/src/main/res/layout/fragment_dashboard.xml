@@ -77,6 +77,7 @@
             app:cardMaxElevation="20dp">
 
             <TextView
+                android:id="@+id/dTransName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Transaction Name"
@@ -85,6 +86,7 @@
                 android:textSize="25dp" />
 
             <TextView
+                android:id="@+id/dTWalletName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Wallet"
@@ -94,6 +96,7 @@
                 android:translationY="50dp" />
 
             <TextView
+                android:id="@+id/dAmt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Amount"
@@ -115,14 +118,14 @@
             app:cardMaxElevation="20dp">
 
             <TextView
+                android:id="@+id/fWallet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Favourite Wallet"
                 android:textAlignment="center"
                 android:textColor="#000"
-                android:textSize="25dp"
 
-                />
+                android:textSize="25dp" />
 
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
