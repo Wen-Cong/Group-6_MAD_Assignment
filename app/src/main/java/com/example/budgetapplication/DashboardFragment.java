@@ -1,5 +1,6 @@
 package com.example.budgetapplication;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,7 @@ public class DashboardFragment extends Fragment {
     private TextView transaName;
     private TextView transaAmt;
     private TextView transaWallet;
+    private TextView transaDate;
     private final String TAG = "Dashboard";
 
     public DashboardFragment() {
@@ -51,24 +53,24 @@ public class DashboardFragment extends Fragment {
         transaName = view.findViewById(R.id.dTransName);
         transaAmt = view.findViewById(R.id.dAmt);
         transaWallet = view.findViewById(R.id.dTWalletName);
+        transaDate = view.findViewById(R.id.dDate);
         User user = ((HomeActivity) getActivity()).user;
         Date t_date;
         Date lastest_date;
         Wallet lastestUsedWallet = new Wallet();
-        Log.v("Dashboard","Username: " + user.getUserName());
-        Transaction lastesttransaction = user.getWallets().get(0).getTransactions().get(0);
+        Transaction latestTransaction = user.getWallets().get(0).getTransactions().get(0);
 
 
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         try {
-            lastest_date = df.parse(lastesttransaction.getTime());
             for(Wallet w : user.getWallets()){
                 for(Transaction t : w.getTransactions()){
+                    lastest_date = df.parse(latestTransaction.getTime());
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     try {
                         t_date = sdf.parse(t.getTime());
                         if(t_date.after(lastest_date)){
-                            lastesttransaction = t;
+                            latestTransaction = t;
                             lastestUsedWallet = w;
                         }
                     } catch (ParseException ex) {
@@ -81,9 +83,30 @@ public class DashboardFragment extends Fragment {
             Log.v("Exception", ex.getLocalizedMessage() + " initial exception");
         }
 
-        transaName.setText(lastesttransaction.getName());
-        transaAmt.setText("Amount: " + lastesttransaction.getAmount());
-        transaWallet.setText("Wallet: " + lastestUsedWallet.getName());
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        try {
+            Date d = format.parse(latestTransaction.getTime());
+            SimpleDateFormat dformat = new SimpleDateFormat("dd/MM/yyyy");
+            String formatedDate = dformat.format(d);
+            transaName.setText(latestTransaction.getName());
+            transaAmt.setText("Amount: " + latestTransaction.getAmount());
+            if(latestTransaction.getType().equals("Expenses")){
+                transaAmt.setTextColor(Color.RED);
+            }else if(latestTransaction.getType().equals("Income")){
+                transaAmt.setTextColor(Color.GREEN);
+            }
+            transaWallet.setText("Wallet: " + lastestUsedWallet.getName());
+            transaDate.setText(formatedDate);
+        } catch (ParseException ex) {
+            Log.v("Exception", ex.getLocalizedMessage());
+            transaName.setText(latestTransaction.getName());
+            transaAmt.setText("Amount: " + latestTransaction.getAmount());
+            transaWallet.setText("Wallet: " + lastestUsedWallet.getName());
+            transaDate.setText(latestTransaction.getTime());
+        }
+
+
+
     }
 
 }

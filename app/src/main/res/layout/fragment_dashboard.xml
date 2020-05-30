@@ -82,8 +82,9 @@
                 android:layout_height="wrap_content"
                 android:text="Transaction Name"
                 android:textAlignment="center"
-                android:textColor="#000"
-                android:textSize="25dp" />
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:layout_marginTop="8dp"/>
 
             <TextView
                 android:id="@+id/dTWalletName"
@@ -91,9 +92,9 @@
                 android:layout_height="wrap_content"
                 android:text="Wallet"
                 android:textAlignment="center"
-                android:textColor="#000"
-                android:textSize="25dp"
-                android:translationY="50dp" />
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:translationY="40dp" />
 
             <TextView
                 android:id="@+id/dAmt"
@@ -101,9 +102,20 @@
                 android:layout_height="wrap_content"
                 android:text="Amount"
                 android:textAlignment="center"
-                android:textColor="#000"
-                android:textSize="25dp"
-                android:translationY="100dp" />
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:translationY="75dp" />
+
+            <TextView
+                android:id="@+id/dDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Date"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:translationY="110dp" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
