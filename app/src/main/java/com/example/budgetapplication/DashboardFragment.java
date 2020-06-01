@@ -63,6 +63,7 @@ public class DashboardFragment extends Fragment {
         walletAmt = view.findViewById(R.id.fWalletAmt);
         walletNoTrans = view.findViewById(R.id.fWalletTrans);
         User user = ((HomeActivity) getActivity()).user;
+        int walletTrans = 0;
         int favWalletTrans = 0;
         Date t_date;
         Date lastest_date;
@@ -117,30 +118,32 @@ public class DashboardFragment extends Fragment {
 
 
         for(Wallet w : user.getWallets()){
-            if(w.getTransactions().size() > favWallet.getTransactions().size()){
-                favWallet = w;
+            walletTrans = 0;
+            for(Transaction t : w.getTransactions()){
+                SimpleDateFormat monthlyformat = new SimpleDateFormat("MM");
+                Date date = new Date();
+                String currentMonth = monthlyformat.format(date);
+                SimpleDateFormat favWdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                try {
+                    Date favWalletTransactionDate = favWdf.parse(t.getTime());
+                    String transactionMonth = monthlyformat.format(favWalletTransactionDate);
+                    if(transactionMonth.equals(currentMonth)){
+                        walletTrans++;
+                        if(walletTrans > favWalletTrans){
+                            favWalletTrans = walletTrans;
+                            favWallet = w;
+                        }
+                    }
+                }
+                catch (ParseException ex) {
+                    Log.v("Exception", ex.getLocalizedMessage());
+                }
             }
+            walletNoTrans.setText("No. of Transaction (Monthly): " + walletTrans);
         }
         walletName.setText(favWallet.getName());
         walletAmt.setText("Balance: $" + favWallet.getBalance());
 
-        for(Transaction t : favWallet.getTransactions()){
-            SimpleDateFormat monthlyformat = new SimpleDateFormat("MM");
-            Date date = new Date();
-            String currentMonth = monthlyformat.format(date);
-            SimpleDateFormat favWdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            try {
-                Date favWalletTransactionDate = favWdf.parse(t.getTime());
-                String transactionMonth = monthlyformat.format(favWalletTransactionDate);
-                if(transactionMonth.equals(currentMonth)){
-                    favWalletTrans++;
-                }
-            }
-            catch (ParseException ex) {
-                Log.v("Exception", ex.getLocalizedMessage());
-            }
-        }
-        walletNoTrans.setText("No. of Transaction (Monthly): " + favWalletTrans);
     }
 
 }
