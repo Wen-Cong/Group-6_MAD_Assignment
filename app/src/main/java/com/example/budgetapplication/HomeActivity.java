@@ -43,6 +43,7 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     StorageReference storageReference;
     FirebaseDatabase database;
+    private boolean flag = false;
 
 
 
@@ -192,7 +193,10 @@ public class HomeActivity extends AppCompatActivity {
                     user.addWallet(newWallet);
                 }
                 Log.v(TAG, userName);
-                getSupportFragmentManager().beginTransaction().replace(R.id.container,new DashboardFragment()).commit();
+                if(!flag){
+                    getSupportFragmentManager().beginTransaction().replace(R.id.container,new DashboardFragment()).commit();
+                    flag = true;
+                }
             }
 
             @Override
