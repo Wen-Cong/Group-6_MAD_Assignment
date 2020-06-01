@@ -14,10 +14,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="17dp"
         android:text="Dashboard"
         android:textColor="#FFF"
-        android:textSize="30sp"
+        android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -45,10 +45,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginTop="28dp"
-        android:text="Favourites"
+        android:layout_marginTop="38dp"
+        android:text="Favourite Wallet"
         android:textStyle="italic"
-        android:textColor="#000"
+        android:textColor="#000000"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -120,9 +120,9 @@
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="125dp"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="40dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="30dp"
             android:translationY="60dp"
@@ -135,9 +135,30 @@
                 android:layout_height="wrap_content"
                 android:text="Favourite Wallet"
                 android:textAlignment="center"
-                android:textColor="#000"
+                android:textColor="#000000"
+                android:layout_marginTop="8dp"
+                android:textSize="20dp" />
 
-                android:textSize="25dp" />
+            <TextView
+                android:id="@+id/fWalletAmt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Wallet Amount"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:translationY="45dp"
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/fWalletTrans"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:translationY="83dp"
+                android:textSize="20dp"
+                android:text="No. of Transactions"
+                android:layout_marginBottom="5dp"/>
 
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
