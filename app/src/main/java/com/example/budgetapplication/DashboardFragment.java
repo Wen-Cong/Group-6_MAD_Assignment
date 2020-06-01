@@ -139,7 +139,6 @@ public class DashboardFragment extends Fragment {
                     Log.v("Exception", ex.getLocalizedMessage());
                 }
             }
-
         }
         walletNoTrans.setText("No. of Transaction (Monthly): " + favWalletTrans);
         walletName.setText(favWallet.getName());

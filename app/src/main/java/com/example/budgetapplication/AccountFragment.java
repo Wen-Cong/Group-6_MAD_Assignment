@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -53,6 +54,9 @@ public class AccountFragment extends Fragment {
     private  LinearLayout supportbutton;
     TextView username;
     Switch reminderOnOff;
+    Boolean notificationSwtich;
+    final String SHARED_PREF = "shared_pref";
+    final String SWITCH = "notificationSwitch";
 
 
     public AccountFragment() {
@@ -81,6 +85,7 @@ public class AccountFragment extends Fragment {
         changeusername = view.findViewById(R.id.changeusername);
         username = view.findViewById(R.id.username);
         reminderOnOff = view.findViewById(R.id.notificationSwtich);
+        loadSettings();
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         profileImage = getView().findViewById(R.id.profile_pic);
         StorageReference profileRef =
@@ -123,8 +128,18 @@ public class AccountFragment extends Fragment {
                 else {
                     Toast.makeText(getActivity(), "Daily reminder is turned Off", Toast.LENGTH_SHORT).show();
                 }
+                //save data of switch
+                SharedPreferences.Editor editor = getActivity().getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE).edit();
+                editor.putBoolean(SWITCH, isChecked);
+                editor.apply();
+
             }
         });
+    }
+    private void loadSettings(){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
+        notificationSwtich = sharedPreferences.getBoolean(SWITCH, false);
+        reminderOnOff.setChecked(notificationSwtich);
     }
 
     private void openChangeUsernamePage(){
