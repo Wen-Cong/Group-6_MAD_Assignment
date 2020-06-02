@@ -68,12 +68,15 @@ public class DashboardFragment extends Fragment {
         Date t_date;
         Date lastest_date;
         Wallet lastestUsedWallet = new Wallet();
+        //initiate default value for comparison later
         Transaction latestTransaction = user.getWallets().get(0).getTransactions().get(0);
         Wallet favWallet = user.getWallets().get(0);
 
 
+        //convert string dateTime from transaction attribute to Date format
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         try {
+            //find transaction with latest created date & wallet last used
             for(Wallet w : user.getWallets()){
                 for(Transaction t : w.getTransactions()){
                     lastest_date = df.parse(latestTransaction.getTime());
@@ -94,13 +97,17 @@ public class DashboardFragment extends Fragment {
             Log.v("Exception", ex.getLocalizedMessage() + " initial exception");
         }
 
+        //format date for display and update view with data
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         try {
+            //format date to dd/MM/yyyy
             Date d = format.parse(latestTransaction.getTime());
             SimpleDateFormat dformat = new SimpleDateFormat("dd/MM/yyyy");
             String formatedDate = dformat.format(d);
             transaName.setText(latestTransaction.getName());
             transaAmt.setText("Amount: " + latestTransaction.getAmount());
+
+            //set amount text color with respective to type of expenses
             if(latestTransaction.getType().equals("Expenses")){
                 transaAmt.setTextColor(Color.RED);
             }else if(latestTransaction.getType().equals("Income")){
@@ -110,6 +117,7 @@ public class DashboardFragment extends Fragment {
             transaDate.setText(formatedDate);
         } catch (ParseException ex) {
             Log.v("Exception", ex.getLocalizedMessage());
+            //display unformated date time if formating error occur
             transaName.setText(latestTransaction.getName());
             transaAmt.setText("Amount: " + latestTransaction.getAmount());
             transaWallet.setText("Wallet: " + lastestUsedWallet.getName());
@@ -117,14 +125,17 @@ public class DashboardFragment extends Fragment {
         }
 
 
+        //find wallet that is most frequently used in the current month (wallet with most transaction in current month)
         for(Wallet w : user.getWallets()){
             walletTrans = 0;
             for(Transaction t : w.getTransactions()){
+                //get current month
                 SimpleDateFormat monthlyformat = new SimpleDateFormat("MM");
                 Date date = new Date();
                 String currentMonth = monthlyformat.format(date);
                 SimpleDateFormat favWdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                 try {
+                    //find wallet with most transaction in the same month as current month
                     Date favWalletTransactionDate = favWdf.parse(t.getTime());
                     String transactionMonth = monthlyformat.format(favWalletTransactionDate);
                     if(transactionMonth.equals(currentMonth)){
@@ -140,6 +151,7 @@ public class DashboardFragment extends Fragment {
                 }
             }
         }
+        //update view
         walletNoTrans.setText("No. of Transaction (Monthly): " + favWalletTrans);
         walletName.setText(favWallet.getName());
         walletAmt.setText("Balance: $" + favWallet.getBalance());

@@ -47,16 +47,19 @@ public class WalletFormActivity extends AppCompatActivity {
         Save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //obtain data from field
                 String accountName = accName.getText().toString().trim();
                 double walletBalance = Double.parseDouble(accBal.getText().toString());
+                //validate if wallet name is entered
                 if(accountName.isEmpty())
                 {
+                    //display error message
                     accName.setError("Please enter account name");
                     accName.requestFocus();
                 }
 
                 else if(!accountName.isEmpty()){
-                    //send data into database
+                    //send data into database & update user object
                     String id =  FirebaseAuth.getInstance().getCurrentUser().getUid();
                     Wallet w = new Wallet(accountName, walletBalance);
                     Transaction t = new Transaction("Initial Transactions", 0.00, "Initialisation");

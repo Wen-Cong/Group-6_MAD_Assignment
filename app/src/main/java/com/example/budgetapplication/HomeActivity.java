@@ -60,9 +60,11 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         storageReference = FirebaseStorage.getInstance().getReference();
+        //initiate default user to prevent null exception in case InitUser fail
         user = new User();
 
 
+        //switch to different fragment with respective of selected icon in bottom Nav bar
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             Fragment frag = null;
             @Override
@@ -102,7 +104,7 @@ public class HomeActivity extends AppCompatActivity {
         return user;
     }
 
-//open wallet creation form
+    //open wallet creation form
     public void openWalletForm(View view) {
         Intent createAccForm = new Intent(HomeActivity.this, WalletFormActivity.class);
         createAccForm.putExtra("User", user);
@@ -110,12 +112,14 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    //redirect to login page and sign out
     public void LogOut(View view) {
         FirebaseAuth.getInstance().signOut();
         Intent intToMain = new Intent(HomeActivity.this,MainActivity.class);
         startActivity(intToMain);
     }
 
+    //get picture from gallery
     public void ProfileImageHandler(View view) {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(gallery, REQ_PROFILEPIC_CODE);
@@ -125,12 +129,12 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQ_PROFILEPIC_CODE){
             if(resultCode == Activity.RESULT_OK){
+                //update storage and profile pic view with image uploaded from gallery
                 Uri imageUri = data.getData();
                 tempProfileImage.setImageURI(imageUri);
 
@@ -139,6 +143,7 @@ public class HomeActivity extends AppCompatActivity {
         }
         else if(requestCode == REQ_WALLET_CODE){
             if(resultCode == 1){
+                //get updated user data from wallet form when new wallet created
                 Log.v(TAG, "user with updated wallet received from wallet form");
                 user = (User) data.getSerializableExtra("User");
             }
@@ -171,18 +176,21 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void InitUser(){
+        //obtain database and user ID
         final String currentId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference reff = FirebaseDatabase.getInstance().getReference().child("Users").child(currentId);
         reff.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //initiate username
                 String userName = dataSnapshot.child("username").getValue().toString();
                 user = new User(currentId, userName);
-                //initiate wallets
+                //initiate wallets & transactions
                 for(DataSnapshot walletId : dataSnapshot.child("wallets").getChildren())
                 {
                     Wallet newWallet = new Wallet(walletId.child("name").getValue().toString(), Double.valueOf(walletId.child("balance").getValue().toString()));
                     Log.v(TAG, "Wallet Name: "+ newWallet.toString());
+                    //get transactions from database and populate transactions list into respective wallets
                     for(DataSnapshot transactionId : walletId.child("transactions").getChildren()){
                         Transaction t = new Transaction(transactionId.child("name").getValue().toString(),
                                 Double.valueOf(transactionId.child("amount").getValue().toString()),
@@ -193,6 +201,7 @@ public class HomeActivity extends AppCompatActivity {
                     user.addWallet(newWallet);
                 }
                 Log.v(TAG, userName);
+                //change to dashboard view after initialising user data for the first time
                 if(!flag){
                     getSupportFragmentManager().beginTransaction().replace(R.id.container,new DashboardFragment()).commit();
                     flag = true;

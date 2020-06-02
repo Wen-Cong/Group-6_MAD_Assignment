@@ -73,8 +73,9 @@ public class AccountFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Initialise database reference
         storageReference = FirebaseStorage.getInstance().getReference();
+        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_account, container, false);
     }
 
@@ -85,9 +86,12 @@ public class AccountFragment extends Fragment {
         changeusername = view.findViewById(R.id.changeusername);
         username = view.findViewById(R.id.username);
         reminderOnOff = view.findViewById(R.id.notificationSwtich);
+        //load switch on/off for notification
         loadSettings();
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         profileImage = getView().findViewById(R.id.profile_pic);
+
+        //load profile pic to local from online storage
         StorageReference profileRef =
                 storageReference.child("users/"+ userId +"/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -97,14 +101,17 @@ public class AccountFragment extends Fragment {
             }
         });
 
+        //load username
         readUsername(userId);
 
+        //bring user to change username page
         changeusername.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openChangeUsernamePage();
             }
         });
+        //bring user to support page
         supportbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -112,13 +119,16 @@ public class AccountFragment extends Fragment {
             }
         });
 
+        //turn on or off daily notification upon checking the switch
         reminderOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
+                    //set notification
                     Intent intent = new Intent(getActivity(), NotificationBroadcast.class);
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
 
+                    //allow notification to be sent every 24hrs
                     AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(ALARM_SERVICE);
                     alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(),
                             1000 * 60 * 60 * 24, pendingIntent);
@@ -128,7 +138,7 @@ public class AccountFragment extends Fragment {
                 else {
                     Toast.makeText(getActivity(), "Daily reminder is turned Off", Toast.LENGTH_SHORT).show();
                 }
-                //save data of switch
+                //save data of switch to shared preference
                 SharedPreferences.Editor editor = getActivity().getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE).edit();
                 editor.putBoolean(SWITCH, isChecked);
                 editor.apply();
@@ -137,6 +147,7 @@ public class AccountFragment extends Fragment {
         });
     }
     private void loadSettings(){
+        //load share preference data for switch
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
         notificationSwtich = sharedPreferences.getBoolean(SWITCH, false);
         reminderOnOff.setChecked(notificationSwtich);
@@ -153,6 +164,7 @@ public class AccountFragment extends Fragment {
     }
 
     public void readUsername(String id){
+        //load username from firebase database to user object
         databaseReference = FirebaseDatabase.getInstance().getReference("Users/"+ id +"/username");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -169,6 +181,7 @@ public class AccountFragment extends Fragment {
     }
 
     private void createNotificationChannel(){
+        //create notification channel if OS is above android Oreo to support notification feature
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             CharSequence name = "DailyReminderChannel";
             String desc = "Channel for daily reminders";

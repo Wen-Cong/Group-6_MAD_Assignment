@@ -11,6 +11,7 @@ import androidx.core.app.NotificationManagerCompat;
 public class NotificationBroadcast extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+        //create notification for daily remindder
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "dailyReminders")
                 .setSmallIcon(R.drawable.ic_walletnotification)
                 .setContentTitle("Daily Reminder")

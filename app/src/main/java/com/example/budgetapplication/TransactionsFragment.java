@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 /**
@@ -49,15 +50,21 @@ public class TransactionsFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         ArrayList<Transaction> allTransactionsList = new ArrayList<Transaction>();
 
+        //get all user created transaction into one single list
         for(Wallet w : user.getWallets()){
             for(Transaction t : w.getTransactions()){
                 if(t.getType().equals("Income") || t.getType().equals("Expenses")){
                     allTransactionsList.add(t);
-                    Log.v(TAG, t.getName() + " loaded to history");
+                    Log.v(TAG, t.getName() + " loaded to transaction history");
                 }
             }
         }
 
+        //sort the list in term of date, latest date at the front
+        Collections.sort(allTransactionsList);
+        Collections.reverse(allTransactionsList);
+
+        //set view for recyclerview
         TransactionsAdapter adapter = new TransactionsAdapter(allTransactionsList, getActivity());
         DividerItemDecoration itemDecor = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
         transactionView.addItemDecoration(itemDecor);

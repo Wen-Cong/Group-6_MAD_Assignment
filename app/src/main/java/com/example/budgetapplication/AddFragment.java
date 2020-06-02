@@ -60,7 +60,7 @@ public class AddFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //Issues with getting user from home activity
+        //get user data from home activity
         User user = ((HomeActivity)this.getActivity()).getUser();
         Log.d(TAG, "onViewCreated: " + user);
         ArrayList<Wallet> walletArrayList = user.getWallets();
@@ -72,10 +72,13 @@ public class AddFragment extends Fragment {
         databaseReference = FirebaseDatabase.getInstance().getReference();
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         fromWallet = view.findViewById(R.id.wallet_spinner);
+
+        //populate wallets to spinner from wallet list in user object
         fromWallet.setAdapter(walletAdapter);
         fromWallet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //get wallet data from selected wallet
                 wallet = (Wallet) parent.getSelectedItem();
                 getWalletKey(wallet);
             }
@@ -85,20 +88,27 @@ public class AddFragment extends Fragment {
 
             }
         });
+
+        //create new transaction & add to firebase database
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = transactionName.getText().toString().trim();
                 String string_amt = transactionAmt.getText().toString().trim();
                 String TransactionType = type.getSelectedItem().toString();
+                //check if transaction name is empty
                 if(name.isEmpty()){
+                    //display error and bring focus to empty field
                     transactionName.setError("Please enter a name");
                     transactionName.requestFocus();
                 }else if(!name.isEmpty()){
+                    //validate if amount entered is empty
                     if(string_amt.isEmpty()){
+                        //display error and bring focus to empty field
                         transactionAmt.setError("Please enter an amount");
                         transactionAmt.requestFocus();
                     }else if(!string_amt.isEmpty()){
+                        //calculate new wallet balance from transaction added
                         Double amt = Double.parseDouble(string_amt);
                         if(TransactionType.equals("Expenses")) {
                             finalAmount = -1 * amt;
@@ -113,9 +123,11 @@ public class AddFragment extends Fragment {
                             Toast.makeText(getActivity(), "Invalid Amount!, Insufficient wallet balance", Toast.LENGTH_SHORT).show();
                         }
                         else{
+                            //create new transaction and update wallet
                             wallet.setBalance(newWalletBal);
                             Transaction t = new Transaction(name, finalAmount, TransactionType);
                             wallet.addTransactions(t);
+                            //update data to firebase database
                             databaseReference.child("Users").child(uid).child("wallets").child(walletKey).setValue(wallet);
                             Toast.makeText(getActivity(), "Transaction Create Successfully", Toast.LENGTH_SHORT).show();
                             transactionAmt.getText().clear();
@@ -133,6 +145,7 @@ public class AddFragment extends Fragment {
             }
         });
     }
+    //get wallet primary key in database with wallet name
     private void getWalletKey(Wallet w) {
         String walletname = w.getName().toString();
         databaseReference.child("Users").child(uid).child("wallets").orderByChild("name")

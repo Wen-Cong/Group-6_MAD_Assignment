@@ -30,12 +30,14 @@ public class ChangeUsernameActivity extends AppCompatActivity {
         submit = findViewById(R.id.username_submit_button);
         cancel = findViewById(R.id.cancel_changeUsername);
         newUsername = findViewById(R.id.newUsername);
+        //go back to account page
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+        //update username and go back account fragment
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,6 +53,7 @@ public class ChangeUsernameActivity extends AppCompatActivity {
         });
     }
 
+    //update username changes to database
     private void UpdateUsername(String username){
         if(!TextUtils.isEmpty(username)){
             String id =  FirebaseAuth.getInstance().getCurrentUser().getUid();

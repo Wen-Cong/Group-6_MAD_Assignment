@@ -1,14 +1,17 @@
 package com.example.budgetapplication;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class Transaction implements Serializable {
+
+public class Transaction implements Serializable, Comparable<Transaction>{
     private String Name;
     private Double Amount;
     private String Type;
@@ -58,6 +61,7 @@ public class Transaction implements Serializable {
         return time;
     }
 
+    //get current date time
     private String getCurrentDateTime() {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         TimeZone tz = TimeZone.getDefault();
@@ -65,4 +69,19 @@ public class Transaction implements Serializable {
         return dateFormat.format(date);
     }
 
+    //to allow transaction list to sort by datetime
+    @Override
+    public int compareTo(Transaction o) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        try {
+            Date dT = sdf.parse(this.time);
+            Date dO = sdf.parse(o.getTime());
+
+            return dT.compareTo(dO);
+        } catch (ParseException ex) {
+            Log.v("Exception", ex.getLocalizedMessage());
+            Log.d("Transaction Class", "compareTo: unable to compare date");
+            return 0;
+        }
+    }
 }

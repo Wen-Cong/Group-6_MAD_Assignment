@@ -54,9 +54,11 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHo
     public void onBindViewHolder(@NonNull TransactionsViewHolder holder, int position) {
         final Transaction t = transactionArrayList.get(position);
         String formatedDate;
+        //update view with transaction name and amount
         holder.name.setText(t.getName());
         holder.amount.setText("$" + t.getAmount().toString());
 
+        //format date to dd/MM/yyyy for display
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         try {
             Date d = sdf.parse(t.getTime());
@@ -68,15 +70,18 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHo
             holder.date.setText(t.getTime());
         }
 
+        //set color for respective transaction type
         if(t.getType().equals("Expenses")){
             holder.amount.setTextColor(Color.RED);
         }
         else if (t.getType().equals("Income")){
             holder.amount.setTextColor(Color.GREEN);
         }
+
         holder.view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                //delete transaction and update database
                 uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 databaseReference = FirebaseDatabase.getInstance().getReference();
                 loadKeys(t);
@@ -94,6 +99,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHo
 
     private void getKey(Wallet w, final Transaction t) {
         String walletname = w.getName().toString();
+        //get primary key for wallet
         databaseReference.child("Users").child(uid).child("wallets").orderByChild("name")
                 .equalTo(walletname).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -101,6 +107,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHo
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     walletKey = childSnapshot.getKey();
                     Log.v(TAG,"Wallet: " + walletKey);
+                    //get transaction primary key upon finding wallet primary key
                     getTransactionKey(t);
                 }
             }
@@ -112,6 +119,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHo
     }
 
     private void getTransactionKey(Transaction t) {
+        //find primary key for selecte transaction in database
         String tTime = t.getTime().toString();
         databaseReference.child("Users").child(uid).child("wallets").child(walletKey)
                 .child("transactions").orderByChild("time")
@@ -130,6 +138,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHo
         });
     }
 
+    //load primary key obtain for respective wallet and transaction with selected transaction
     private void loadKeys(final Transaction t){
         for(Wallet w : userData.getWallets()){
             for(Transaction transaction: w.getTransactions()){
@@ -141,18 +150,22 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHo
         }
     }
 
+
     private void removeFromDatabase(final Transaction t){
         databaseReference.child("Users").child(uid).child("wallets").child(walletKey).child("transactions")
                 .child(transactionKey).removeValue();
         int wpos = userData.getWallets().indexOf(wallet);
+        //update wallet balance after transaction deleted
         double currentBal = userData.getWallets().get(wpos).getBalance();
         double updatedBal = currentBal - t.getAmount();
         databaseReference.child("Users").child(uid).child("wallets").child(walletKey).child("balance").setValue(updatedBal);
         userData.getWallets().get(wpos).setBalance(updatedBal);
+        //delete selected transaction from database
         userData.getWallets().get(wpos).getTransactions().remove(t);
     }
 
     private void showDeleteDialogBox(final Transaction t){
+        //display dialog box for delete transaction confirmation
         AlertDialog.Builder builder = new AlertDialog.Builder(activityMain);
         builder.setTitle("Delete");
         builder.setMessage("Are you sure you want to delete this transaction?");
@@ -166,6 +179,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHo
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                //update recyclerview, database and local user object upon confirming a delete
                 int pos = transactionArrayList.indexOf(t);
                 transactionArrayList.remove(pos);
                 notifyItemRemoved(pos);
