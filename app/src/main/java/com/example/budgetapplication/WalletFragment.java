@@ -57,7 +57,7 @@ public class WalletFragment extends Fragment {
         ArrayList<Wallet> dataList = user.getWallets();
 
         //Create adapter and pass in the data
-        WalletAdapter mAdapter = new WalletAdapter(dataList);
+        WalletAdapter mAdapter = new WalletAdapter(dataList, getActivity());
         //Layout manager tells recyclerview how to draw the list
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         //pass in layout, animation and adapter.

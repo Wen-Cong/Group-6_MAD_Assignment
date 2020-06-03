@@ -1,6 +1,10 @@
 package com.example.budgetapplication;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +24,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class WalletAdapter extends RecyclerView.Adapter<WalletViewHolder> {
+    Activity activityMain;
     final String TAG = "walletAdapter";
     ArrayList<Wallet> data;
-    public WalletAdapter(ArrayList<Wallet> input){
+
+    public WalletAdapter(ArrayList<Wallet> input, Activity parentActivity){
         data = input;
+        activityMain = parentActivity;
     }
     //This method is called by adapter when a new ViewHolder is created
     public WalletViewHolder onCreateViewHolder(ViewGroup parent, int ViewType){
@@ -46,11 +53,7 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletViewHolder> {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "delete clicked");
-                data.remove(position);
-                
-
-                deleteItemFromDB(name);
-                notifyDataSetChanged();
+                DeleteDialog(name, position);
             }
         });
     }
@@ -76,6 +79,31 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletViewHolder> {
 
             }
         });
+    }
+
+    public void DeleteDialog(final String Name, final int Position){
+        AlertDialog.Builder builder = new AlertDialog.Builder(activityMain);
+        builder.setTitle("Delete Wallet");
+        builder.setMessage("Are you sure you want to delete "+Name+"?\n It will delete all transactions.");
+        builder.setCancelable(false);
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteItemFromDB(Name);
+                data.remove(Position);
+                notifyDataSetChanged();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+
     }
 }
 
