@@ -6,6 +6,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +41,7 @@ public class DashboardFragment extends Fragment {
     private TextView walletName;
     private TextView walletAmt;
     private TextView walletNoTrans;
+    private RecyclerView recyclerView;
     private final String TAG = "Dashboard";
 
     public DashboardFragment() {
@@ -62,6 +66,7 @@ public class DashboardFragment extends Fragment {
         walletName = view.findViewById(R.id.fWallet);
         walletAmt = view.findViewById(R.id.fWalletAmt);
         walletNoTrans = view.findViewById(R.id.fWalletTrans);
+        recyclerView = view.findViewById(R.id.analysisView);
         User user = ((HomeActivity) getActivity()).user;
         int walletTrans = 0;
         int favWalletTrans = 0;
@@ -156,6 +161,12 @@ public class DashboardFragment extends Fragment {
         walletName.setText(favWallet.getName());
         walletAmt.setText("Balance: $" + favWallet.getBalance());
 
+        //Update Recycler View
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        AnalysisAdapter adapter = new AnalysisAdapter(user.getWallets());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
 }

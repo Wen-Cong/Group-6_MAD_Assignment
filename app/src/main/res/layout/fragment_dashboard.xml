@@ -38,7 +38,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias= "0.498"
-        android:translationY="50dp"
+        android:translationY="49dp"
         />
     <TextView
         android:layout_width="wrap_content"
@@ -55,6 +55,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias= "0.498"
         android:translationY="240dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="38dp"
+        android:text="Monthly Transaction Statement"
+        android:textStyle="italic"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias= "0.498"
+        android:translationY="415dp"
         />
 
 
@@ -161,26 +177,26 @@
                 android:layout_marginBottom="5dp"/>
 
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_width="354dp"
+            android:layout_height="141dp"
             android:layout_marginStart="30dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="30dp"
-            android:translationY="40dp"
+            android:translationY="50dp"
             app:cardCornerRadius="30dp"
-            app:cardMaxElevation="20dp">
+            app:cardMaxElevation="20dp" >
 
-            <TextView
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/analysisView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Favourite Wallet"
-                android:textAlignment="center"
-                android:textColor="#000"
-                android:textSize="25dp"
-
-                />
+                android:layout_height="match_parent"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:scrollbars="vertical"
+                tools:listitem="@layout/analaysisview"/>
 
         </androidx.cardview.widget.CardView>
 

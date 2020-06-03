@@ -16,7 +16,9 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      tools:text="Wallet Name" />
+      tools:text="Wallet Name"
+      android:textStyle="bold"
+      android:textSize="18sp"/>
 
   <TextView
       android:id="@+id/walletBalance"
@@ -29,7 +31,9 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintVertical_bias="0.0"
-      tools:text="balance" />
+      tools:text="balance"
+      android:textStyle="bold"
+      android:textSize="18sp"/>
 
   <TextView
       android:id="@+id/balance2"
@@ -42,7 +46,8 @@
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.0" />
+      app:layout_constraintVertical_bias="0.0"
+      android:textSize="18sp"/>
 
   <ImageButton
       android:id="@+id/delete"
