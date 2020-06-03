@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".SupportActivity">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout"
         android:layout_width="409dp"
         android:layout_height="724dp"
@@ -17,25 +17,55 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="115dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="400dp"
+            android:text="Contact Us"
+            android:textColor="#000"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="255dp"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="19dp"
+            android:id="@+id/imageView"
+            android:layout_width="373dp"
+            android:layout_height="237dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="448dp"
             android:background="@color/colorPrimary"
-            android:src="@drawable/nplogo" />
+            android:src="@drawable/nplogo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:text="Created By Li Cheng, Wen Cong and Harish"
-            android:textSize="20sp"
+            android:id="@+id/textView6"
+            android:layout_width="340dp"
+            android:layout_height="90dp"
+            android:layout_marginTop="288dp"
+            android:text="This App was created by 3 Ngee Ann Polytechnic students to allow others to keep track of their finances."
             android:textColor="#000"
-            />
-    </RelativeLayout>
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.492"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="365dp"
+            android:layout_height="44dp"
+            android:layout_marginBottom="216dp"
+            android:text="Email : FinancialAdvisor@gmail.com"
+            android:textColor="#000"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

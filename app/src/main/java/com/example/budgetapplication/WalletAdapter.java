@@ -1,5 +1,6 @@
 package com.example.budgetapplication;
 
+import android.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,7 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletViewHolder> {
     //This method is called by adapter when a new ViewHolder is created
     public WalletViewHolder onCreateViewHolder(ViewGroup parent, int ViewType){
         //This line create the UI from the XML
-        View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view_item, parent, false);
+        View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.wallet_view_item, parent, false);
     //return the ViewHolder
         return new WalletViewHolder(item);
     }
@@ -46,6 +47,8 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletViewHolder> {
             public void onClick(View v) {
                 Log.d(TAG, "delete clicked");
                 data.remove(position);
+                
+
                 deleteItemFromDB(name);
                 notifyDataSetChanged();
             }
