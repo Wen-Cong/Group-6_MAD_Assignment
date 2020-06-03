@@ -8,8 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout"
-        android:layout_width="410dp"
-        android:layout_height="554dp"
+        android:layout_width="413dp"
+        android:layout_height="661dp"
         android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,21 +21,24 @@
             android:id="@+id/textView8"
             android:layout_width="118dp"
             android:layout_height="36dp"
-            android:layout_marginTop="424dp"
+            android:layout_marginTop="488dp"
             android:text="Contact Us"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView10"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="373dp"
-            android:layout_height="237dp"
+            android:layout_width="371dp"
+            android:layout_height="221dp"
             android:layout_marginStart="16dp"
-            android:layout_marginBottom="344dp"
+            android:layout_marginBottom="460dp"
             android:background="@color/colorPrimary"
             android:src="@drawable/nplogo"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -45,12 +48,13 @@
             android:id="@+id/textView6"
             android:layout_width="340dp"
             android:layout_height="90dp"
-            android:layout_marginTop="248dp"
+            android:layout_marginTop="176dp"
             android:text="This App was created by 3 Ngee Ann Polytechnic students to allow others to keep track of their finances."
+            android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,14 +62,14 @@
             android:id="@+id/textView10"
             android:layout_width="365dp"
             android:layout_height="44dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="16dp"
             android:text="Email : FinancialAdvisor@gmail.com"
+            android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.644"
+            app:layout_constraintHorizontal_bias="0.673"
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
