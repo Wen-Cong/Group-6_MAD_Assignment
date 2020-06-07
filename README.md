@@ -52,6 +52,7 @@ Ramesh Harish -
 5. SupportActivity (xml)
 
 Screenshot:
+
 ![DashboardScreenShot](https://user-images.githubusercontent.com/64005211/83962907-28d80400-a8d4-11ea-9a34-baa20f58e74c.PNG)
 
 ![SignUpScreenShot](https://user-images.githubusercontent.com/64005211/83962908-2aa1c780-a8d4-11ea-8bb3-ddc4926ead85.PNG)
