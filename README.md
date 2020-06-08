@@ -1,13 +1,13 @@
 # Group-6_MAD_Assignment
-Team Member: Yeo Wen Cong (S10194723K), Li Li Cheng (S10195748K), Ramesh Harish (S10193293)
+Team Member: Yeo Wen Cong (S10194723K), Li Li Cheng (S10195748K), Ramesh Harish (S10193293G)
 
 App Description: 
-MoneyBot is a finance tracking App that makes managing everyday expenses and income as easy as pie. Helps with recording expenses, income and
-track your daily wallet balance, savings and bank account all in one place. With MoneyBot, you can also review your monthly financial
+MoneyAssistant is a finance tracking App that makes managing everyday expenses and income as easy as pie. Helps with recording expenses, income and
+track your daily wallet balance, savings and bank account all in one place. With MoneyAssistant, you can also review your monthly financial
 summary.
 
 Easy to use
-Quick and easy manual entry in 3 steps. MoneyBot not only records your transaction coming in and out but also update your account 
+Quick and easy manual entry in 3 steps. MoneyAssistant not only records your transaction coming in and out but also update your account 
 balance so that you can take a quick summary of all your cash allocation and balance in every wallet or bank account you owned.
 With Dashboard, you can view statistics like your monthly transactions with every wallet and your most frequently used wallet
 so you can see your spending habits.
@@ -18,7 +18,7 @@ With online storage, you can also sync your data across different android device
 
 Account Authentication
 With account authentication feature, security and confidentiality is further enchanced. It keeps your financial statement protected
-with your account ID and password thus only you can have access to your data. MoneyBot also include auto sign in feature for 
+with your account ID and password thus only you can have access to your data. MoneyAssistant also include auto sign in feature for 
 user who prefer convienience over security thus you only have to sign in once if account is not signed out of the device.
 
 Always Stay Reminded.
@@ -45,11 +45,12 @@ Li Li Cheng -
 5. WalletFormActivity (java + xml)
 
 Ramesh Harish -
-1. AccountFragment (xml)
-2. DashboardFragment (xml)
-3. LoginActivity (xml)
-4. MainActivity (xml)
-5. SupportActivity (xml)
+1. MainActivity (java)(Created OnBackPressed)
+2. AccountFragment (xml)
+3. DashboardFragment (xml)
+4. LoginActivity (xml)
+5. MainActivity (xml)
+6. SupportActivity (java + xml)
 
 Screenshot:
 
