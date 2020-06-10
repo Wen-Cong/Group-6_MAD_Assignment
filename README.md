@@ -45,7 +45,7 @@ Li Li Cheng -
 5. WalletFormActivity (java + xml)
 
 Ramesh Harish -
-1. MainActivity (java)(Created OnBackPressed)
+1. MainActivity (java)(Created OnBackPressed but still didnt call it)
 2. AccountFragment (xml)
 3. DashboardFragment (xml)
 4. LoginActivity (xml)
