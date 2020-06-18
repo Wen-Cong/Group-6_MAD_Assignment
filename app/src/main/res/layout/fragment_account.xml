@@ -40,7 +40,7 @@
             android:layout_height="75dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="18dp"
-            android:src="@drawable/ic_account"></de.hdodenhof.circleimageview.CircleImageView>
+            android:src="@drawable/ic_account" />
 
         <TextView
             android:id="@+id/username"
@@ -194,13 +194,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="34dp">
+        android:layout_marginTop="34dp"
+        android:id="@+id/sharedWalletButton">
 
         <ImageView
             android:id="@+id/icon_sh"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/shield">
+            android:src="@drawable/ic_twopeople">
 
         </ImageView>
 
@@ -210,7 +211,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:layout_toRightOf="@id/icon_sh"
-            android:text="implement later"
+            android:text="Shared Wallets"
             android:textColor="#202020"
             android:textSize="20dp"></TextView>
 

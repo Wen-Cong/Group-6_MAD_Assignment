@@ -25,4 +25,5 @@
         <item>Income</item>
         <item>Expenses</item>
     </string-array>
+    <string name="title_activity_shared_wallet">SharedWalletActivity</string>
 </resources>

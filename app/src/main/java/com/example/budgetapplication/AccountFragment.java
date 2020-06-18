@@ -54,6 +54,7 @@ public class AccountFragment extends Fragment {
     String userId;
     private RelativeLayout changeusername;
     private RelativeLayout supportbutton;
+    private  RelativeLayout sharedWalletButton;
     TextView username;
     Switch reminderOnOff;
     Boolean notificationSwtich;
@@ -82,10 +83,11 @@ public class AccountFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         supportbutton = view.findViewById(R.id.linearlayout_3);
         changeusername = view.findViewById(R.id.changeusername);
+        sharedWalletButton = view.findViewById(R.id.sharedWalletButton);
         username = view.findViewById(R.id.username);
         reminderOnOff = view.findViewById(R.id.notificationSwtich);
         //load switch on/off for notification
@@ -118,6 +120,21 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View v){
                 openSupportPage();
+            }
+        });
+        //bring user to shared wallet page
+        sharedWalletButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSharedWalletPage();
+            }
+        });
+
+        //Change Profile Image
+        profileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((HomeActivity) getActivity()).ProfileImageHandler(view);
             }
         });
 
@@ -162,6 +179,13 @@ public class AccountFragment extends Fragment {
 
     private void openSupportPage(){
         Intent intent = new Intent(getActivity(), SupportActivity.class);
+        startActivity(intent);
+    }
+
+    private void openSharedWalletPage(){
+        Intent intent = new Intent(getActivity(), SharedWalletActivity.class);
+        User user = ((HomeActivity) getActivity()).user;
+        intent.putExtra("User", user);
         startActivity(intent);
     }
 

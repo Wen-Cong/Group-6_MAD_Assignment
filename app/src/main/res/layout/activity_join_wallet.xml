@@ -2,54 +2,56 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/usernameSubmit"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChangeUsernameActivity">
-
+    tools:context=".JoinWalletActivity">
 
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Edit Username"
-        android:textStyle="bold"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:text="Join Shared Wallet"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.04" />
 
     <TextView
         android:id="@+id/subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter Your Username Here"
+        android:text="Join shared wallet with unique wallet ID"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <EditText
-        android:id="@+id/newUsername"
+        android:id="@+id/join_walletId"
         android:layout_width="340dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="25dp"
         android:background="@drawable/custom_edittext"
+        android:ems="10"
+        android:hint="Please Enter Wallet ID"
+        android:inputType="text"
         android:padding="10dp"
-        android:hint="Enter your username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subtitle" />
 
     <Button
-        android:id="@+id/username_submit_button"
+        android:id="@+id/submit_joinwallet"
         android:layout_width="275dp"
         android:layout_height="40dp"
         android:background="@drawable/submit_button"
-        android:text="Submit"
+        android:text="Join"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
@@ -61,7 +63,7 @@
         app:layout_constraintVertical_bias="0.48" />
 
     <Button
-        android:id="@+id/cancel_changeUsername"
+        android:id="@+id/cancel_joinWallet"
         android:layout_width="275dp"
         android:layout_height="40dp"
         android:background="@drawable/cancel_button"
@@ -70,6 +72,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_submit_button"
+        app:layout_constraintTop_toBottomOf="@+id/submit_joinwallet"
         app:layout_constraintVertical_bias="0.081" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
