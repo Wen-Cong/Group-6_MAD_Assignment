@@ -134,7 +134,7 @@ public class AccountFragment extends Fragment {
         profileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((HomeActivity) getActivity()).ProfileImageHandler(view);
+                ((HomeActivity) getActivity()).ProfileImageHandler(view.findViewById(R.id.profile_pic));
             }
         });
 
