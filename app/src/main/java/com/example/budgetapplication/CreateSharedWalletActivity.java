@@ -20,7 +20,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class CreateSharedWalletActivity extends AppCompatActivity {
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference databaseReference;
     private final String TAG = "Shared WalletForm";
     EditText walletName;
     EditText walletBal;
@@ -40,6 +40,7 @@ public class CreateSharedWalletActivity extends AppCompatActivity {
         create = findViewById(R.id.saveSharedWallet);
         user = (User) getIntent().getSerializableExtra("User");
         id =  FirebaseAuth.getInstance().getCurrentUser().getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
 
         create.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,15 +62,27 @@ public class CreateSharedWalletActivity extends AppCompatActivity {
                     Transaction t = new Transaction("Initial Transactions", 0.00, "Initialisation");
                     w.addTransactions(t);
 
-                    Query lastQuery = databaseReference.child("SharedWallets");
-                    lastQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    databaseReference.child("SharedWallets").orderByKey().limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            String previouswalletId = String.valueOf(dataSnapshot.getChildrenCount());
+                            String previouswalletId = "";
+                            for(DataSnapshot wallets : dataSnapshot.getChildren()){
+                                previouswalletId = String.valueOf(wallets.getKey());
+                            }
                             String walletId = ((Integer) (Integer.valueOf(previouswalletId) + 1)).toString();
                             Log.d(TAG, "onDataChange: " + walletId);
                             databaseReference.child("SharedWallets").child(walletId).setValue(w);
                             user.addParticipatedWallet(walletId);
+                            databaseReference.child("Users").child(id).child("participatedWallet").setValue(user.getParticipatedSharedWallet());
+
+
+                            Toast.makeText(CreateSharedWalletActivity.this,"Shared Wallet Created Successfully",Toast.LENGTH_SHORT).show();
+                            Intent userIntent = new Intent();
+                            userIntent.putExtra("User", user);
+                            setResult(1, userIntent);
+                            Log.v(TAG, "Send result to SharedWalletActivity");
+                            finish();
                         }
 
                         @Override
@@ -77,13 +90,6 @@ public class CreateSharedWalletActivity extends AppCompatActivity {
                             // Handle possible errors.
                         }
                     });
-                    databaseReference.child("Users").child(id).child("participatedWallet").setValue(user.getParticipatedSharedWallet());
-                    Toast.makeText(CreateSharedWalletActivity.this,"Shared Wallet Created Successfully",Toast.LENGTH_SHORT).show();
-                    Intent userIntent = new Intent();
-                    userIntent.putExtra("User", user);
-                    setResult(1, userIntent);
-                    Log.v(TAG, "Send result to SharedWalletActivity");
-                    finish();
                 }
 
                 else{
