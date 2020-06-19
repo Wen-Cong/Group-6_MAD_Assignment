@@ -112,13 +112,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    //redirect to login page and sign out
-    public void LogOut(View view) {
-        FirebaseAuth.getInstance().signOut();
-        Intent intToMain = new Intent(HomeActivity.this,MainActivity.class);
-        startActivity(intToMain);
-    }
-
     //get picture from gallery
     public void ProfileImageHandler(View view) {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -200,6 +193,14 @@ public class HomeActivity extends AppCompatActivity {
                     }
                     user.addWallet(newWallet);
                 }
+
+                for(DataSnapshot sharedwallet : dataSnapshot.child("participatedWallet").getChildren()){
+                    if(!sharedwallet.getValue().equals("Initial")){
+                        user.addParticipatedWallet(sharedwallet.getValue().toString());
+                        Log.v(TAG, "shared wallet ID: " + sharedwallet.getValue().toString() + " added!");
+                    }
+                }
+
                 Log.v(TAG, userName);
                 //change to dashboard view after initialising user data for the first time
                 if(!flag){

@@ -20,6 +20,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     public EditText emailId, password;
     Button btnSignUp;
@@ -79,8 +81,11 @@ public class MainActivity extends AppCompatActivity {
                                 Wallet w = new Wallet("Cash", 0.00);
                                 Transaction t = new Transaction("Initial Transactions", 0.00, "Initialisation");
                                 w.addTransactions(t);
+                                ArrayList<String> participatedWallet = new ArrayList<>();
+                                participatedWallet.add("Initial");
                                 databaseReference.child("Users").child(id).child("username").setValue("Username");
-                                String walletId = databaseReference.child("Users").child(id).child("wallets").push().getKey().toString();
+                                String walletId = databaseReference.child("Users").child(id).child("wallets").push().getKey();
+                                databaseReference.child("Users").child(id).child("participatedWallet").setValue(participatedWallet);
                                 databaseReference.child("Users").child(id).child("wallets").child(walletId).setValue(w);
 
 

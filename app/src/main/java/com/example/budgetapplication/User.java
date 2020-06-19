@@ -9,15 +9,17 @@ public class User implements Serializable {
     private String userName;
     private String userId;
     private ArrayList<Wallet> wallets;
-
+    private ArrayList<String> participatedSharedWallet;
 
     public User(){
         wallets = new ArrayList<>();
+        participatedSharedWallet = new ArrayList<>();
     }
     public User(String id, String name){
         userName = name;
         userId = id;
         wallets = new ArrayList<>();
+        participatedSharedWallet = new ArrayList<>();
     }
 
     public String getUserName() {
@@ -39,5 +41,10 @@ public class User implements Serializable {
     }
     public ArrayList<Wallet> getWallets(){
         return wallets;
+    }
+
+    public  ArrayList<String> getParticipatedSharedWallet(){ return participatedSharedWallet; }
+    public void addParticipatedWallet(String walletId){
+        participatedSharedWallet.add(walletId);
     }
 }

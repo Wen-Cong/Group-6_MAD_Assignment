@@ -219,5 +219,12 @@ public class AccountFragment extends Fragment {
         }
     }
 
+    //redirect to login page and sign out
+    private void LogOut() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intToMain = new Intent(getActivity(),MainActivity.class);
+        startActivity(intToMain);
+    }
+
 
 }

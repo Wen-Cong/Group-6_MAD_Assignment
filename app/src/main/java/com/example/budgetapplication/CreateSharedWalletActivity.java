@@ -28,6 +28,7 @@ public class CreateSharedWalletActivity extends AppCompatActivity {
     Button create;
     User user;
     SharedWallet w;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class CreateSharedWalletActivity extends AppCompatActivity {
         cancel = findViewById(R.id.cancelSharedWallet);
         create = findViewById(R.id.saveSharedWallet);
         user = (User) getIntent().getSerializableExtra("User");
+        id =  FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         create.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +57,6 @@ public class CreateSharedWalletActivity extends AppCompatActivity {
 
                 else if(!accountName.isEmpty()){
                     //send data into database & update user object
-                    String id =  FirebaseAuth.getInstance().getCurrentUser().getUid();
                     w = new SharedWallet(accountName, walletBalance, id);
                     Transaction t = new Transaction("Initial Transactions", 0.00, "Initialisation");
                     w.addTransactions(t);
@@ -68,6 +69,7 @@ public class CreateSharedWalletActivity extends AppCompatActivity {
                             String walletId = ((Integer) (Integer.valueOf(previouswalletId) + 1)).toString();
                             Log.d(TAG, "onDataChange: " + walletId);
                             databaseReference.child("SharedWallets").child(walletId).setValue(w);
+                            user.addParticipatedWallet(walletId);
                         }
 
                         @Override
@@ -75,7 +77,12 @@ public class CreateSharedWalletActivity extends AppCompatActivity {
                             // Handle possible errors.
                         }
                     });
+                    databaseReference.child("Users").child(id).child("participatedWallet").setValue(user.getParticipatedSharedWallet());
                     Toast.makeText(CreateSharedWalletActivity.this,"Shared Wallet Created Successfully",Toast.LENGTH_SHORT).show();
+                    Intent userIntent = new Intent();
+                    userIntent.putExtra("User", user);
+                    setResult(1, userIntent);
+                    Log.v(TAG, "Send result to SharedWalletActivity");
                     finish();
                 }
 
