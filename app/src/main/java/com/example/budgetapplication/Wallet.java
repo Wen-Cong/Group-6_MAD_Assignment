@@ -19,6 +19,12 @@ public class Wallet implements Serializable {
         this.transactionList = new ArrayList<>();
     }
 
+    public Wallet(String walletname, Double bal, ArrayList<Transaction> tlist) {
+        this.name = walletname;
+        this.balance = bal;
+        this.transactionList = tlist;
+    }
+
     public String getName() {
         return name;
     }

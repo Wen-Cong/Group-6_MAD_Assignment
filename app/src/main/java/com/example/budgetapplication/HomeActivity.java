@@ -51,6 +51,7 @@ public class HomeActivity extends AppCompatActivity {
     public User user;
     public final static int REQ_WALLET_CODE = 2001;
     public final static  int REQ_PROFILEPIC_CODE = 1001;
+    public final static  int REQ_SHAREDWALLET_CODE = 5001;
     private static final String TAG = "HomeActivity";
 
     @SuppressLint("ResourceType")
@@ -138,6 +139,12 @@ public class HomeActivity extends AppCompatActivity {
             if(resultCode == 1){
                 //get updated user data from wallet form when new wallet created
                 Log.v(TAG, "user with updated wallet received from wallet form");
+                user = (User) data.getSerializableExtra("User");
+            }
+        }
+        else if(requestCode == REQ_SHAREDWALLET_CODE){
+            if(resultCode == 1){
+                Log.v(TAG, "User data obtained from SharedWalletActivity");
                 user = (User) data.getSerializableExtra("User");
             }
         }

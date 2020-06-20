@@ -16,6 +16,12 @@ public class SharedWallet extends Wallet {
         participants.add(uid);
     }
 
+    public SharedWallet(String name, Double bal, String aid, ArrayList<String> participant, ArrayList<Transaction> transactions){
+        super(name, bal, transactions);
+        adminId = aid;
+        participants = participant;
+    }
+
     public String getAdminId() {
         return adminId;
     }

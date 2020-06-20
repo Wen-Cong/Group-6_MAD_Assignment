@@ -186,7 +186,7 @@ public class AccountFragment extends Fragment {
         Intent intent = new Intent(getActivity(), SharedWalletActivity.class);
         User user = ((HomeActivity) getActivity()).user;
         intent.putExtra("User", user);
-        startActivity(intent);
+        startActivityForResult(intent, ((HomeActivity) getActivity()).REQ_SHAREDWALLET_CODE);
     }
 
     public void readUsername(String id){
