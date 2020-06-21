@@ -1,6 +1,7 @@
 package com.example.budgetapplication;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ public class SharedWalletAdapter extends RecyclerView.Adapter<SharedWalletViewHo
 
     @Override
     public void onBindViewHolder(@NonNull SharedWalletViewHolder holder, int position) {
-        SharedWallet sw = data.get(position);
+        final SharedWallet sw = data.get(position);
         holder.walletName.setText(sw.getName());
         holder.walletBal.setText("Balance: $" + sw.getBalance().toString());
 
@@ -38,6 +39,7 @@ public class SharedWalletAdapter extends RecyclerView.Adapter<SharedWalletViewHo
             @Override
             public void onClick(View v) {
                 Toast.makeText(sharedWalletActivity, "Shared Wallet Clicked", Toast.LENGTH_SHORT).show();
+                openSharedWalletdetails(sw);
             }
         });
     }
@@ -45,5 +47,13 @@ public class SharedWalletAdapter extends RecyclerView.Adapter<SharedWalletViewHo
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    private void openSharedWalletdetails(SharedWallet sharedWallet){
+        Intent intent = new Intent(sharedWalletActivity, SharedWalletDetailsActivity.class);
+        intent.putExtra("sharedWallet", sharedWallet);
+        sharedWalletActivity.startActivityForResult(intent,
+                ((SharedWalletActivity) sharedWalletActivity).REQ_SHAREDWALLETDETAILS_CODE);
+
     }
 }

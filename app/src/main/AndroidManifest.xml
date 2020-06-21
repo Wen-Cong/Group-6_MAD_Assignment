@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".JoinWalletActivity"></activity>
+        <activity android:name=".SharedWalletDetailsActivity"></activity>
+        <activity android:name=".JoinWalletActivity" />
         <activity android:name=".SharedWalletActivity" />
         <activity android:name=".CreateSharedWalletActivity" />
         <activity android:name=".SupportActivity" />

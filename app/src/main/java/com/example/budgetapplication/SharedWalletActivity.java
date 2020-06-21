@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 public class SharedWalletActivity extends AppCompatActivity {
     private static final String TAG = "SharedWallet Activity";
+    public static final int REQ_SHAREDWALLETDETAILS_CODE = 6001;
     User user;
     Button addwallet;
     Button joinWallet;
@@ -43,9 +44,6 @@ public class SharedWalletActivity extends AppCompatActivity {
         joinWallet = findViewById(R.id.joinSharedWallet);
         recyclerView = findViewById(R.id.sharedWalletRecyclerView);
         reference = FirebaseDatabase.getInstance().getReference();
-        wallets = new ArrayList<>();
-
-        InitSharedWallets();
 
         addwallet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +57,14 @@ public class SharedWalletActivity extends AppCompatActivity {
                 openJoinWallet();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        wallets = new ArrayList<>();
+        InitSharedWallets();
+
     }
 
     private void loadRecyclerView() {
@@ -133,6 +139,10 @@ public class SharedWalletActivity extends AppCompatActivity {
                 setResult(1, userIntent);
                 Log.v(TAG, "Send user data to HomeActivity from SharedWallet");
             }
+        }
+
+        else if(requestCode == REQ_SHAREDWALLETDETAILS_CODE){
+            //add code here
         }
     }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/sharedWalletDetailsHome"
+        android:title="Home"
+        android:icon="@drawable/ic_baseline_home_24"/>
+
+    <item
+        android:id="@+id/sharedWallettransactions"
+        android:title="Transactions"
+        android:icon="@drawable/ic_money"/>
+    <item
+        android:id="@+id/sharedWalletDetailsParticipant"
+        android:title="Participants"
+        android:icon="@drawable/ic_baseline_people_outline_24"/>
+
+</menu>
