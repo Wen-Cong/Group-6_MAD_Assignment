@@ -38,7 +38,6 @@ public class SharedWalletAdapter extends RecyclerView.Adapter<SharedWalletViewHo
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(sharedWalletActivity, "Shared Wallet Clicked", Toast.LENGTH_SHORT).show();
                 openSharedWalletdetails(sw);
             }
         });

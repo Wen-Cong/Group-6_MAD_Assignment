@@ -105,14 +105,6 @@ public class HomeActivity extends AppCompatActivity {
         return user;
     }
 
-    //open wallet creation form
-    public void openWalletForm(View view) {
-        Intent createAccForm = new Intent(HomeActivity.this, WalletFormActivity.class);
-        createAccForm.putExtra("User", user);
-        startActivityForResult(createAccForm, REQ_WALLET_CODE);
-    }
-
-
     //get picture from gallery
     public void ProfileImageHandler(View view) {
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

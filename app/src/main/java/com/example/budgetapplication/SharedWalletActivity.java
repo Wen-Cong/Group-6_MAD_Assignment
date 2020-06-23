@@ -83,14 +83,15 @@ public class SharedWalletActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(String paticipatedWallet : user.getParticipatedSharedWallet()){
                     ArrayList<String> participants = new ArrayList<>();
-                    ArrayList<Transaction> transactions = new ArrayList<>();
+                    ArrayList<SharedTransaction> transactions = new ArrayList<>();
                     for(DataSnapshot participant : dataSnapshot.child(paticipatedWallet).child("participants").getChildren()){
                         participants.add(participant.getValue().toString());
                     }
-                    for(DataSnapshot transaction : dataSnapshot.child(paticipatedWallet).child("transactions").getChildren()){
-                        Transaction t = new Transaction(transaction.child("name").getValue().toString(),
+                    for(DataSnapshot transaction : dataSnapshot.child(paticipatedWallet).child("sharedTransactions").getChildren()){
+                        SharedTransaction t = new SharedTransaction(transaction.child("name").getValue().toString(),
                                 Double.valueOf(transaction.child("amount").getValue().toString()),
-                                transaction.child("type").getValue().toString(), transaction.child("time").getValue().toString());
+                                transaction.child("type").getValue().toString(), transaction.child("time").getValue().toString(),
+                                transaction.child("uid").getValue().toString());
 
                         transactions.add(t);
                     }

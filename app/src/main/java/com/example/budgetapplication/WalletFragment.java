@@ -1,6 +1,7 @@
 package com.example.budgetapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -77,5 +78,12 @@ public class WalletFragment extends Fragment {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(rv.getWindowToken(), 0);
 
+    }
+
+    //open wallet creation form
+    public void openWalletForm(View view) {
+        Intent createAccForm = new Intent(getActivity(), WalletFormActivity.class);
+        createAccForm.putExtra("User", user);
+        startActivityForResult(createAccForm, ((HomeActivity) getActivity()).REQ_WALLET_CODE);
     }
 }

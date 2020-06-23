@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -14,10 +15,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.StorageReference;
 
 public class SharedWalletDetailsActivity extends AppCompatActivity {
+    private static final String TAG = "SharedWalletDetails";
     DatabaseReference databaseReference;
     BottomNavigationView bottomNavigationView;
     String uid;
     StorageReference storageReference;
+    SharedWallet sharedWallet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,7 @@ public class SharedWalletDetailsActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.sharedWalletbottomNavigation);
         databaseReference = FirebaseDatabase.getInstance().getReference();
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        sharedWallet = (SharedWallet) getIntent().getSerializableExtra("sharedWallet");
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             Fragment frag = null;

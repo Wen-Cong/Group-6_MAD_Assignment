@@ -59,8 +59,8 @@ public class CreateSharedWalletActivity extends AppCompatActivity {
                 else if(!accountName.isEmpty()){
                     //send data into database & update user object
                     w = new SharedWallet(accountName, walletBalance, id);
-                    Transaction t = new Transaction("Initial Transactions", 0.00, "Initialisation");
-                    w.addTransactions(t);
+                    SharedTransaction st = new SharedTransaction("Initial Transactions", 0.00, "Initialisation", id);
+                    w.addSharedTransaction(st);
 
 
                     databaseReference.child("SharedWallets").orderByKey().limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
