@@ -30,7 +30,7 @@ public class SharedWalletAdapter extends RecyclerView.Adapter<SharedWalletViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SharedWalletViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SharedWalletViewHolder holder, final int position) {
         final SharedWallet sw = data.get(position);
         holder.walletName.setText(sw.getName());
         holder.walletBal.setText("Balance: $" + sw.getBalance().toString());
@@ -38,7 +38,7 @@ public class SharedWalletAdapter extends RecyclerView.Adapter<SharedWalletViewHo
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openSharedWalletdetails(sw);
+                openSharedWalletdetails(sw, position);
             }
         });
     }
@@ -48,9 +48,11 @@ public class SharedWalletAdapter extends RecyclerView.Adapter<SharedWalletViewHo
         return data.size();
     }
 
-    private void openSharedWalletdetails(SharedWallet sharedWallet){
+    private void openSharedWalletdetails(SharedWallet sharedWallet, int position){
         Intent intent = new Intent(sharedWalletActivity, SharedWalletDetailsActivity.class);
+        String walletId = ((SharedWalletActivity) sharedWalletActivity).user.getParticipatedSharedWallet().get(position);
         intent.putExtra("sharedWallet", sharedWallet);
+        intent.putExtra("sharedWalletId", walletId);
         sharedWalletActivity.startActivityForResult(intent,
                 ((SharedWalletActivity) sharedWalletActivity).REQ_SHAREDWALLETDETAILS_CODE);
 

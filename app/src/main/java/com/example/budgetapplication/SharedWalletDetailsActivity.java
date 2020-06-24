@@ -18,6 +18,7 @@ public class SharedWalletDetailsActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     String uid;
     SharedWallet sharedWallet;
+    String shareWalletId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class SharedWalletDetailsActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference();
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         sharedWallet = (SharedWallet) getIntent().getSerializableExtra("sharedWallet");
+        shareWalletId = getIntent().getStringExtra("sharedWalletId");
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             Fragment frag = null;

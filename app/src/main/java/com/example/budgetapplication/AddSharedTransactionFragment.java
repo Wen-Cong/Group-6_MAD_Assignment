@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import static android.content.ContentValues.TAG;
+
 public class AddSharedTransactionFragment extends Fragment {
     Button cancel;
     Button add;
@@ -27,6 +30,7 @@ public class AddSharedTransactionFragment extends Fragment {
     SharedWallet wallet;
     DatabaseReference databaseReference;
     String uid;
+    String walletId;
     private Double finalAmount;
 
     public AddSharedTransactionFragment() {
@@ -51,6 +55,7 @@ public class AddSharedTransactionFragment extends Fragment {
         wallet = ((SharedWalletDetailsActivity) getActivity()).sharedWallet;
         databaseReference = FirebaseDatabase.getInstance().getReference();
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        walletId = ((SharedWalletDetailsActivity) getActivity()).shareWalletId;
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +103,8 @@ public class AddSharedTransactionFragment extends Fragment {
                             wallet.addSharedTransaction(st);
 
                             //update data to firebase database
-                            databaseReference.child("sharedTransactions").child(walletKey).setValue(wallet);
+                            Log.d(TAG, "onClick: wallet ID: " + walletId);
+                            databaseReference.child("SharedWallets").child(walletId).setValue(wallet);
                             Toast.makeText(getActivity(), "Transaction Create Successfully", Toast.LENGTH_SHORT).show();
                             transactionAmount.getText().clear();
                             transactionName.getText().clear();
