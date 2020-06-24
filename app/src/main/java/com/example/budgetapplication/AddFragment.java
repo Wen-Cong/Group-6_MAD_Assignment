@@ -93,54 +93,54 @@ public class AddFragment extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = transactionName.getText().toString().trim();
-                String string_amt = transactionAmt.getText().toString().trim();
-                String TransactionType = type.getSelectedItem().toString();
-                //check if transaction name is empty
-                if(name.isEmpty()){
+            String name = transactionName.getText().toString().trim();
+            String string_amt = transactionAmt.getText().toString().trim();
+            String TransactionType = type.getSelectedItem().toString();
+            //check if transaction name is empty
+            if(name.isEmpty()){
+                //display error and bring focus to empty field
+                transactionName.setError("Please enter a name");
+                transactionName.requestFocus();
+            }else if(!name.isEmpty()){
+                //validate if amount entered is empty
+                if(string_amt.isEmpty()){
                     //display error and bring focus to empty field
-                    transactionName.setError("Please enter a name");
-                    transactionName.requestFocus();
-                }else if(!name.isEmpty()){
-                    //validate if amount entered is empty
-                    if(string_amt.isEmpty()){
-                        //display error and bring focus to empty field
-                        transactionAmt.setError("Please enter an amount");
-                        transactionAmt.requestFocus();
-                    }else if(!string_amt.isEmpty()){
-                        //calculate new wallet balance from transaction added
-                        Double amt = Double.parseDouble(string_amt);
-                        if(TransactionType.equals("Expenses")) {
-                            finalAmount = -1 * amt;
-                        }else if (TransactionType.equals("Income")){
-                            finalAmount = amt;
-                        }
-                        else{
-                            finalAmount = 0.00;
-                        }
-                        Double newWalletBal =((Double) wallet.getBalance()) + finalAmount;
-                        if(newWalletBal < 0.00){
-                            Toast.makeText(getActivity(), "Invalid Amount!, Insufficient wallet balance", Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            //create new transaction and update wallet
-                            wallet.setBalance(newWalletBal);
-                            Transaction t = new Transaction(name, finalAmount, TransactionType);
-                            wallet.addTransactions(t);
-                            //update data to firebase database
-                            databaseReference.child("Users").child(uid).child("wallets").child(walletKey).setValue(wallet);
-                            Toast.makeText(getActivity(), "Transaction Create Successfully", Toast.LENGTH_SHORT).show();
-                            transactionAmt.getText().clear();
-                            transactionName.getText().clear();
-                        }
+                    transactionAmt.setError("Please enter an amount");
+                    transactionAmt.requestFocus();
+                }else if(!string_amt.isEmpty()){
+                    //calculate new wallet balance from transaction added
+                    Double amt = Double.parseDouble(string_amt);
+                    if(TransactionType.equals("Expenses")) {
+                        finalAmount = -1 * amt;
+                    }else if (TransactionType.equals("Income")){
+                        finalAmount = amt;
                     }
                     else{
-                        Toast.makeText(getActivity(),"Error Occurred!",Toast.LENGTH_SHORT).show();
+                        finalAmount = 0.00;
+                    }
+                    Double newWalletBal =((Double) wallet.getBalance()) + finalAmount;
+                    if(newWalletBal < 0.00){
+                        Toast.makeText(getActivity(), "Invalid Amount!, Insufficient wallet balance", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        //create new transaction and update wallet
+                        wallet.setBalance(newWalletBal);
+                        Transaction t = new Transaction(name, finalAmount, TransactionType);
+                        wallet.addTransactions(t);
+                        //update data to firebase database
+                        databaseReference.child("Users").child(uid).child("wallets").child(walletKey).setValue(wallet);
+                        Toast.makeText(getActivity(), "Transaction Create Successfully", Toast.LENGTH_SHORT).show();
+                        transactionAmt.getText().clear();
+                        transactionName.getText().clear();
                     }
                 }
                 else{
                     Toast.makeText(getActivity(),"Error Occurred!",Toast.LENGTH_SHORT).show();
                 }
+            }
+            else{
+                Toast.makeText(getActivity(),"Error Occurred!",Toast.LENGTH_SHORT).show();
+            }
 
             }
         });
