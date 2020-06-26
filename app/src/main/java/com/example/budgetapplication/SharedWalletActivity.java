@@ -24,7 +24,6 @@ import java.util.ArrayList;
 
 public class SharedWalletActivity extends AppCompatActivity {
     private static final String TAG = "SharedWallet Activity";
-    public static final int REQ_SHAREDWALLETDETAILS_CODE = 6001;
     User user;
     Button addwallet;
     Button joinWallet;
@@ -64,7 +63,6 @@ public class SharedWalletActivity extends AppCompatActivity {
         super.onStart();
         wallets = new ArrayList<>();
         InitSharedWallets();
-
     }
 
     private void loadRecyclerView() {
@@ -81,26 +79,28 @@ public class SharedWalletActivity extends AppCompatActivity {
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(String paticipatedWallet : user.getParticipatedSharedWallet()){
+                for(String participatedWallet : user.getParticipatedSharedWallet()){
                     ArrayList<String> participants = new ArrayList<>();
                     ArrayList<SharedTransaction> transactions = new ArrayList<>();
-                    for(DataSnapshot participant : dataSnapshot.child(paticipatedWallet).child("participants").getChildren()){
+                    for(DataSnapshot participant : dataSnapshot.child(participatedWallet).child("participants").getChildren()){
                         participants.add(participant.getValue().toString());
                     }
-                    for(DataSnapshot transaction : dataSnapshot.child(paticipatedWallet).child("sharedTransactions").getChildren()){
+                    for(DataSnapshot transaction : dataSnapshot.child(participatedWallet).child("sharedTransaction").getChildren()){
                         SharedTransaction t = new SharedTransaction(transaction.child("name").getValue().toString(),
                                 Double.valueOf(transaction.child("amount").getValue().toString()),
                                 transaction.child("type").getValue().toString(), transaction.child("time").getValue().toString(),
                                 transaction.child("uid").getValue().toString());
 
-                        transactions.add(t);
+                        if(!t.getType().equals("Initialisation")){
+                            transactions.add(t);
+                        }
                     }
-                    SharedWallet sw = new SharedWallet(dataSnapshot.child(paticipatedWallet).child("name").getValue().toString(),
-                            Double.valueOf(dataSnapshot.child(paticipatedWallet).child("balance").getValue().toString()),
-                            dataSnapshot.child(paticipatedWallet).child("adminId").getValue().toString(),
-                            participants, transactions);
+                    SharedWallet sw = new SharedWallet(dataSnapshot.child(participatedWallet).child("name").getValue().toString(),
+                            Double.valueOf(dataSnapshot.child(participatedWallet).child("balance").getValue().toString()),
+                            dataSnapshot.child(participatedWallet).child("adminId").getValue().toString(),
+                            dataSnapshot.child(participatedWallet).child("password").getValue().toString(), participants, transactions);
                     wallets.add(sw);
-                    Log.d(TAG, "onDataChange: " + sw.getName() + " loaded!");
+                    Log.v(TAG, "onDataChange: " + sw.getName() + " loaded!");
                 }
 
                 loadRecyclerView();
@@ -140,10 +140,6 @@ public class SharedWalletActivity extends AppCompatActivity {
                 setResult(1, userIntent);
                 Log.v(TAG, "Send user data to HomeActivity from SharedWallet");
             }
-        }
-
-        else if(requestCode == REQ_SHAREDWALLETDETAILS_CODE){
-            //add code here
         }
     }
 }

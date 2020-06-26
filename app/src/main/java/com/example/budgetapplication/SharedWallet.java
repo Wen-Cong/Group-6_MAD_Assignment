@@ -6,6 +6,7 @@ import java.util.List;
 public class SharedWallet extends Wallet {
     private String adminId;
     private ArrayList<String> participants;
+    private String password;
     private ArrayList<SharedTransaction> sharedTransactions;
 
     public SharedWallet(){
@@ -13,19 +14,21 @@ public class SharedWallet extends Wallet {
         participants = new ArrayList<>();
     }
 
-    public SharedWallet(String name, Double bal, String uid){
+    public SharedWallet(String name, Double bal, String uid, String pw){
         super(name, bal);
         adminId = uid;
+        password = pw;
         sharedTransactions = new ArrayList<>();
         participants = new ArrayList<>();
         participants.add(uid);
     }
 
-    public SharedWallet(String name, Double bal, String aid, ArrayList<String> participant, ArrayList<SharedTransaction> transactions){
+    public SharedWallet(String name, Double bal, String aid, String pw, ArrayList<String> participant, ArrayList<SharedTransaction> transactions){
         super(name, bal);
         adminId = aid;
         participants = participant;
         sharedTransactions = transactions;
+        password = pw;
     }
 
     public String getAdminId() {
@@ -50,5 +53,13 @@ public class SharedWallet extends Wallet {
 
     public ArrayList<SharedTransaction> getSharedTransaction(){
         return sharedTransactions;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

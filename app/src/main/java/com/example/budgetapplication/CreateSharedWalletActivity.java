@@ -24,6 +24,7 @@ public class CreateSharedWalletActivity extends AppCompatActivity {
     private final String TAG = "Shared WalletForm";
     EditText walletName;
     EditText walletBal;
+    EditText password;
     Button cancel;
     Button create;
     User user;
@@ -36,6 +37,7 @@ public class CreateSharedWalletActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_shared_wallet);
         walletName = findViewById(R.id.accNameSharedWallet);
         walletBal = findViewById(R.id.accountBalSharedWallet);
+        password = findViewById(R.id.passwordSharedWallet);
         cancel = findViewById(R.id.cancelSharedWallet);
         create = findViewById(R.id.saveSharedWallet);
         user = (User) getIntent().getSerializableExtra("User");
@@ -47,6 +49,7 @@ public class CreateSharedWalletActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //obtain data from field
                 String accountName = walletName.getText().toString().trim();
+                String walletpassword = password.getText().toString().trim();
                 double walletBalance = Double.parseDouble(walletBal.getText().toString());
                 //validate if wallet name is entered
                 if(accountName.isEmpty())
@@ -58,7 +61,7 @@ public class CreateSharedWalletActivity extends AppCompatActivity {
 
                 else if(!accountName.isEmpty()){
                     //send data into database & update user object
-                    w = new SharedWallet(accountName, walletBalance, id);
+                    w = new SharedWallet(accountName, walletBalance, id, walletpassword);
                     SharedTransaction st = new SharedTransaction("Initial Transactions", 0.00, "Initialisation", id);
                     w.addSharedTransaction(st);
 

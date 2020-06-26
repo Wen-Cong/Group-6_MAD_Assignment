@@ -71,10 +71,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHo
         }
 
         //set color for respective transaction type
-        if(t.getType().equals("Expenses")){
-            holder.amount.setTextColor(Color.RED);
-        }
-        else if (t.getType().equals("Income")){
+        if(t.getType().equals("Income")){
             holder.amount.setTextColor(Color.GREEN);
         }
 

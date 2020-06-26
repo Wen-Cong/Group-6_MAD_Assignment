@@ -1,5 +1,6 @@
 package com.example.budgetapplication;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,6 +51,11 @@ public class SharedWalletTransactionAdapter extends RecyclerView.Adapter<SharedW
         getUsername(sharedTransaction.getUid(), holder);
         holder.transactionName.setText(sharedTransaction.getName());
         holder.amt.setText("$" + sharedTransaction.getAmount().toString());
+
+        if(sharedTransaction.getType().toString().equals("Income")){
+            holder.amt.setTextColor(Color.GREEN);
+        }
+
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         try {
             Date d = sdf.parse(sharedTransaction.getTime());
