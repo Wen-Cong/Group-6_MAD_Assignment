@@ -15,9 +15,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SharedWalletDetailsActivity extends AppCompatActivity {
     private static final String TAG = "SharedWalletDetails";
-    DatabaseReference databaseReference;
-    BottomNavigationView bottomNavigationView;
-    String uid;
+    private DatabaseReference databaseReference;
+    private BottomNavigationView bottomNavigationView;
+    private String uid;
     SharedWallet sharedWallet;
     String shareWalletId;
 

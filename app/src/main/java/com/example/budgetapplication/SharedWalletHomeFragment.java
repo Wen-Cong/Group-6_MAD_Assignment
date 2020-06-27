@@ -11,8 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class SharedWalletHomeFragment extends Fragment {
-
     private static final String TAG = "sharedWalletHome";
+    SharedWallet sharedWallet;
+    String shareWalletId;
 
     public SharedWalletHomeFragment() {
         // Required empty public constructor
@@ -22,6 +23,8 @@ public class SharedWalletHomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        sharedWallet = ((SharedWalletDetailsActivity) getActivity()).sharedWallet;
+        shareWalletId = ((SharedWalletDetailsActivity) getActivity()).shareWalletId;
         return inflater.inflate(R.layout.fragment_shared_wallet_home, container, false);
     }
 
