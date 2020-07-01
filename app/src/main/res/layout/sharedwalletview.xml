@@ -8,8 +8,8 @@
 
     <TextView
         android:id="@+id/sharedWalletName"
-        android:layout_width="180dp"
-        android:layout_height="22dp"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
         android:layout_marginBottom="7dp"
         android:paddingLeft="10dp"
@@ -23,8 +23,8 @@
 
     <TextView
         android:id="@+id/sharedWalletBal"
-        android:layout_width="115dp"
-        android:layout_height="21dp"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
         android:layout_marginBottom="7dp"
         android:text="Wallet Balance"
@@ -32,8 +32,8 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.814"
+        app:layout_constraintHorizontal_bias="0.995"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.039" />
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

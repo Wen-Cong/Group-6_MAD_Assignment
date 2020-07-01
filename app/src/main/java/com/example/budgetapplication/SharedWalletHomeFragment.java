@@ -96,6 +96,7 @@ public class SharedWalletHomeFragment extends Fragment {
                 Log.v("Exception", ex.getLocalizedMessage());
             }
         }
+
         Double total_netTransaction = total_income - total_expenses;
         sharedWalletIncome_Display.setText(getString(R.string.display_Bal, total_income));
         sharedWalletExpenses_Display.setText(getString(R.string.display_Bal, total_expenses));

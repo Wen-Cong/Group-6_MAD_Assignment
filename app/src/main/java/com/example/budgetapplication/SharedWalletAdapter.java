@@ -32,8 +32,8 @@ public class SharedWalletAdapter extends RecyclerView.Adapter<SharedWalletViewHo
     @Override
     public void onBindViewHolder(@NonNull SharedWalletViewHolder holder, final int position) {
         final SharedWallet sw = data.get(position);
-        holder.walletName.setText(sw.getName());
-        holder.walletBal.setText(sw.getBalance().toString());
+        holder.walletName.setText(sharedWalletActivity.getString(R.string.account_name, sw.getName()));
+        holder.walletBal.setText(sharedWalletActivity.getString(R.string.account_balance, sw.getBalance()));
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
