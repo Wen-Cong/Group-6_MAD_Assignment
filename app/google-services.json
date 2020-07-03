@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:68052932337:android:c0666b60537e95e046bb50",
         "android_client_info": {
-          "package_name": "com.example.budgetapplication"
+          "package_name": "com.mad.budgetapplication"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "68052932337-b4ap678roqdequk6uv9vp4prgb8krcou.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.budgetapplication",
+            "package_name": "com.mad.budgetapplication",
             "certificate_hash": "a6e610e2cd3c3bc18445d2579b6f2e588a5b3237"
           }
         },

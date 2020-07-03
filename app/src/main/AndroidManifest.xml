@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.budgetapplication">
+    package="com.mad.budgetapplication">
 
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,16 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SharedWalletDetailsActivity"></activity>
-        <activity android:name=".JoinWalletActivity" />
-        <activity android:name=".SharedWalletActivity" />
-        <activity android:name=".CreateSharedWalletActivity" />
-        <activity android:name=".SupportActivity" />
-        <activity android:name=".WalletFormActivity" />
-        <activity android:name=".ChangeUsernameActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.mad.budgetapplication.SharedWalletDetailsActivity"></activity>
+        <activity android:name="com.mad.budgetapplication.JoinWalletActivity" />
+        <activity android:name="com.mad.budgetapplication.SharedWalletActivity" />
+        <activity android:name="com.mad.budgetapplication.CreateSharedWalletActivity" />
+        <activity android:name="com.mad.budgetapplication.SupportActivity" />
+        <activity android:name="com.mad.budgetapplication.WalletFormActivity" />
+        <activity android:name="com.mad.budgetapplication.ChangeUsernameActivity" />
+        <activity android:name="com.mad.budgetapplication.HomeActivity" />
+        <activity android:name="com.mad.budgetapplication.LoginActivity" />
+        <activity android:name="com.mad.budgetapplication.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".NotificationBroadcast" />
+        <receiver android:name="com.mad.budgetapplication.NotificationBroadcast" />
     </application>
 
 </manifest>

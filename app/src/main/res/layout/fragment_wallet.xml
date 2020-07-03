@@ -15,7 +15,6 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:clickable="true"
-        android:onClick="openWalletForm"
         android:src="@drawable/adddp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
