@@ -10,44 +10,43 @@
         android:id="@+id/addSharedWallet"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/submit_button"
         android:text="Create Wallet"
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/joinSharedWallet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sharedWalletRecyclerView"
-        app:layout_constraintVertical_bias="0.215" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/joinSharedWallet"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/cancel_button"
         android:text="Join Shared Wallet"
         android:textAllCaps="false"
         android:textColor="#66B9F9"
         android:textSize="18dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addSharedWallet" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sharedWalletRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="495dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="500dp"
+        app:layout_constraintBottom_toTopOf="@+id/addSharedWallet"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/sharedwalletview"/>
+        tools:listitem="@layout/sharedwalletview" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
