@@ -112,7 +112,7 @@ public class SharedWalletActivity extends AppCompatActivity {
             }
         };
 
-        reference.child("SharedWallets").addValueEventListener(eventListener);
+        reference.child("SharedWallets").addListenerForSingleValueEvent(eventListener);
 
     }
 

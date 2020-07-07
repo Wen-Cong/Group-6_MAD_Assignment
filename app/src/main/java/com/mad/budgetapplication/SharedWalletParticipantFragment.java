@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -110,10 +112,8 @@ public class SharedWalletParticipantFragment extends Fragment {
                             String user = participant.getValue().toString();
                             walletParticipantList.add(user);
                         }
-                        // Delete current user from the participant list and upload updated list to database
+                        // Delete current user from the participant list
                         walletParticipantList.remove(uid);
-                        databaseReference.child("SharedWallets").child(shareWalletId).child("participants").
-                                setValue(walletParticipantList);
 
                         // Get current user's participated wallet list
                         for(DataSnapshot walletId : dataSnapshot.child("Users").child(uid).child("participatedWallet").getChildren()){
@@ -122,16 +122,30 @@ public class SharedWalletParticipantFragment extends Fragment {
                         }
                         // Delete participated shared wallet from current user data
                         userParticipatedWallet.remove(shareWalletId);
-                        databaseReference.child("Users").child(uid).child("participatedWallet").setValue(userParticipatedWallet);
-                        Toast.makeText(getActivity(), "You are no longer a memeber of this wallet", Toast.LENGTH_SHORT).show();
+
+                        // Upload updated list to database
+                        databaseReference.child("Users").child(uid).child("participatedWallet").setValue(userParticipatedWallet).
+                                addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        databaseReference.child("SharedWallets").child(shareWalletId).child("participants").
+                                                setValue(walletParticipantList).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                getActivity().finish();
+                                                Toast.makeText(getActivity(), "You are no longer a memeber of this wallet", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                });
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         Log.v(TAG, "Error: " + databaseError);
+                        Toast.makeText(getActivity(), "Error leaving wallet! Please try again", Toast.LENGTH_SHORT).show();
                     }
                 });
-                getActivity().finish();
             }
         });
         AlertDialog alert = builder.create();

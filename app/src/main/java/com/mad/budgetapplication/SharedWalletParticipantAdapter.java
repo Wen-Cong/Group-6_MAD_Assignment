@@ -90,7 +90,6 @@ public class SharedWalletParticipantAdapter extends RecyclerView.Adapter<SharedW
 
                                 case R.id.deleteParticipant:
                                     showkickDialogBox(id);
-                                    Toast.makeText(detailsActivity, "Participant has been kicked!", Toast.LENGTH_SHORT).show();
                                     break;
 
                                 default:
@@ -178,7 +177,7 @@ public class SharedWalletParticipantAdapter extends RecyclerView.Adapter<SharedW
 
     private void showkickDialogBox(final String id) {
         AlertDialog.Builder builder = new AlertDialog.Builder(detailsActivity);
-        builder.setTitle("Leave Wallet");
+        builder.setTitle("Kick Participant");
         builder.setMessage("Are you sure you want to kick this participant?");
         builder.setCancelable(true);
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -216,6 +215,9 @@ public class SharedWalletParticipantAdapter extends RecyclerView.Adapter<SharedW
                         // Delete participated shared wallet from current user data
                         userParticipatedWallet.remove(walletId);
                         databaseReference.child("Users").child(id).child("participatedWallet").setValue(userParticipatedWallet);
+
+                        participantUid.remove(id);
+                        notifyDataSetChanged();
                         Toast.makeText(detailsActivity, "This participant has been kicked out", Toast.LENGTH_SHORT).show();
                     }
 
