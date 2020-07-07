@@ -50,9 +50,10 @@ public class SharedWalletAdapter extends RecyclerView.Adapter<SharedWalletViewHo
     private void openSharedWalletdetails(SharedWallet sharedWallet, int position){
         Intent intent = new Intent(sharedWalletActivity, SharedWalletDetailsActivity.class);
         String walletId = ((SharedWalletActivity) sharedWalletActivity).user.getParticipatedSharedWallet().get(position);
+        intent.putExtra("User", ((SharedWalletActivity) sharedWalletActivity).user);
         intent.putExtra("sharedWallet", sharedWallet);
         intent.putExtra("sharedWalletId", walletId);
-        sharedWalletActivity.startActivity(intent);
+        sharedWalletActivity.startActivityForResult(intent, ((SharedWalletActivity) sharedWalletActivity).REQ_VIEWSHAREDWALLET_CODE);
 
     }
 }

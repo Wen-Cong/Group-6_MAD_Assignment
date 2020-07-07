@@ -2,6 +2,7 @@ package com.mad.budgetapplication;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 
 public class SharedWalletParticipantFragment extends Fragment {
     private static final String TAG = "sharedWalletParticipant";
+    User user;
     SharedWallet wallet;
     RecyclerView recyclerView;
     Button leave;
@@ -54,6 +56,7 @@ public class SharedWalletParticipantFragment extends Fragment {
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference();
         shareWalletId = ((SharedWalletDetailsActivity) getActivity()).shareWalletId;
+        user = (User) getActivity().getIntent().getSerializableExtra("User");
         return inflater.inflate(R.layout.fragment_shared_wallet_participant, container, false);
     }
 
@@ -132,6 +135,10 @@ public class SharedWalletParticipantFragment extends Fragment {
                                                 setValue(walletParticipantList).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
+                                                user.removeParticipatedWallet(shareWalletId);
+                                                Intent userIntent = new Intent();
+                                                userIntent.putExtra("User", user);
+                                                getActivity().setResult(1, userIntent);
                                                 getActivity().finish();
                                                 Toast.makeText(getActivity(), "You are no longer a memeber of this wallet", Toast.LENGTH_SHORT).show();
                                             }

@@ -45,4 +45,7 @@ public class User implements Serializable {
     public void addParticipatedWallet(String walletId){
         participatedSharedWallet.add(walletId);
     }
+    public void removeParticipatedWallet(String walletId){
+        participatedSharedWallet.remove(walletId);
+    }
 }

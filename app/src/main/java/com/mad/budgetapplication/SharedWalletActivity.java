@@ -32,6 +32,8 @@ public class SharedWalletActivity extends AppCompatActivity {
     ArrayList<SharedWallet> wallets;
     public final static int REQ_CREATESHAREDWALLET_CODE = 3001;
     public final static  int REQ_JOINSHAREDWALLET_CODE = 4001;
+    public final static  int REQ_VIEWSHAREDWALLET_CODE = 5001;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +133,7 @@ public class SharedWalletActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQ_CREATESHAREDWALLET_CODE || requestCode == REQ_JOINSHAREDWALLET_CODE){
+        if(requestCode == REQ_CREATESHAREDWALLET_CODE || requestCode == REQ_JOINSHAREDWALLET_CODE || requestCode == REQ_VIEWSHAREDWALLET_CODE){
             if(resultCode == 1){
                 user = (User) data.getSerializableExtra("User");
 
