@@ -51,12 +51,12 @@ public class SharedWalletParticipantFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         wallet = ((SharedWalletDetailsActivity) getActivity()).sharedWallet;
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference();
         shareWalletId = ((SharedWalletDetailsActivity) getActivity()).shareWalletId;
         user = (User) getActivity().getIntent().getSerializableExtra("User");
+        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_shared_wallet_participant, container, false);
     }
 
@@ -65,6 +65,7 @@ public class SharedWalletParticipantFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.participantRecyclerView);
         leave = view.findViewById(R.id.leaveWallet);
+        //Set recycler view to display participants
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         SharedWalletParticipantAdapter adapter = new SharedWalletParticipantAdapter(wallet.getParticipants(),
                 wallet, getActivity());
@@ -75,12 +76,15 @@ public class SharedWalletParticipantFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(itemDecoration);
 
+        //Allow member to leave wallet
         leave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //If user is admin, user cannot leave and message is display
                 if(uid.equals(wallet.getAdminId())){
                     Toast.makeText(getActivity(), "Please assign another admin before leaving this wallet", Toast.LENGTH_LONG).show();
                 }
+                //If user is member, prompt confirmation to leave
                 else{
                     showLeaveDialogBox();
                 }
@@ -89,6 +93,7 @@ public class SharedWalletParticipantFragment extends Fragment {
     }
 
     private void showLeaveDialogBox() {
+        //prompt confirmation to leave
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Leave Wallet");
         builder.setMessage("Are you sure you want to leave this shared wallet?");

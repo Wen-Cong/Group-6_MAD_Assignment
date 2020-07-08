@@ -48,6 +48,7 @@ public class SharedWalletAdapter extends RecyclerView.Adapter<SharedWalletViewHo
     }
 
     private void openSharedWalletdetails(SharedWallet sharedWallet, int position){
+        // Open share wallet details and pass Sharewallet & user data to SharedWalletDetailsActivity
         Intent intent = new Intent(sharedWalletActivity, SharedWalletDetailsActivity.class);
         String walletId = ((SharedWalletActivity) sharedWalletActivity).user.getParticipatedSharedWallet().get(position);
         intent.putExtra("User", ((SharedWalletActivity) sharedWalletActivity).user);

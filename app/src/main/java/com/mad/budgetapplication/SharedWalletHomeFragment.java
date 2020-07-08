@@ -38,9 +38,9 @@ public class SharedWalletHomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         sharedWallet = ((SharedWalletDetailsActivity) getActivity()).sharedWallet;
         shareWalletId = ((SharedWalletDetailsActivity) getActivity()).shareWalletId;
+        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_shared_wallet_home, container, false);
     }
 
@@ -77,15 +77,17 @@ public class SharedWalletHomeFragment extends Fragment {
             String currentMonth = monthlyformat.format(date);
             SimpleDateFormat Wdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             try {
-                //find wallet with most transaction in the same month as current month
+                //find transaction in the same month as current month
                 Date WalletTransactionDate = Wdf.parse(st.getTime());
                 String transactionMonth = monthlyformat.format(WalletTransactionDate);
                 if(transactionMonth.equals(currentMonth)){
                     if(st.getType().equals("Income")){
+                        //Sum of income transaction created this month
                         total_income += st.getAmount();
                         income_count++;
                     }
                     else if(st.getType().equals("Expenses")){
+                        //Sum of expenses transaction created this month
                         Double expense_positiveFormat = st.getAmount() * -1;
                         total_expenses += expense_positiveFormat;
                         expenses_count++;
@@ -97,6 +99,7 @@ public class SharedWalletHomeFragment extends Fragment {
             }
         }
 
+        //Display income and expense calculated
         Double total_netTransaction = total_income - total_expenses;
         sharedWalletIncome_Display.setText(getString(R.string.display_Bal, total_income));
         sharedWalletExpenses_Display.setText(getString(R.string.display_Bal, total_expenses));

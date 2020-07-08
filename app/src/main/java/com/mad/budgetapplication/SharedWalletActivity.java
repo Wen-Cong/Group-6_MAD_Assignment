@@ -68,6 +68,7 @@ public class SharedWalletActivity extends AppCompatActivity {
     }
 
     private void loadRecyclerView() {
+        //Set recycler view to display wallets
         SharedWalletAdapter adapter = new SharedWalletAdapter(this, wallets);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         DividerItemDecoration itemDecor = new DividerItemDecoration(this, layoutManager.getOrientation());
@@ -81,12 +82,15 @@ public class SharedWalletActivity extends AppCompatActivity {
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Get all wallet details of user's participated wallet
                 for(String participatedWallet : user.getParticipatedSharedWallet()){
                     ArrayList<String> participants = new ArrayList<>();
                     ArrayList<SharedTransaction> transactions = new ArrayList<>();
+                    // Get all participants of the wallet
                     for(DataSnapshot participant : dataSnapshot.child(participatedWallet).child("participants").getChildren()){
                         participants.add(participant.getValue().toString());
                     }
+                    // Get all transaction of the wallet
                     for(DataSnapshot transaction : dataSnapshot.child(participatedWallet).child("sharedTransaction").getChildren()){
                         SharedTransaction t = new SharedTransaction(transaction.child("name").getValue().toString(),
                                 Double.valueOf(transaction.child("amount").getValue().toString()),
@@ -97,14 +101,17 @@ public class SharedWalletActivity extends AppCompatActivity {
                             transactions.add(t);
                         }
                     }
+                    // Get details of the shared wallet
                     SharedWallet sw = new SharedWallet(dataSnapshot.child(participatedWallet).child("name").getValue().toString(),
                             Double.valueOf(dataSnapshot.child(participatedWallet).child("balance").getValue().toString()),
                             dataSnapshot.child(participatedWallet).child("adminId").getValue().toString(),
                             dataSnapshot.child(participatedWallet).child("password").getValue().toString(), participants, transactions);
+                    //Populate into a list
                     wallets.add(sw);
                     Log.v(TAG, "onDataChange: " + sw.getName() + " loaded!");
                 }
 
+                //Display data initiated from database
                 loadRecyclerView();
             }
 
@@ -119,12 +126,14 @@ public class SharedWalletActivity extends AppCompatActivity {
     }
 
     private void openJoinWallet() {
+        // Go join wallet page
         Intent intent = new Intent(SharedWalletActivity.this, JoinWalletActivity.class);
         intent.putExtra("User", user);
         startActivityForResult(intent, REQ_JOINSHAREDWALLET_CODE);
     }
 
     private void openCreateWallet() {
+        // Go to create wallet page
         Intent intent = new Intent(SharedWalletActivity.this, CreateSharedWalletActivity.class);
         intent.putExtra("User", user);
         startActivityForResult(intent, REQ_CREATESHAREDWALLET_CODE);
@@ -135,8 +144,10 @@ public class SharedWalletActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQ_CREATESHAREDWALLET_CODE || requestCode == REQ_JOINSHAREDWALLET_CODE || requestCode == REQ_VIEWSHAREDWALLET_CODE){
             if(resultCode == 1){
+                // Get user data from CreateWalletActivity and JoinWalletActivity
                 user = (User) data.getSerializableExtra("User");
 
+                //Send result back to HomeActivity
                 Intent userIntent = new Intent();
                 userIntent.putExtra("User", data.getSerializableExtra("User"));
                 setResult(1, userIntent);

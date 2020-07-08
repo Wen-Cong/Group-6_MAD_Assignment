@@ -45,7 +45,7 @@ public class CreateSharedWalletActivity extends AppCompatActivity {
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //obtain data from field
+                //obtain data from edit text
                 String accountName = walletName.getText().toString().trim();
                 String walletpassword = password.getText().toString().trim();
                 double walletBalance = Double.parseDouble(walletBal.getText().toString());
@@ -67,17 +67,20 @@ public class CreateSharedWalletActivity extends AppCompatActivity {
                     databaseReference.child("SharedWallets").orderByKey().limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            // Get wallet ID of last wallet
                             String previouswalletId = "";
                             for(DataSnapshot wallets : dataSnapshot.getChildren()){
                                 previouswalletId = String.valueOf(wallets.getKey());
                             }
+                            // Set new wallet ID by adding 1 to previous wallet ID
                             String walletId = ((Integer) (Integer.valueOf(previouswalletId) + 1)).toString();
                             Log.d(TAG, "onDataChange: " + walletId);
                             databaseReference.child("SharedWallets").child(walletId).setValue(w);
+                            // Upload Shared Wallet to database
                             user.addParticipatedWallet(walletId);
                             databaseReference.child("Users").child(id).child("participatedWallet").setValue(user.getParticipatedSharedWallet());
 
-
+                            //Display sucessful message and send data back to SharedWallet menu
                             Toast.makeText(CreateSharedWalletActivity.this,"Shared Wallet Created Successfully",Toast.LENGTH_SHORT).show();
                             Intent userIntent = new Intent();
                             userIntent.putExtra("User", user);
@@ -89,6 +92,7 @@ public class CreateSharedWalletActivity extends AppCompatActivity {
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
                             // Handle possible errors.
+                            Log.v(TAG, "Error: " + databaseError);
                         }
                     });
                 }

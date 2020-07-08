@@ -85,9 +85,12 @@ public class JoinWalletActivity extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     for(DataSnapshot sharedwallet : dataSnapshot.child("SharedWallets").getChildren()){
                                         if(walletId.equals(sharedwallet.getKey())){
+                                            //Check if wallet ID exist
                                             flag = true;
+                                            //If exist, validate if password is correct
                                             if(walletPassword.equals(sharedwallet.child("password").getValue().toString())){
                                                 passwordIsCorrect = true;
+                                                // add participated wallet ID to user if password is correct
                                                 user.addParticipatedWallet(sharedwallet.getKey());
                                                 reference.child("Users").child(uid).child("participatedWallet").setValue(user.getParticipatedSharedWallet());
 
@@ -106,6 +109,7 @@ public class JoinWalletActivity extends AppCompatActivity {
                                     }
                                     else{
                                         if(passwordIsCorrect){
+                                            //If wallet ID exist in database and password is correct, add user into shared wallet
                                             walletParticipantList.add(uid);
                                             reference.child("SharedWallets").child(walletId)
                                                     .child("participants").setValue(walletParticipantList);
@@ -114,6 +118,7 @@ public class JoinWalletActivity extends AppCompatActivity {
                                                     user.getParticipatedSharedWallet().get(user.getParticipatedSharedWallet().size()-1));
                                             Toast.makeText(JoinWalletActivity.this, "Wallet Joined Successfully", Toast.LENGTH_SHORT).show();
 
+                                            //Send data back to share wallet activity and return to share wallet home
                                             Intent userIntent = new Intent();
                                             userIntent.putExtra("User", user);
                                             setResult(1, userIntent);

@@ -32,6 +32,7 @@ public class SharedWalletDetailsActivity extends AppCompatActivity {
         sharedWallet = (SharedWallet) getIntent().getSerializableExtra("sharedWallet");
         shareWalletId = getIntent().getStringExtra("sharedWalletId");
 
+        //Change fragment upon clicking menu icons
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             Fragment frag = null;
             @Override
@@ -52,6 +53,8 @@ public class SharedWalletDetailsActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        //Set default fragment to Home page fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.sharedWalletContainer,new SharedWalletHomeFragment()).commit();
 
     }

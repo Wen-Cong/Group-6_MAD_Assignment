@@ -34,6 +34,7 @@ public class SharedWalletTransactionFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Get shared transactions and sort them in terms of newest at the front
         wallet = ((SharedWalletDetailsActivity) getActivity()).sharedWallet;
         transactions = wallet.getSharedTransaction();
         Collections.sort(transactions);
@@ -53,6 +54,7 @@ public class SharedWalletTransactionFragment extends Fragment {
         recyclerView = view.findViewById(R.id.sharedTransaction);
         addSharedTransaction = view.findViewById(R.id.addSharedTransaction);
 
+        //Set recycler view to display transactions
         SharedWalletTransactionAdapter adapter = new SharedWalletTransactionAdapter(transactions, getActivity());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         DividerItemDecoration itemDecor = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
@@ -61,6 +63,7 @@ public class SharedWalletTransactionFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        //Open add shared transaction page
         addSharedTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

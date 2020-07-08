@@ -62,17 +62,19 @@ public class SharedWalletTransactionAdapter extends RecyclerView.Adapter<SharedW
     public void onBindViewHolder(@NonNull final SharedWalletTransactionViewHolder holder, int position) {
         final SharedTransaction sharedTransaction = data.get(position);
         String formatedDate;
-
+        // Load and display transaction data
         getUsername(sharedTransaction.getUid(), holder);
         holder.transactionName.setText(sharedTransaction.getName());
         holder.amt.setText("$" + sharedTransaction.getAmount().toString());
 
+        // Set amount text color to green if transaction type is income
         if(sharedTransaction.getType().toString().equals("Income")){
             holder.amt.setTextColor(Color.GREEN);
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         try {
+            // format date time for display
             Date d = sdf.parse(sharedTransaction.getTime());
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             formatedDate = format.format(d);
@@ -85,11 +87,12 @@ public class SharedWalletTransactionAdapter extends RecyclerView.Adapter<SharedW
         loadProfilePic(sharedTransaction.getUid(), holder);
 
         if(uid.equals(sharedTransaction.getUid())){
-            // If transaction belongs to user, set OnClick
+            // If transaction belongs to user, set OnClick for options button to display menu
             holder.option.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     PopupMenu popupMenu = new PopupMenu(activity, holder.option);
+                    //Inflate menu display
                     popupMenu.inflate(R.menu.transactionmenu);
                     popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
@@ -180,6 +183,7 @@ public class SharedWalletTransactionAdapter extends RecyclerView.Adapter<SharedW
     }
 
     private void loadProfilePic(String uid, final SharedWalletTransactionViewHolder holder) {
+        //load profile image from storage to image view
         StorageReference profileRef =
                 storageReference.child("users/"+ uid +"/profile.jpg");
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -194,6 +198,7 @@ public class SharedWalletTransactionAdapter extends RecyclerView.Adapter<SharedW
         databaseReference.child("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Get username from database with user ID
                 String name = dataSnapshot.child("username").getValue().toString();
                 holder.username.setText(name);
             }

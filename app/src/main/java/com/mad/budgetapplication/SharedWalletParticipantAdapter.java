@@ -110,8 +110,10 @@ public class SharedWalletParticipantAdapter extends RecyclerView.Adapter<SharedW
     }
 
     private void loadProfilePic(String uid, final SharedWalletParticipantViewHolder holder) {
+        // Get profile image from firebase storage
         StorageReference profileRef =
                 storageReference.child("users/"+ uid +"/profile.jpg");
+        // Upload image into image view
         profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -125,6 +127,7 @@ public class SharedWalletParticipantAdapter extends RecyclerView.Adapter<SharedW
         databaseReference.child("Users").child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Get user role
                 holder.username.setText(dataSnapshot.child("username").getValue().toString());
                 if(uid.equals(wallet.getAdminId())){
                     holder.role.setText("Admin");
@@ -142,13 +145,14 @@ public class SharedWalletParticipantAdapter extends RecyclerView.Adapter<SharedW
             }
         });
 
+        //Calculate user monthly transaction net income/expense
         for(SharedTransaction st : wallet.getSharedTransaction()){
             SimpleDateFormat monthlyformat = new SimpleDateFormat("MM");
             Date date = new Date();
             String currentMonth = monthlyformat.format(date);
             SimpleDateFormat Wdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             try {
-                //find wallet with most transaction in the same month as current month
+                //find wallet transaction in the same month as current month
                 Date WalletTransactionDate = Wdf.parse(st.getTime());
                 String transactionMonth = monthlyformat.format(WalletTransactionDate);
                 if(transactionMonth.equals(currentMonth)){
@@ -164,6 +168,7 @@ public class SharedWalletParticipantAdapter extends RecyclerView.Adapter<SharedW
             }
         }
 
+        //Display current month name and user monthly net income/expenses
         SimpleDateFormat monthName = new SimpleDateFormat("MMM");
         String currentMonthString = monthName.format(Calendar.getInstance().getTime());
         holder.monthly_contribution.setText(detailsActivity.getString(R.string.monthly_contribution, currentMonthString, net_contribution));
@@ -171,6 +176,7 @@ public class SharedWalletParticipantAdapter extends RecyclerView.Adapter<SharedW
     }
 
     private void confirmChangeAdmin(final String id){
+        // Create popup box prompt for confirmation
         AlertDialog.Builder builder = new AlertDialog.Builder(detailsActivity);
         builder.setTitle("Make Admin");
         builder.setMessage("Are you sure you want to make this participant an admin?");
@@ -197,6 +203,7 @@ public class SharedWalletParticipantAdapter extends RecyclerView.Adapter<SharedW
     }
 
     private void showkickDialogBox(final String id) {
+        //Show pop up box to prompt for confirmation
         AlertDialog.Builder builder = new AlertDialog.Builder(detailsActivity);
         builder.setTitle("Kick Participant");
         builder.setMessage("Are you sure you want to kick this participant?");
