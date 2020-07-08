@@ -12,6 +12,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Collections;
+
 public class SharedWalletDetailsActivity extends AppCompatActivity {
     private static final String TAG = "SharedWalletDetails";
     private DatabaseReference databaseReference;

@@ -24,6 +24,7 @@ public class SharedWalletTransactionFragment extends Fragment {
     private RecyclerView recyclerView;
     private FloatingActionButton addSharedTransaction;
     private SharedWallet wallet;
+    ArrayList<SharedTransaction> transactions;
 
 
     public SharedWalletTransactionFragment() {
@@ -31,9 +32,17 @@ public class SharedWalletTransactionFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        wallet = ((SharedWalletDetailsActivity) getActivity()).sharedWallet;
+        transactions = wallet.getSharedTransaction();
+        Collections.sort(transactions);
+        Collections.reverse(transactions);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        wallet = ((SharedWalletDetailsActivity) getActivity()).sharedWallet;
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_shared_wallet_transaction, container, false);
     }
@@ -44,10 +53,7 @@ public class SharedWalletTransactionFragment extends Fragment {
         recyclerView = view.findViewById(R.id.sharedTransaction);
         addSharedTransaction = view.findViewById(R.id.addSharedTransaction);
 
-        ArrayList<SharedTransaction> transactions = wallet.getSharedTransaction();
-        Collections.reverse(transactions);
-
-        SharedWalletTransactionAdapter adapter = new SharedWalletTransactionAdapter(transactions);
+        SharedWalletTransactionAdapter adapter = new SharedWalletTransactionAdapter(transactions, getActivity());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         DividerItemDecoration itemDecor = new DividerItemDecoration(getContext(), layoutManager.getOrientation());
         recyclerView.addItemDecoration(itemDecor);

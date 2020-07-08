@@ -1,16 +1,23 @@
 package com.mad.budgetapplication;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,9 +37,17 @@ public class SharedWalletTransactionAdapter extends RecyclerView.Adapter<SharedW
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     ArrayList<SharedTransaction> data;
+    Activity activity;
+    String uid;
+    String sharedWalletId;
+    SharedWallet wallet;
 
-    public SharedWalletTransactionAdapter(ArrayList<SharedTransaction> transactions){
+    public SharedWalletTransactionAdapter(ArrayList<SharedTransaction> transactions, Activity activity){
         data = transactions;
+        this.activity = activity;
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        sharedWalletId = ((SharedWalletDetailsActivity) activity).shareWalletId;
+        wallet = ((SharedWalletDetailsActivity) activity).sharedWallet;
     }
 
     @NonNull
@@ -44,7 +59,7 @@ public class SharedWalletTransactionAdapter extends RecyclerView.Adapter<SharedW
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SharedWalletTransactionViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final SharedWalletTransactionViewHolder holder, int position) {
         final SharedTransaction sharedTransaction = data.get(position);
         String formatedDate;
 
@@ -68,11 +83,100 @@ public class SharedWalletTransactionAdapter extends RecyclerView.Adapter<SharedW
         }
 
         loadProfilePic(sharedTransaction.getUid(), holder);
+
+        if(uid.equals(sharedTransaction.getUid())){
+            // If transaction belongs to user, set OnClick
+            holder.option.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PopupMenu popupMenu = new PopupMenu(activity, holder.option);
+                    popupMenu.inflate(R.menu.transactionmenu);
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.deleteTransaction:
+                                    confirmDeleteTransaction(sharedTransaction);
+                                    break;
+
+                                default:
+                                    break;
+                            }
+                            return false;
+                        }
+                    });
+                    popupMenu.show();
+                }
+            });
+        }
+        else{
+            // Hide the option button if transaction does not belong to user
+            holder.option.setTextColor(Color.WHITE);
+        }
     }
 
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    private void deleteTransaction(final SharedTransaction sharedTransaction) {
+        //find primary key for selected transaction in database
+        String tTime = sharedTransaction.getTime().toString();
+        databaseReference.child("SharedWallets").child(sharedWalletId)
+                .child("sharedTransaction").orderByChild("time")
+                .equalTo(sharedTransaction.getTime()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    String transactionKey = childSnapshot.getKey();
+
+                    //delete selected transaction from database
+                    databaseReference.child("SharedWallets").child(sharedWalletId).child("sharedTransaction")
+                            .child(transactionKey).removeValue();
+
+                    //update wallet balance after transaction deleted
+                    double updatedBal = wallet.getBalance() - sharedTransaction.getAmount();
+                    databaseReference.child("SharedWallets").child(sharedWalletId).child("balance").setValue(updatedBal);
+                    wallet.setBalance(updatedBal);
+
+                    //delete selected transaction from local data
+                    wallet.removeSharedTransaction(sharedTransaction);
+                    ((SharedWalletDetailsActivity) activity).sharedWallet = wallet;
+
+                    //update recyclerview upon deleting
+                    data.remove(sharedTransaction);
+                    notifyDataSetChanged();
+                    Toast.makeText(activity, "Transaction Deleted!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    private void confirmDeleteTransaction(final SharedTransaction sharedTransaction){
+        //display dialog box for delete transaction confirmation
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle("Delete");
+        builder.setMessage("Are you sure you want to delete this transaction?");
+        builder.setCancelable(true);
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteTransaction(sharedTransaction);
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     private void loadProfilePic(String uid, final SharedWalletTransactionViewHolder holder) {

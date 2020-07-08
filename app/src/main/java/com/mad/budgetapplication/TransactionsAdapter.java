@@ -83,7 +83,6 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHo
                 databaseReference = FirebaseDatabase.getInstance().getReference();
                 loadKeys(t);
                 showDeleteDialogBox(t);
-                Log.v(TAG, "Out of showDeleteDialogBox");
                 return true;
             }
         });
@@ -116,7 +115,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHo
     }
 
     private void getTransactionKey(Transaction t) {
-        //find primary key for selecte transaction in database
+        //find primary key for selected transaction in database
         String tTime = t.getTime().toString();
         databaseReference.child("Users").child(uid).child("wallets").child(walletKey)
                 .child("transactions").orderByChild("time")

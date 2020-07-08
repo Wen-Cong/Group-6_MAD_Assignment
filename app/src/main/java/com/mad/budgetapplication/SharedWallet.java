@@ -54,6 +54,10 @@ public class SharedWallet extends Wallet {
         return sharedTransactions;
     }
 
+    public void removeSharedTransaction(SharedTransaction transaction){
+        sharedTransactions.remove(transaction);
+    }
+
     public String getPassword() {
         return password;
     }

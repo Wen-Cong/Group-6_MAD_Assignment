@@ -80,12 +80,7 @@ public class SharedWalletParticipantAdapter extends RecyclerView.Adapter<SharedW
 
                             switch (item.getItemId()){
                                 case R.id.setAdmin:
-                                    // Update wallet admin and refresh participant page
-                                    databaseReference.child("SharedWallets").child(walletId).child("adminId").setValue(id);
-                                    wallet.setAdminId(id);
-                                    ((SharedWalletDetailsActivity) detailsActivity).getSupportFragmentManager().
-                                            beginTransaction().replace(R.id.sharedWalletContainer,new SharedWalletParticipantFragment()).commit();
-                                    Toast.makeText(detailsActivity, "Admin Changed!", Toast.LENGTH_SHORT).show();
+                                    confirmChangeAdmin(id);
                                     break;
 
                                 case R.id.deleteParticipant:
@@ -173,6 +168,32 @@ public class SharedWalletParticipantAdapter extends RecyclerView.Adapter<SharedW
         String currentMonthString = monthName.format(Calendar.getInstance().getTime());
         holder.monthly_contribution.setText(detailsActivity.getString(R.string.monthly_contribution, currentMonthString, net_contribution));
 
+    }
+
+    private void confirmChangeAdmin(final String id){
+        AlertDialog.Builder builder = new AlertDialog.Builder(detailsActivity);
+        builder.setTitle("Make Admin");
+        builder.setMessage("Are you sure you want to make this participant an admin?");
+        builder.setCancelable(true);
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Update wallet admin and refresh participant page
+                databaseReference.child("SharedWallets").child(walletId).child("adminId").setValue(id);
+                wallet.setAdminId(id);
+                ((SharedWalletDetailsActivity) detailsActivity).getSupportFragmentManager().
+                        beginTransaction().replace(R.id.sharedWalletContainer,new SharedWalletParticipantFragment()).commit();
+                Toast.makeText(detailsActivity, "Admin Changed!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     private void showkickDialogBox(final String id) {

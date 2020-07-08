@@ -14,6 +14,7 @@ public class SharedWalletTransactionViewHolder extends RecyclerView.ViewHolder {
     TextView username;
     TextView dateTime;
     TextView amt;
+    TextView option;
 
     public SharedWalletTransactionViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -22,5 +23,6 @@ public class SharedWalletTransactionViewHolder extends RecyclerView.ViewHolder {
         dateTime = itemView.findViewById(R.id.stdate);
         username = itemView.findViewById(R.id.stusername);
         amt = itemView.findViewById(R.id.stamt);
+        option = itemView.findViewById(R.id.transactionOptions);
     }
 }
