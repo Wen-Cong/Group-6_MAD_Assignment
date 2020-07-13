@@ -87,6 +87,16 @@ public class AddFragment extends Fragment {
             }
         });
 
+        //Clear edit text when set focus
+        transactionAmt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    transactionAmt.setText("");
+                }
+            }
+        });
+
         //create new transaction & add to firebase database
         submit.setOnClickListener(new View.OnClickListener() {
             @Override

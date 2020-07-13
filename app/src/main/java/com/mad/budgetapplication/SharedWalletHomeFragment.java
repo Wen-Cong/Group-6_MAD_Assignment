@@ -10,7 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,6 +23,8 @@ public class SharedWalletHomeFragment extends Fragment {
     private static final String TAG = "sharedWalletHome";
     SharedWallet sharedWallet;
     String shareWalletId;
+    private ImageView edit_name;
+    private ImageView edit_password;
     private TextView sharedWalletId_Display;
     private TextView sharedWalletName_Display;
     private TextView sharedWalletPassword_Display;
@@ -58,6 +63,35 @@ public class SharedWalletHomeFragment extends Fragment {
         sharedWalletIncomeCount_Display = view.findViewById(R.id.sharedWalletIncomecount);
         sharedWalletExpensesCount_Display = view.findViewById(R.id.sharedWalletExpensecount);
         sharedWalletTotalCount_Display = view.findViewById(R.id.sharedWalletTotalcount);
+        edit_name = view.findViewById(R.id.sharedWallet_editname);
+        edit_password = view.findViewById(R.id.sharedWallet_editpw);
+
+        //if user is admin, make edit button visible and set OnClick Listener
+        if(FirebaseAuth.getInstance().getCurrentUser().getUid().equals(sharedWallet.getAdminId())){
+            //Set image view to visible
+            edit_name.setVisibility(View.VISIBLE);
+            edit_password.setVisibility(View.VISIBLE);
+
+            //Direct admin to change wallet name page
+            edit_name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getActivity().
+                            getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.sharedWalletContainer,new EditSharedWalletNameFragment(shareWalletId)).commit();
+                }
+            });
+
+            //Direct admin to change wallet password page
+            edit_password.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getActivity().
+                            getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.sharedWalletContainer,new EditSharedWalletPasswordFragment(shareWalletId)).commit();
+                }
+            });
+        }
 
         // Display info to view
         sharedWalletId_Display.setText(shareWalletId);
