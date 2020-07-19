@@ -57,6 +57,17 @@ public class AddSharedTransactionFragment extends Fragment {
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         walletId = ((SharedWalletDetailsActivity) getActivity()).shareWalletId;
 
+        //Clear edit text when set focus
+        transactionAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    transactionAmount.setText("");
+                }
+            }
+        });
+
+        //Return to shared wallet transactions page
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
