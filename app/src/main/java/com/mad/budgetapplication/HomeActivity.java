@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,6 +44,7 @@ public class HomeActivity extends AppCompatActivity {
 
     CircleImageView tempProfileImage;
     public User user;
+    public Button addAsset;
     public final static int REQ_WALLET_CODE = 2001;
     public final static  int REQ_PROFILEPIC_CODE = 1001;
     public final static  int REQ_SHAREDWALLET_CODE = 5001;
@@ -57,7 +59,6 @@ public class HomeActivity extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
         //initiate default user to prevent null exception in case InitUser fail
         user = new User();
-
 
         //switch to different fragment with respective of selected icon in bottom Nav bar
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -98,6 +99,8 @@ public class HomeActivity extends AppCompatActivity {
     public User getUser(){
         return user;
     }
+
+
 
     //get picture from gallery
     public void ProfileImageHandler(View view) {

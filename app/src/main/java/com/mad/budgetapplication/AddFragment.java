@@ -1,5 +1,6 @@
 package com.mad.budgetapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,7 @@ public class AddFragment extends Fragment {
     private String uid;
     private String walletKey;
     private final String TAG = "Add Transaction";
+    private Button asset;
 
     public AddFragment() {
         // Required empty public constructor
@@ -64,6 +66,7 @@ public class AddFragment extends Fragment {
         ArrayList<Wallet> walletArrayList = user.getWallets();
         final ArrayAdapter walletAdapter = new ArrayAdapter(getActivity(), R.layout.spinner, walletArrayList);
         submit = view.findViewById(R.id.addTransaction_submit);
+        asset = view.findViewById(R.id.addAssets);
         type = view.findViewById(R.id.transactionType_spinner);
         transactionName = view.findViewById(R.id.transactionName_edittext);
         transactionAmt = view.findViewById(R.id.transactionAmount_edittext);
@@ -140,6 +143,15 @@ public class AddFragment extends Fragment {
                 Toast.makeText(getActivity(),"Error Occurred!",Toast.LENGTH_SHORT).show();
             }
 
+            }
+        });
+
+        //move to add asset page
+        asset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent moveToAddAsset = new Intent(getActivity(), AddAssetActivity.class);
+                startActivity(moveToAddAsset);
             }
         });
     }

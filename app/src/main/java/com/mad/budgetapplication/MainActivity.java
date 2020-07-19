@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     //create firebase object
     FirebaseAuth mFirebaseAuth;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
         btnSignUp = findViewById(R.id.button);
         //link to sign in
         signIn = findViewById(R.id.signinlink);
+        //for automatic signin
+        //get the current user and check whether its null if its not null, skip login page
+        FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
+        if(currentUser != null){
+            Intent goToHome = new Intent(MainActivity.this, HomeActivity.class);
+            startActivity(goToHome);
+        }
 
 
         //when button is clicked

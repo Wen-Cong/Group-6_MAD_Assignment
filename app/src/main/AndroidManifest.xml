@@ -12,16 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.mad.budgetapplication.SharedWalletDetailsActivity"></activity>
-        <activity android:name="com.mad.budgetapplication.JoinWalletActivity" />
-        <activity android:name="com.mad.budgetapplication.SharedWalletActivity" />
-        <activity android:name="com.mad.budgetapplication.CreateSharedWalletActivity" />
-        <activity android:name="com.mad.budgetapplication.SupportActivity" />
-        <activity android:name="com.mad.budgetapplication.WalletFormActivity" />
-        <activity android:name="com.mad.budgetapplication.ChangeUsernameActivity" />
-        <activity android:name="com.mad.budgetapplication.HomeActivity" />
-        <activity android:name="com.mad.budgetapplication.LoginActivity" />
-        <activity android:name="com.mad.budgetapplication.MainActivity">
+        <activity android:name=".AddAssetActivity"></activity>
+        <activity android:name=".RecurringTransactionActivity" />
+        <activity android:name=".SharedWalletDetailsActivity" />
+        <activity android:name=".JoinWalletActivity" />
+        <activity android:name=".SharedWalletActivity" />
+        <activity android:name=".CreateSharedWalletActivity" />
+        <activity android:name=".SupportActivity" />
+        <activity android:name=".WalletFormActivity" />
+        <activity android:name=".ChangeUsernameActivity" />
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +31,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name="com.mad.budgetapplication.NotificationBroadcast" />
+        <receiver android:name=".NotificationBroadcast" />
     </application>
 
 </manifest>
