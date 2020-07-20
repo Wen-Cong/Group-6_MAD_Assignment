@@ -44,6 +44,7 @@ public class AddFragment extends Fragment {
     private String walletKey;
     private final String TAG = "Add Transaction";
     private Button asset;
+    private Button rTrans;
 
     public AddFragment() {
         // Required empty public constructor
@@ -61,12 +62,13 @@ public class AddFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //get user data from home activity
-        User user = ((HomeActivity)this.getActivity()).getUser();
+        final User user = ((HomeActivity)this.getActivity()).getUser();
         Log.d(TAG, "onViewCreated: " + user);
         ArrayList<Wallet> walletArrayList = user.getWallets();
         final ArrayAdapter walletAdapter = new ArrayAdapter(getActivity(), R.layout.spinner, walletArrayList);
         submit = view.findViewById(R.id.addTransaction_submit);
         asset = view.findViewById(R.id.addAssets);
+        rTrans = view.findViewById(R.id.addRTrans);
         type = view.findViewById(R.id.transactionType_spinner);
         transactionName = view.findViewById(R.id.transactionName_edittext);
         transactionAmt = view.findViewById(R.id.transactionAmount_edittext);
@@ -161,7 +163,18 @@ public class AddFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent moveToAddAsset = new Intent(getActivity(), AddAssetActivity.class);
+                moveToAddAsset.putExtra("User", user);
                 startActivity(moveToAddAsset);
+            }
+        });
+
+        //move to add RTransaction page
+        rTrans.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent moveToAddRTrans = new Intent(getActivity(), RecurringTransactionActivity.class);
+                moveToAddRTrans.putExtra("User", user);
+                startActivity(moveToAddRTrans);
             }
         });
     }

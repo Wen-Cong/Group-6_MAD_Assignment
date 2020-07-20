@@ -4,15 +4,17 @@ import java.util.Date;
 
 public class RTransaction implements Serializable{
     private String name;
-    private int interval;
-    private Date startDate;
-    private int amount;
+    private Integer interval;
+    private String startDate;
+    private Double amount;
+    private String type;
 
-    public RTransaction(String Name, int Interval, Date StartDate, int Amount){
+    public RTransaction(String Name, int Interval, String StartDate, double Amount, String Type){
         this.name = Name;
         this.interval = Interval;
         this.startDate = StartDate;
         this.amount = Amount;
+        this.type = Type;
     }
 
     public String getName() {
@@ -31,19 +33,27 @@ public class RTransaction implements Serializable{
         this.interval = interval;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public int getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

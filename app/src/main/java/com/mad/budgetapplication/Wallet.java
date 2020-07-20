@@ -7,15 +7,18 @@ public class Wallet implements Serializable {
     private String name;
     private Double balance;
     private ArrayList<Transaction> transactionList;
+    private ArrayList<RTransaction> RTransactionList;
 
     public Wallet() {
         this.transactionList = new ArrayList<>();
+        RTransactionList = new ArrayList<>();
     }
 
     public Wallet(String walletname, Double bal) {
         this.name = walletname;
         this.balance = bal;
         this.transactionList = new ArrayList<>();
+        RTransactionList = new ArrayList<>();
     }
 
     public Wallet(String walletname, Double bal, ArrayList<Transaction> tlist) {
@@ -45,5 +48,15 @@ public class Wallet implements Serializable {
     public ArrayList<Transaction> getTransactions(){ return transactionList;}
     public String toString(){
         return this.name;
+    }
+
+    public ArrayList<RTransaction> getRTransactionList() {
+        return RTransactionList;
+    }
+    public void addRTransaction(RTransaction rTransaction){
+        RTransactionList.add(rTransaction);
+    }
+    public void removeRTransaction(RTransaction rTransaction){
+        RTransactionList.remove(rTransaction);
     }
 }

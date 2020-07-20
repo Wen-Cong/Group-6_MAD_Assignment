@@ -10,13 +10,13 @@ public class User implements Serializable {
     private ArrayList<Wallet> wallets;
     private ArrayList<String> participatedSharedWallet;
     private ArrayList<Asset> AssetList;
-    private ArrayList<RTransaction> RTransactionList;
+
 
     public User(){
         wallets = new ArrayList<>();
         participatedSharedWallet = new ArrayList<>();
         AssetList = new ArrayList<>();
-        RTransactionList = new ArrayList<>();
+
     }
     public User(String id, String name){
         userName = name;
@@ -24,7 +24,7 @@ public class User implements Serializable {
         wallets = new ArrayList<>();
         participatedSharedWallet = new ArrayList<>();
         AssetList = new ArrayList<>();
-        RTransactionList = new ArrayList<>();
+
     }
 
     public String getUserName() {
@@ -68,13 +68,5 @@ public class User implements Serializable {
         AssetList.remove(asset);
     }
 
-    public ArrayList<RTransaction> getRTransactionList() {
-        return RTransactionList;
-    }
-    public void addRTransaction(RTransaction rTransaction){
-        RTransactionList.add(rTransaction);
-    }
-    public void removeRTransaction(RTransaction rTransaction){
-        RTransactionList.remove(rTransaction);
-    }
+
 }

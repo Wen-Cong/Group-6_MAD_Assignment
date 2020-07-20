@@ -7,34 +7,45 @@
     android:layout_height="match_parent"
     tools:context=".AddFragment">
 
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="91dp"
+        android:layout_height="26dp"
+        android:text="Other options"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.799" />
+
     <Button
         android:id="@+id/addRTrans"
-        android:layout_width="173dp"
-        android:layout_height="50dp"
-        android:background="@drawable/submit_button"
+        android:layout_width="144dp"
+        android:layout_height="41dp"
+        android:background="@drawable/purple_button"
         android:text="ADD RECURRING TRANSACTIONS"
         android:textColor="@color/White"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.184"
+        app:layout_constraintHorizontal_bias="0.164"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.945" />
+        app:layout_constraintVertical_bias="0.877" />
 
     <Button
         android:id="@+id/addAssets"
         android:layout_width="129dp"
         android:layout_height="22dp"
-        android:background="@drawable/submit_button"
+        android:background="@drawable/purple_button"
         android:text="ADD ASSET HERE"
         android:textColor="@color/White"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.84"
+        app:layout_constraintHorizontal_bias="0.833"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.927" />
-
+        app:layout_constraintVertical_bias="0.868" />
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -55,20 +66,21 @@
         android:layout_height="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/transactionAmount_edittext"
-        app:layout_constraintVertical_bias="0.217" />
+        app:layout_constraintVertical_bias="0.11" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="8dp"
         android:text="From Wallet"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/wallet_spinner"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.144"
+        app:layout_constraintHorizontal_bias="0.146"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -96,7 +108,7 @@
         app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/transactionName_edittext"
-        app:layout_constraintVertical_bias="0.127" />
+        app:layout_constraintVertical_bias="0.096" />
 
     <EditText
         android:id="@+id/transactionName_edittext"
@@ -109,7 +121,7 @@
         app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.206" />
+        app:layout_constraintVertical_bias="0.169" />
 
     <TextView
         android:id="@+id/textView5"
@@ -129,14 +141,14 @@
         android:layout_width="320dp"
         android:layout_height="44dp"
         android:background="@drawable/submit_button"
-        android:text="ADD"
+        android:text="SUBMIT"
         android:textColor="@color/White"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.837" />
+        app:layout_constraintVertical_bias="0.705" />
 
     <Spinner
         android:id="@+id/transactionType_spinner"
@@ -145,21 +157,22 @@
         android:entries="@array/TransactionTypeList"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.483"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/wallet_spinner"
-        app:layout_constraintVertical_bias="0.312" />
+        app:layout_constraintVertical_bias="0.124" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="8dp"
         android:text="Transaction Type"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/transactionType_spinner"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.165"
+        app:layout_constraintHorizontal_bias="0.161"
         app:layout_constraintStart_toStartOf="parent" />
 
 

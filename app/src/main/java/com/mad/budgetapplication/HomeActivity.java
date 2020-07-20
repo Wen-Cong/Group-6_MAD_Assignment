@@ -29,6 +29,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeActivity extends AppCompatActivity {
@@ -187,7 +190,23 @@ public class HomeActivity extends AppCompatActivity {
                         newWallet.addTransactions(t);
                         Log.v(TAG, "Transactions: " + t.getName().toString() + " loaded!");
                     }
+                    for (DataSnapshot RtransactionId: walletId.child("rtransactionList").getChildren()){
+                        RTransaction rTransaction = new RTransaction(
+                                RtransactionId.child("name").getValue().toString(),
+                                Integer.parseInt(RtransactionId.child("interval").getValue().toString()),
+                                RtransactionId.child("startDate").getValue().toString(),
+                                        Double.parseDouble(RtransactionId.child("amount").getValue().toString()),
+                                        RtransactionId.child("type").getValue().toString());
+                        newWallet.addRTransaction(rTransaction);
+                        Log.v(TAG, "Recurring Transactions: " + rTransaction.getName().toString() + " loaded!");
+                    }
                     user.addWallet(newWallet);
+                }
+
+                for(DataSnapshot asset: dataSnapshot.child("assets").getChildren()){
+                    Asset InitAsset = new Asset(asset.child("name").getValue().toString(), Double.parseDouble(asset.child("value").getValue().toString()));
+                    user.addAsset(InitAsset);
+                    Log.v(TAG, "Asset " + asset.getValue().toString() + " added!");
                 }
 
                 for(DataSnapshot sharedwallet : dataSnapshot.child("participatedWallet").getChildren()){
