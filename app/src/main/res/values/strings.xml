@@ -20,6 +20,7 @@
     <string name="account_name">Name: %1$s</string>
     <string name="display_Bal">$ %1$.2f</string>
     <string name="monthly_contribution">%1$s Contribution: $ %2$.2f</string>
+    <string name="display_Bal_noUnit">%1$.2f</string>
 
     <string-array name="TransactionTypeList">
         <item>Income</item>

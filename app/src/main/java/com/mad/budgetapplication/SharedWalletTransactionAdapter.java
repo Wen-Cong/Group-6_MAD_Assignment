@@ -65,7 +65,7 @@ public class SharedWalletTransactionAdapter extends RecyclerView.Adapter<SharedW
         // Load and display transaction data
         getUsername(sharedTransaction.getUid(), holder);
         holder.transactionName.setText(sharedTransaction.getName());
-        holder.amt.setText("$" + sharedTransaction.getAmount().toString());
+        holder.amt.setText(activity.getString(R.string.display_Bal, sharedTransaction.getAmount()));
 
         // Set amount text color to green if transaction type is income
         if(sharedTransaction.getType().toString().equals("Income")){

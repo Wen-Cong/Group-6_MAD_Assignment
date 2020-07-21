@@ -50,11 +50,14 @@ public class AccountFragment extends Fragment {
     private RelativeLayout changeusername;
     private RelativeLayout supportbutton;
     private  RelativeLayout sharedWalletButton;
+    private RelativeLayout logout;
     TextView username;
     Switch reminderOnOff;
     Boolean notificationSwtich;
     final String SHARED_PREF = "shared_pref";
     final String SWITCH = "notificationSwitch";
+    private TextView expensesAmt;
+    private TextView incomeAmt;
 
 
     public AccountFragment() {
@@ -83,12 +86,15 @@ public class AccountFragment extends Fragment {
         supportbutton = view.findViewById(R.id.linearlayout_3);
         changeusername = view.findViewById(R.id.changeusername);
         sharedWalletButton = view.findViewById(R.id.sharedWalletButton);
+        logout = view.findViewById(R.id.logout);
         username = view.findViewById(R.id.username);
         reminderOnOff = view.findViewById(R.id.notificationSwtich);
-        //load switch on/off for notification
-        loadSettings();
+        expensesAmt = view.findViewById(R.id.expenseAmt);
+        incomeAmt = view.findViewById(R.id.incomeAmt);
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         profileImage = getView().findViewById(R.id.profile_pic);
+        //load switch on/off for notification
+        loadSettings();
 
         //load profile pic to local from online storage
         StorageReference profileRef =
@@ -132,6 +138,31 @@ public class AccountFragment extends Fragment {
                 ((HomeActivity) getActivity()).ProfileImageHandler(view.findViewById(R.id.profile_pic));
             }
         });
+
+        //Log user out and redirect to login page
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogOut();
+            }
+        });
+
+        //Calculate and display total income/expenses
+        User user = ((HomeActivity) getActivity()).user;
+        Double totalIncome = 0.0;
+        Double totalExpenses = 0.0;
+        for(Wallet wallet : user.getWallets()){
+            for(Transaction transaction : wallet.getTransactions()){
+                if(transaction.getType().equals("Expenses")){
+                    totalExpenses += transaction.getAmount();
+                }
+                else if(transaction.getType().equals("Income")){
+                    totalIncome += transaction.getAmount();
+                }
+            }
+        }
+        expensesAmt.setText(getString(R.string.display_Bal_noUnit, totalExpenses));
+        incomeAmt.setText(getString(R.string.display_Bal_noUnit, totalIncome));
 
         //turn on or off daily notification upon checking the switch
         reminderOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -217,7 +248,7 @@ public class AccountFragment extends Fragment {
     //redirect to login page and sign out
     private void LogOut() {
         FirebaseAuth.getInstance().signOut();
-        Intent intToMain = new Intent(getActivity(),MainActivity.class);
+        Intent intToMain = new Intent(getActivity(),LoginActivity.class);
         startActivity(intToMain);
     }
 

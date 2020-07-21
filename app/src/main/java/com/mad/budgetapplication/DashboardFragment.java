@@ -101,7 +101,7 @@ public class DashboardFragment extends Fragment {
             SimpleDateFormat dformat = new SimpleDateFormat("dd/MM/yyyy");
             String formatedDate = dformat.format(d);
             transaName.setText(latestTransaction.getName());
-            transaAmt.setText("Amount: " + latestTransaction.getAmount());
+            transaAmt.setText("Amount: " + getString(R.string.display_Bal_noUnit, latestTransaction.getAmount()));
 
             //set amount text color with respective to type of expenses
             if(latestTransaction.getType().equals("Expenses")){
@@ -115,7 +115,7 @@ public class DashboardFragment extends Fragment {
             Log.v("Exception", ex.getLocalizedMessage());
             //display unformated date time if formating error occur
             transaName.setText(latestTransaction.getName());
-            transaAmt.setText("Amount: " + latestTransaction.getAmount());
+            transaAmt.setText("Amount: " + getString(R.string.display_Bal_noUnit, latestTransaction.getAmount()));
             transaWallet.setText("Wallet: " + lastestUsedWallet.getName());
             transaDate.setText(latestTransaction.getTime());
         }
@@ -150,7 +150,7 @@ public class DashboardFragment extends Fragment {
         //update view
         walletNoTrans.setText("No. of Transaction (Monthly): " + favWalletTrans);
         walletName.setText(favWallet.getName());
-        walletAmt.setText("Balance: $" + favWallet.getBalance());
+        walletAmt.setText("Balance: " + getString(R.string.display_Bal_noUnit, favWallet.getBalance()));
 
         //Update Recycler View
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
