@@ -47,13 +47,18 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletViewHolder> {
         holder.name.setText(name);
         holder.balance.setText(bal);
 
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "delete clicked");
-                DeleteDialog(name, position);
-            }
-        });
+        if(data.get(position).getName().equals("Cash")){
+            holder.delete.setVisibility(View.INVISIBLE);
+        }
+        else{
+            holder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "delete clicked");
+                    DeleteDialog(name, position);
+                }
+            });
+        }
     }
     public int getItemCount(){
         return data.size();

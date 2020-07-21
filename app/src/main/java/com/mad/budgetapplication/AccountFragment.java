@@ -154,7 +154,8 @@ public class AccountFragment extends Fragment {
         for(Wallet wallet : user.getWallets()){
             for(Transaction transaction : wallet.getTransactions()){
                 if(transaction.getType().equals("Expenses")){
-                    totalExpenses += transaction.getAmount();
+                    Double exAmt = transaction.getAmount() * -1;
+                    totalExpenses += exAmt;
                 }
                 else if(transaction.getType().equals("Income")){
                     totalIncome += transaction.getAmount();

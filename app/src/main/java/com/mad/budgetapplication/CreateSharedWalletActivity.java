@@ -42,6 +42,15 @@ public class CreateSharedWalletActivity extends AppCompatActivity {
         id =  FirebaseAuth.getInstance().getCurrentUser().getUid();
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
+        walletBal.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    walletBal.setText("");
+                }
+            }
+        });
+
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
