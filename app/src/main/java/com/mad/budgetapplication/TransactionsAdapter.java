@@ -56,7 +56,7 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsViewHo
         String formatedDate;
         //update view with transaction name and amount
         holder.name.setText(t.getName());
-        holder.amount.setText("$" + t.getAmount().toString());
+        holder.amount.setText(activityMain.getString(R.string.display_Bal, t.getAmount()));
 
         //format date to dd/MM/yyyy for display
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");

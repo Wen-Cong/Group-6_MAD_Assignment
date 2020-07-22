@@ -25,6 +25,7 @@
         android:layout_height="45dp"
         android:background="@drawable/submit_button"
         android:text="Save"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -49,13 +50,15 @@
 
     <EditText
         android:id="@+id/accName"
-        android:layout_width="274dp"
+        android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="144dp"
         android:background="@drawable/custom_edittext"
         android:ems="10"
         android:inputType="text"
         android:text=""
+        android:paddingLeft="10dp"
+        android:hint="Please enter wallet name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,11 +66,12 @@
 
     <EditText
         android:id="@+id/accountBal"
-        android:layout_width="274dp"
+        android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="68dp"
         android:background="@drawable/custom_edittext"
         android:ems="10"
+        android:paddingLeft="10dp"
         android:inputType="numberDecimal"
         android:text="0.00"
         app:layout_constraintEnd_toEndOf="parent"

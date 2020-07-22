@@ -42,18 +42,23 @@ public class WalletAdapter extends RecyclerView.Adapter<WalletViewHolder> {
     public void onBindViewHolder(WalletViewHolder holder, final int position){
     //Using the row id to retrieve data from list
         final String name = data.get(position).getName();
-        String bal = String.valueOf(data.get(position).getBalance());
+        String bal = activityMain.getString(R.string.display_Bal_noUnit, data.get(position).getBalance());
     //Display the information on to the UI
         holder.name.setText(name);
         holder.balance.setText(bal);
 
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "delete clicked");
-                DeleteDialog(name, position);
-            }
-        });
+        if(data.get(position).getName().equals("Cash")){
+            holder.delete.setVisibility(View.INVISIBLE);
+        }
+        else{
+            holder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "delete clicked");
+                    DeleteDialog(name, position);
+                }
+            });
+        }
     }
     public int getItemCount(){
         return data.size();
