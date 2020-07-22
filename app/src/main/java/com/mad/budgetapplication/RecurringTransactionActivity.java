@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -141,7 +142,13 @@ public class RecurringTransactionActivity extends AppCompatActivity {
                                 transactionAmt.requestFocus();
                             }
                             //create new transaction and update wallet
-                            RTransaction t = new RTransaction(name, Interval, StartDate, finalAmount, TransactionType);
+                            RTransaction t = null;
+                            try {
+                                t = new RTransaction(name, Interval, StartDate, finalAmount, TransactionType);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                                Toast.makeText(RecurringTransactionActivity.this,"Please enter the correct date format", Toast.LENGTH_SHORT).show();
+                            }
                             wallet.addRTransaction(t);
                             //update data to firebase database
                             databaseReference.child("Users").child(uid).child("wallets").child(walletKey).setValue(wallet);

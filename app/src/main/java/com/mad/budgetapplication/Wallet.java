@@ -11,20 +11,21 @@ public class Wallet implements Serializable {
 
     public Wallet() {
         this.transactionList = new ArrayList<>();
-        RTransactionList = new ArrayList<>();
+        this.RTransactionList = new ArrayList<>();
     }
 
     public Wallet(String walletname, Double bal) {
         this.name = walletname;
         this.balance = bal;
         this.transactionList = new ArrayList<>();
-        RTransactionList = new ArrayList<>();
+        this.RTransactionList = new ArrayList<>();
     }
 
-    public Wallet(String walletname, Double bal, ArrayList<Transaction> tlist) {
+    public Wallet(String walletname, Double bal, ArrayList<Transaction> tlist, ArrayList<RTransaction> rTransactionArrayList) {
         this.name = walletname;
         this.balance = bal;
         this.transactionList = tlist;
+        this.RTransactionList = rTransactionArrayList;
     }
 
     public String getName() {
@@ -42,10 +43,13 @@ public class Wallet implements Serializable {
     public void setBalance(Double balance) {
         this.balance = balance;
     }
+
     public void addTransactions(Transaction t){
         transactionList.add(t);
     }
+
     public ArrayList<Transaction> getTransactions(){ return transactionList;}
+
     public String toString(){
         return this.name;
     }
@@ -54,9 +58,9 @@ public class Wallet implements Serializable {
         return RTransactionList;
     }
     public void addRTransaction(RTransaction rTransaction){
-        RTransactionList.add(rTransaction);
+        this.RTransactionList.add(rTransaction);
     }
     public void removeRTransaction(RTransaction rTransaction){
-        RTransactionList.remove(rTransaction);
+        this.RTransactionList.remove(rTransaction);
     }
 }

@@ -25,6 +25,8 @@ import java.util.Collections;
 public class TransactionsFragment extends Fragment {
     User user;
     RecyclerView transactionView;
+    RecyclerView assetView;
+    RecyclerView RTransactionView;
     final String TAG = "Transaction History";
     public TransactionsFragment() {
         // Required empty public constructor
@@ -44,10 +46,26 @@ public class TransactionsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         user = ((HomeActivity)this.getActivity()).getUser();
         transactionView = view.findViewById(R.id.transactionView);
-        transactionView = view.findViewById(R.id.transactionView);
+        assetView = view.findViewById(R.id.assetView);
+        RTransactionView = view.findViewById(R.id.RTransactionView);
+
+        RTransactionAdapter rAdapter = new RTransactionAdapter(user, getActivity());
+        LinearLayoutManager rLayoutManager = new LinearLayoutManager(getActivity());
+        RTransactionView.setLayoutManager(rLayoutManager);
+        RTransactionView.setItemAnimator(new DefaultItemAnimator());
+        RTransactionView.setAdapter(rAdapter);
+
+        //Create adapter and pass in the data for asset
+        AssetAdapter mAdapter = new AssetAdapter(user, getActivity());
+        //Layout manager tells recyclerview how to draw the list
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        //pass in layout, animation and adapter.
+        assetView.setLayoutManager(mLayoutManager);
+        assetView.setItemAnimator(new DefaultItemAnimator());
+        assetView.setAdapter(mAdapter);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         ArrayList<Transaction> allTransactionsList = new ArrayList<Transaction>();
-
         //get all user created transaction into one single list
         for(Wallet w : user.getWallets()){
             for(Transaction t : w.getTransactions()){

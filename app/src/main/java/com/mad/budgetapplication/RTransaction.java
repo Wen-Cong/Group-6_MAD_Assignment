@@ -1,5 +1,7 @@
 package com.mad.budgetapplication;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RTransaction implements Serializable{
@@ -8,13 +10,17 @@ public class RTransaction implements Serializable{
     private String startDate;
     private Double amount;
     private String type;
+    private Date startingDate;
 
-    public RTransaction(String Name, int Interval, String StartDate, double Amount, String Type){
+
+    public RTransaction(String Name, int Interval, String StartDate, double Amount, String Type) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         this.name = Name;
         this.interval = Interval;
         this.startDate = StartDate;
         this.amount = Amount;
         this.type = Type;
+        this.startingDate = format.parse(startDate);
     }
 
     public String getName() {
@@ -36,7 +42,9 @@ public class RTransaction implements Serializable{
     public String getStartDate() {
         return startDate;
     }
-
+    public Date getStartingDate(){
+        return startingDate;
+    }
     public void setStartDate(String startDate) {
         this.startDate = startDate;
     }

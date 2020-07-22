@@ -30,7 +30,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -42,7 +47,6 @@ public class HomeActivity extends AppCompatActivity {
     StorageReference storageReference;
     FirebaseDatabase database;
     private boolean flag = false;
-
 
 
     CircleImageView tempProfileImage;
@@ -167,7 +171,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    public void InitUser(){
+    public boolean InitUser(){
         //obtain database and user ID
         final String currentId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference reff = FirebaseDatabase.getInstance().getReference().child("Users").child(currentId);
@@ -177,11 +181,12 @@ public class HomeActivity extends AppCompatActivity {
                 //initiate username
                 String userName = dataSnapshot.child("username").getValue().toString();
                 user = new User(currentId, userName);
-                //initiate wallets & transactions
+                //initiate wallets & transactions & RTransactions
                 for(DataSnapshot walletId : dataSnapshot.child("wallets").getChildren())
                 {
                     Wallet newWallet = new Wallet(walletId.child("name").getValue().toString(), Double.valueOf(walletId.child("balance").getValue().toString()));
                     Log.v(TAG, "Wallet Name: "+ newWallet.toString());
+
                     //get transactions from database and populate transactions list into respective wallets
                     for(DataSnapshot transactionId : walletId.child("transactions").getChildren()){
                         Transaction t = new Transaction(transactionId.child("name").getValue().toString(),
@@ -190,16 +195,24 @@ public class HomeActivity extends AppCompatActivity {
                         newWallet.addTransactions(t);
                         Log.v(TAG, "Transactions: " + t.getName().toString() + " loaded!");
                     }
+                    //get RTransactions from database and populate RTransaction list in wallets
                     for (DataSnapshot RtransactionId: walletId.child("rtransactionList").getChildren()){
-                        RTransaction rTransaction = new RTransaction(
-                                RtransactionId.child("name").getValue().toString(),
-                                Integer.parseInt(RtransactionId.child("interval").getValue().toString()),
-                                RtransactionId.child("startDate").getValue().toString(),
-                                        Double.parseDouble(RtransactionId.child("amount").getValue().toString()),
-                                        RtransactionId.child("type").getValue().toString());
+                        RTransaction rTransaction = null;
+                        try {
+                            rTransaction = new RTransaction(
+                                    RtransactionId.child("name").getValue().toString(),
+                                    Integer.parseInt(RtransactionId.child("interval").getValue().toString()),
+                                    RtransactionId.child("startDate").getValue().toString(),
+                                            Double.parseDouble(RtransactionId.child("amount").getValue().toString()),
+                                            RtransactionId.child("type").getValue().toString());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        //add RTransaction to list
                         newWallet.addRTransaction(rTransaction);
-                        Log.v(TAG, "Recurring Transactions: " + rTransaction.getName().toString() + " loaded!");
+                        Log.v(TAG, "Recurring Transactions: " + rTransaction.getName() + " loaded!");
                     }
+
                     user.addWallet(newWallet);
                 }
 
@@ -229,6 +242,7 @@ public class HomeActivity extends AppCompatActivity {
                 Log.v(TAG, "Error getting database data");
             }
         });
+        return true;
     }
 
 }
