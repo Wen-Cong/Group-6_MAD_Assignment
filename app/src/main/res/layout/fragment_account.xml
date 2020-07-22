@@ -235,7 +235,7 @@
             android:id="@+id/icon_ser"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:src="@drawable/support">
+            android:src="@drawable/Credits">
 
         </ImageView>
 
@@ -245,7 +245,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
             android:layout_toRightOf="@id/icon_ser"
-            android:text="Support"
+            android:text="Credits"
             android:textColor="#202020"
             android:textSize="20dp"></TextView>
 
