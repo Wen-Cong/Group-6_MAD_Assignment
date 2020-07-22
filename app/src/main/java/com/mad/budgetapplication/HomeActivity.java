@@ -47,8 +47,7 @@ public class HomeActivity extends AppCompatActivity {
     StorageReference storageReference;
     FirebaseDatabase database;
     private boolean flag = false;
-
-
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     CircleImageView tempProfileImage;
     public User user;
     public Button addAsset;
@@ -228,7 +227,7 @@ public class HomeActivity extends AppCompatActivity {
                         Log.v(TAG, "shared wallet ID: " + sharedwallet.getValue().toString() + " added!");
                     }
                 }
-
+                UpdateRecurringTransaction(user);
                 Log.v(TAG, userName);
                 //change to dashboard view after initialising user data for the first time
                 if(!flag){
@@ -243,6 +242,80 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         return true;
+
+    }
+    public void UpdateRecurringTransaction(User user){
+
+        String pattern = "dd/MM/yyyy";
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        for (Wallet wallet :user.getWallets()
+             ) {
+            getAWalletKey(wallet);
+            ArrayList<RTransaction> rtList = wallet.getRTransactionList();
+            for (RTransaction rTransaction: rtList
+                 ) {
+                Date startingDate = rTransaction.getStartingDate();
+                Date today = Calendar.getInstance().getTime();
+                double amt = rTransaction.getAmount();
+                String name = rTransaction.getName();
+                int interval = rTransaction.getInterval();
+                long diff = today.getTime() - startingDate.getTime();
+                String dateInString = new SimpleDateFormat(pattern).format(startingDate);
+                int diffInDays = Integer.parseInt(String.valueOf(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)));
+                if(diffInDays%interval == 0) {
+                    Transaction newTransaction = new Transaction(name, amt, dateInString);
+                    wallet.addTransactions(newTransaction);
+                    String walletKey = getAWalletKey(wallet);
+                    while (walletKey != null) {
+                        databaseReference.child("Users").child(uid).child("wallets").child(walletKey).child("transactions").setValue(newTransaction);
+                    }
+                }
+
+            }
+        }
+    }
+    //get wallet primary key in database with wallet name
+    private void getWalletKey(Wallet w) {
+        String walletname = w.getName().toString();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        databaseReference.child("Users").child(uid).child("wallets").orderByChild("name")
+                .equalTo(walletname).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    String walletKey = childSnapshot.getKey();
+                    Log.v(TAG, walletKey);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(HomeActivity.this, "Error retrieving walletId from database", Toast.LENGTH_SHORT);
+            }
+        });
+    }
+
+    //get wallet primary key in database with wallet name
+    private String getAWalletKey(Wallet w) {
+        String walletname = w.getName();
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        final String[] WalletKey = new String[1];
+        databaseReference.child("Users").child(uid).child("wallets").orderByChild("name")
+                .equalTo(walletname).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    WalletKey[0] = childSnapshot.getKey();
+                    Log.d(TAG, "getWalletkey: "+ WalletKey[0]);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(HomeActivity.this, "Error retrieving walletId from database", Toast.LENGTH_SHORT);
+            }
+        });
+        return WalletKey[0];
     }
 
 }

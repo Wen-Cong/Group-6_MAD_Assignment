@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:ignore="MissingDefaultResource">
+
+  <TextView
+      android:id="@+id/RTDate"
+      android:layout_width="270dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="12dp"
+      android:layout_marginBottom="10dp"
+      android:text="Time"
+      android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.113"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/RTName" />
+
+  <TextView
+      android:id="@+id/RTAmt"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:layout_marginEnd="32dp"
+      android:layout_marginBottom="10dp"
+      android:text="Amount"
+      android:textAppearance="@style/TextAppearance.AppCompat.Large"
+      android:textSize="20sp"
+      android:textStyle="bold"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@+id/tname"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <TextView
+      android:id="@+id/RTName"
+      android:layout_width="267dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:layout_marginBottom="10dp"
+      android:text="Transaction Name"
+      android:textAlignment="viewStart"
+      android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+      android:textStyle="bold"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.111"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.132" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

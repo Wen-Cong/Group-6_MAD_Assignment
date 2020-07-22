@@ -19,7 +19,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class RTransactionAdapter extends RecyclerView.Adapter<RTransactionViewHolder> {
     User user;
@@ -41,7 +43,7 @@ public class RTransactionAdapter extends RecyclerView.Adapter<RTransactionViewHo
         //This method is called by adapter when a new ViewHolder is created
         public RTransactionViewHolder onCreateViewHolder(ViewGroup parent, int ViewType){
         //This line create the UI from the XML
-            View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.asset_view_item, parent, false);
+            View item = LayoutInflater.from(parent.getContext()).inflate(R.layout.rtransaction_view_item, parent, false);
         //return the ViewHolder
             return new RTransactionViewHolder(item);
         }
@@ -50,14 +52,16 @@ public class RTransactionAdapter extends RecyclerView.Adapter<RTransactionViewHo
 
     public void onBindViewHolder(RTransactionViewHolder holder, final int position){
         //Using the row id to retrieve data from list
+        String pattern = "dd/MM/yyyy";
         RTransaction a = rTransactionArrayList.get(position);
         //Display the information on to the UI
         final String s = a.getName();
+        final Date date = a.getStartingDate();
         String v = "$"+String.valueOf(a.getAmount());
-
-
-        holder.txt.setText(s);
-        holder.value.setText(v);
+        String dateFormat = new SimpleDateFormat(pattern).format(date);
+        holder.name.setText(s);
+        holder.amt.setText(v);
+        holder.date.setText(dateFormat);
     }
 
     public int getItemCount(){
