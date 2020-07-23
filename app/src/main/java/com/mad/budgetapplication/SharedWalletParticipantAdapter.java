@@ -99,7 +99,7 @@ public class SharedWalletParticipantAdapter extends RecyclerView.Adapter<SharedW
         }
         else{
             // Hide options button if user not admin
-            holder.options.setTextColor(Color.WHITE);
+            holder.options.setVisibility(View.INVISIBLE);
         }
 
     }

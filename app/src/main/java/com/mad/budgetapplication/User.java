@@ -5,7 +5,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class User implements Serializable {
-    private String userName;
+    private String username;
     private String userId;
     private ArrayList<Wallet> wallets;
     private ArrayList<String> participatedSharedWallet;
@@ -19,7 +19,7 @@ public class User implements Serializable {
 
     }
     public User(String id, String name){
-        userName = name;
+        username = name;
         userId = id;
         wallets = new ArrayList<>();
         participatedSharedWallet = new ArrayList<>();
@@ -28,10 +28,10 @@ public class User implements Serializable {
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.username = userName;
     }
 
     public String getUserId() {

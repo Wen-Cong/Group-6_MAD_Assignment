@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/White"
-    tools:context=".TransactionsFragment">
+    tools:context=".TransactionsFragment"
+    android:paddingBottom="30dp">
 
     <TextView
         android:id="@+id/textView26"
@@ -19,7 +20,7 @@
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.714" />
+        app:layout_constraintVertical_bias="0.715" />
 
     <TextView
         android:id="@+id/textView25"
@@ -33,7 +34,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.435" />
+        app:layout_constraintVertical_bias="0.446" />
 
     <TextView
         android:id="@+id/textView15"
@@ -46,7 +47,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintVertical_bias="0.014" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/transactionView"
@@ -64,7 +65,7 @@
         android:id="@+id/assetView"
         android:layout_width="416dp"
         android:layout_height="131dp"
-        android:layout_marginBottom="260dp"
+        android:layout_marginBottom="232dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -80,5 +81,5 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView26"
-        tools:listitem="@layout/Rtransaction_view_item" />
+        tools:listitem="@layout/rtransaction_view_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>

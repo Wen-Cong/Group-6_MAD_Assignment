@@ -56,6 +56,7 @@ public class HomeActivity extends AppCompatActivity {
     public final static  int REQ_SHAREDWALLET_CODE = 5001;
     private static final String TAG = "HomeActivity";
     String uid;
+    boolean deducted = true;
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,11 +184,14 @@ public class HomeActivity extends AppCompatActivity {
                 //initiate wallets & transactions & RTransactions
                 for(DataSnapshot walletId : dataSnapshot.child("wallets").getChildren())
                 {
+                    Log.d(TAG, "name: "+ walletId.child("name").getValue().toString());
+                    Log.d(TAG, "bal: "+ walletId.child("balance").getValue().toString());
                     Wallet newWallet = new Wallet(walletId.child("name").getValue().toString(), Double.valueOf(walletId.child("balance").getValue().toString()));
                     Log.v(TAG, "Wallet Name: "+ newWallet.toString());
 
                     //get transactions from database and populate transactions list into respective wallets
                     for(DataSnapshot transactionId : walletId.child("transactions").getChildren()){
+                        Log.d(TAG, "nameTransaction:"+ transactionId.child("name").getValue());
                         Transaction t = new Transaction(transactionId.child("name").getValue().toString(),
                                 Double.valueOf(transactionId.child("amount").getValue().toString()),
                         transactionId.child("type").getValue().toString(), transactionId.child("time").getValue().toString());
@@ -227,7 +231,6 @@ public class HomeActivity extends AppCompatActivity {
                         Log.v(TAG, "shared wallet ID: " + sharedwallet.getValue().toString() + " added!");
                     }
                 }
-                UpdateRecurringTransaction(user);
                 Log.v(TAG, userName);
                 //change to dashboard view after initialising user data for the first time
                 if(!flag){
@@ -241,16 +244,15 @@ public class HomeActivity extends AppCompatActivity {
                 Log.v(TAG, "Error getting database data");
             }
         });
+        UpdateRecurringTransaction();
         return true;
 
     }
-    public void UpdateRecurringTransaction(User user){
-
+    public void UpdateRecurringTransaction(){
         String pattern = "dd/MM/yyyy";
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        for (Wallet wallet :user.getWallets()
+        for (Wallet wallet : user.getWallets()
              ) {
-
             ArrayList<RTransaction> rtList = wallet.getRTransactionList();
             for (RTransaction rTransaction: rtList
                  ) {
@@ -261,13 +263,18 @@ public class HomeActivity extends AppCompatActivity {
                 int diffInDays = Integer.parseInt(String.valueOf(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)));
                 Log.v(TAG, "diff in days: "+ diffInDays);
 
-                if(diffInDays%interval == 0) {
+                if(diffInDays%interval == 0 && deducted) {
                     double amt = rTransaction.getAmount();
                     String name = rTransaction.getName();
                     String dateInString = new SimpleDateFormat(pattern).format(startingDate);
-                    Transaction newTransaction = new Transaction(name, amt, dateInString);
-                    wallet.addTransactions(newTransaction);
-                    UpdateWallet(wallet, newTransaction);
+                    String type = rTransaction.getType();
+                    Transaction newTransaction = new Transaction(name, amt, type);
+                    int walletPos = user.getWallets().indexOf(wallet);
+                    user.getWallets().get(walletPos).addTransactions(newTransaction);
+                    double oldBalance = user.getWallets().get(walletPos).getBalance();
+                    user.getWallets().get(walletPos).setBalance(oldBalance + newTransaction.getAmount());
+                    UpdateWallet();
+                    deducted = false;
                 }
 
             }
@@ -275,25 +282,24 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     //get wallet primary key in database with wallet name
-    private void UpdateWallet(Wallet w, final Transaction newTransaction) {
-        String walletname = w.getName();
-        Log.d(TAG, "getAWalletKey: "+ walletname);
+    private void UpdateWallet() {
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        final String[] WalletKey = new String[1];
-        databaseReference.child("Users").child(uid).child("wallets").orderByChild("name").equalTo(walletname).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                    WalletKey[0] = childSnapshot.getKey();
-                    databaseReference.child("Users").child(uid).child("wallets").child(WalletKey[0]).child("transactions").setValue(newTransaction);
+        for (final Wallet w: user.getWallets()) {
+            databaseReference.child("Users").child(uid).child("wallets").orderByChild("name").equalTo(w.getName()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                   for(DataSnapshot childsnapshot : dataSnapshot.getChildren()){
+                       String key = childsnapshot.getKey();
+                       databaseReference.child("Users").child(uid).child("wallets").child(key).setValue(w);
+                   }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(HomeActivity.this, "Error retrieving walletId from database", Toast.LENGTH_SHORT);
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
 }

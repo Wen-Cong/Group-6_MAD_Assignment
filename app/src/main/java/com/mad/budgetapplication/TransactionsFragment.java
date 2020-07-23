@@ -44,7 +44,7 @@ public class TransactionsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        user = ((HomeActivity)this.getActivity()).getUser();
+        user = ((HomeActivity) getActivity()).user;
         transactionView = view.findViewById(R.id.transactionView);
         assetView = view.findViewById(R.id.assetView);
         RTransactionView = view.findViewById(R.id.RTransactionView);

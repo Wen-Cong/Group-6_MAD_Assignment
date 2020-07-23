@@ -114,7 +114,7 @@ public class SharedWalletTransactionAdapter extends RecyclerView.Adapter<SharedW
         }
         else{
             // Hide the option button if transaction does not belong to user
-            holder.option.setTextColor(Color.WHITE);
+            holder.option.setVisibility(View.INVISIBLE);
         }
     }
 
