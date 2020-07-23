@@ -55,7 +55,7 @@ public class HomeActivity extends AppCompatActivity {
     public final static  int REQ_PROFILEPIC_CODE = 1001;
     public final static  int REQ_SHAREDWALLET_CODE = 5001;
     private static final String TAG = "HomeActivity";
-
+    String uid;
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -247,7 +247,7 @@ public class HomeActivity extends AppCompatActivity {
     public void UpdateRecurringTransaction(User user){
 
         String pattern = "dd/MM/yyyy";
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         for (Wallet wallet :user.getWallets()
              ) {
 
@@ -259,24 +259,15 @@ public class HomeActivity extends AppCompatActivity {
                 int interval = rTransaction.getInterval();
                 long diff = today.getTime() - startingDate.getTime();
                 int diffInDays = Integer.parseInt(String.valueOf(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)));
-                Log.d(TAG, "UpdateRecurringTransaction: "+ diffInDays);
+                Log.v(TAG, "diff in days: "+ diffInDays);
 
                 if(diffInDays%interval == 0) {
-                    String walletKey = getAWalletKey(wallet);
-                    Log.d(TAG, "UpdateRecurringTransaction: "+ walletKey);
                     double amt = rTransaction.getAmount();
                     String name = rTransaction.getName();
                     String dateInString = new SimpleDateFormat(pattern).format(startingDate);
                     Transaction newTransaction = new Transaction(name, amt, dateInString);
                     wallet.addTransactions(newTransaction);
-                    if(walletKey != null) {
-                        databaseReference.child("Users").child(uid).child("wallets").child(walletKey).child("transactions").setValue(newTransaction).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "onSuccess: successful!!");
-                            }
-                        });
-                    }
+                    UpdateWallet(wallet, newTransaction);
                 }
 
             }
@@ -284,16 +275,17 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     //get wallet primary key in database with wallet name
-    private String getAWalletKey(Wallet w) {
+    private void UpdateWallet(Wallet w, final Transaction newTransaction) {
         String walletname = w.getName();
         Log.d(TAG, "getAWalletKey: "+ walletname);
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final String[] WalletKey = new String[1];
         databaseReference.child("Users").child(uid).child("wallets").orderByChild("name").equalTo(walletname).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     WalletKey[0] = childSnapshot.getKey();
+                    databaseReference.child("Users").child(uid).child("wallets").child(WalletKey[0]).child("transactions").setValue(newTransaction);
                 }
             }
 
@@ -302,7 +294,6 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(HomeActivity.this, "Error retrieving walletId from database", Toast.LENGTH_SHORT);
             }
         });
-        return WalletKey[0];
     }
 
 }
