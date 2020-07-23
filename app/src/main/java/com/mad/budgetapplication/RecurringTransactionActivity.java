@@ -120,10 +120,7 @@ public class RecurringTransactionActivity extends AppCompatActivity {
                         } else {
                             finalAmount = 0.00;
                         }
-                        Double newWalletBal = ((Double) wallet.getBalance()) + finalAmount;
-                        if (newWalletBal < 0.00) {
-                            Toast.makeText(RecurringTransactionActivity.this, "Invalid Amount!, Insufficient wallet balance", Toast.LENGTH_SHORT).show();
-                        }
+
                         if(StartDate.isEmpty()){
                             //display error and bring focus to empty field
                             transactionAmt.setError("Please enter date");

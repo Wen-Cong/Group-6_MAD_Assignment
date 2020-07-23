@@ -52,7 +52,7 @@ public class AssetAdapter extends RecyclerView.Adapter<AssetViewHolder>{
                 @Override
                 public boolean onLongClick(View v) {
                     DeleteDialog(s, position);
-                    return false;
+                    return true;
                 }
             });
     }

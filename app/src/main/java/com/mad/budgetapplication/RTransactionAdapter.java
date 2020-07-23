@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,15 +63,23 @@ public class RTransactionAdapter extends RecyclerView.Adapter<RTransactionViewHo
         holder.name.setText(s);
         holder.amt.setText(v);
         holder.date.setText(dateFormat);
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                DeleteDialog(s, position);
+                return true;
+            }
+        });
     }
 
     public int getItemCount(){
         return rTransactionArrayList.size();
     }
+
     public void deleteItemFromDB(String name){
         final String currentId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentId);
-        Query deleteQuery = databaseReference.child("assets").orderByChild("name").equalTo(name);
+        Query deleteQuery = databaseReference.child("rtransactionList").orderByChild("name").equalTo(name);
 
         deleteQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -89,7 +98,7 @@ public class RTransactionAdapter extends RecyclerView.Adapter<RTransactionViewHo
 
     public void DeleteDialog(final String Name, final int Position){
         AlertDialog.Builder builder = new AlertDialog.Builder(activityMain);
-        builder.setTitle("Delete Asset");
+        builder.setTitle("Delete Transaction");
         builder.setMessage("Are you sure you want to delete "+Name+"?");
         builder.setCancelable(false);
         builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -105,6 +114,7 @@ public class RTransactionAdapter extends RecyclerView.Adapter<RTransactionViewHo
                 deleteItemFromDB(Name);
                 rTransactionArrayList.remove(Position);
                 notifyDataSetChanged();
+                Toast.makeText(activityMain, "Recurring Transaction successfully deleted", Toast.LENGTH_SHORT).show();
             }
         });
         AlertDialog alert = builder.create();
