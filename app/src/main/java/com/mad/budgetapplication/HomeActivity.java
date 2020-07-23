@@ -250,63 +250,50 @@ public class HomeActivity extends AppCompatActivity {
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         for (Wallet wallet :user.getWallets()
              ) {
-            getAWalletKey(wallet);
+
             ArrayList<RTransaction> rtList = wallet.getRTransactionList();
             for (RTransaction rTransaction: rtList
                  ) {
                 Date startingDate = rTransaction.getStartingDate();
                 Date today = Calendar.getInstance().getTime();
-                double amt = rTransaction.getAmount();
-                String name = rTransaction.getName();
                 int interval = rTransaction.getInterval();
                 long diff = today.getTime() - startingDate.getTime();
-                String dateInString = new SimpleDateFormat(pattern).format(startingDate);
                 int diffInDays = Integer.parseInt(String.valueOf(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)));
+                Log.d(TAG, "UpdateRecurringTransaction: "+ diffInDays);
+
                 if(diffInDays%interval == 0) {
+                    String walletKey = getAWalletKey(wallet);
+                    Log.d(TAG, "UpdateRecurringTransaction: "+ walletKey);
+                    double amt = rTransaction.getAmount();
+                    String name = rTransaction.getName();
+                    String dateInString = new SimpleDateFormat(pattern).format(startingDate);
                     Transaction newTransaction = new Transaction(name, amt, dateInString);
                     wallet.addTransactions(newTransaction);
-                    String walletKey = getAWalletKey(wallet);
-                    while (walletKey != null) {
-                        databaseReference.child("Users").child(uid).child("wallets").child(walletKey).child("transactions").setValue(newTransaction);
+                    if(walletKey != null) {
+                        databaseReference.child("Users").child(uid).child("wallets").child(walletKey).child("transactions").setValue(newTransaction).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "onSuccess: successful!!");
+                            }
+                        });
                     }
                 }
 
             }
         }
     }
-    //get wallet primary key in database with wallet name
-    private void getWalletKey(Wallet w) {
-        String walletname = w.getName().toString();
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        databaseReference.child("Users").child(uid).child("wallets").orderByChild("name")
-                .equalTo(walletname).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                    String walletKey = childSnapshot.getKey();
-                    Log.v(TAG, walletKey);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(HomeActivity.this, "Error retrieving walletId from database", Toast.LENGTH_SHORT);
-            }
-        });
-    }
 
     //get wallet primary key in database with wallet name
     private String getAWalletKey(Wallet w) {
         String walletname = w.getName();
+        Log.d(TAG, "getAWalletKey: "+ walletname);
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         final String[] WalletKey = new String[1];
-        databaseReference.child("Users").child(uid).child("wallets").orderByChild("name")
-                .equalTo(walletname).addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child("Users").child(uid).child("wallets").orderByChild("name").equalTo(walletname).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     WalletKey[0] = childSnapshot.getKey();
-                    Log.d(TAG, "getWalletkey: "+ WalletKey[0]);
                 }
             }
 
