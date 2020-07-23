@@ -51,6 +51,7 @@ Ramesh Harish -
 4. LoginActivity (xml)
 5. MainActivity (xml)
 6. SupportActivity (java + xml)
+7. Implemented Dark Mode
 
 Screenshot:
 
