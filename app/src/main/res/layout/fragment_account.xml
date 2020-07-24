@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".AccountFragment">
     <LinearLayout
         android:id="@+id/changeimage"
         android:layout_width="match_parent"
@@ -11,8 +12,7 @@
         android:background="@color/White"
         android:orientation="vertical"
         android:padding="24dp"
-        android:textAlignment="center"
-        tools:context=".AccountFragment">
+        android:textAlignment="center">
 
 
         <!-- TODO: Update blank fragment layout -->
@@ -266,7 +266,8 @@
             android:id="@+id/logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="34dp">
+            android:layout_marginTop="34dp"
+            android:layout_marginBottom="60dp">
 
             <ImageView
                 android:id="@+id/icon_logout"
