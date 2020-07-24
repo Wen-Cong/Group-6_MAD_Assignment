@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -50,10 +51,15 @@ public class HomeActivity extends AppCompatActivity {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     CircleImageView tempProfileImage;
     public User user;
-    public Button addAsset;
+
     public final static int REQ_WALLET_CODE = 2001;
     public final static  int REQ_PROFILEPIC_CODE = 1001;
     public final static  int REQ_SHAREDWALLET_CODE = 5001;
+
+    public final static String SHARED_PREFS = "sharedPrefs";
+    public final static String DATE = "date";
+
+
     private static final String TAG = "HomeActivity";
     String uid;
     boolean deducted = true;
@@ -248,25 +254,27 @@ public class HomeActivity extends AppCompatActivity {
         return true;
 
     }
-    public void UpdateRecurringTransaction(){
+    public void UpdateRecurringTransaction() {
         String pattern = "dd/MM/yyyy";
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         for (Wallet wallet : user.getWallets()
-             ) {
+        ) {
             ArrayList<RTransaction> rtList = wallet.getRTransactionList();
-            for (RTransaction rTransaction: rtList
-                 ) {
+            for (RTransaction rTransaction : rtList
+            ) {
                 Date startingDate = rTransaction.getStartingDate();
                 Date today = Calendar.getInstance().getTime();
+                String todayInString = new SimpleDateFormat(pattern).format(today);
                 int interval = rTransaction.getInterval();
                 long diff = today.getTime() - startingDate.getTime();
                 int diffInDays = Integer.parseInt(String.valueOf(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)));
-                Log.v(TAG, "diff in days: "+ diffInDays);
-
-                if(diffInDays%interval == 0 && deducted) {
+                Log.v(TAG, "diff in days: " + diffInDays);
+                String preferenceDate = loadRTransactionPreference();
+                Log.d(TAG, "preferenceDate"+ preferenceDate+" today: "+todayInString);
+                if ((diffInDays % interval == 0) && (!todayInString.equals(preferenceDate))) {
                     double amt = rTransaction.getAmount();
                     String name = rTransaction.getName();
-                    String dateInString = new SimpleDateFormat(pattern).format(startingDate);
+                    //String dateInString = new SimpleDateFormat(pattern).format(startingDate);
                     String type = rTransaction.getType();
                     Transaction newTransaction = new Transaction(name, amt, type);
                     int walletPos = user.getWallets().indexOf(wallet);
@@ -274,14 +282,27 @@ public class HomeActivity extends AppCompatActivity {
                     double oldBalance = user.getWallets().get(walletPos).getBalance();
                     user.getWallets().get(walletPos).setBalance(oldBalance + newTransaction.getAmount());
                     UpdateWallet();
-                    deducted = false;
+                    //load in the date of update into shared preference
+                    UpdateRTransactionPreference(todayInString);
                 }
 
             }
         }
     }
+    //shared preference update
+    //this function is check whether the recurring transaction has already been updated
+    public void UpdateRTransactionPreference(String date){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(DATE, date);
 
-    //get wallet primary key in database with wallet name
+    }
+    public String loadRTransactionPreference(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        String date = sharedPreferences.getString(DATE, "");
+        return date;
+    }
+    //update wallet in firebase
     private void UpdateWallet() {
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         for (final Wallet w: user.getWallets()) {
