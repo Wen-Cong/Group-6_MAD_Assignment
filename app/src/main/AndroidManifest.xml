@@ -7,11 +7,12 @@
 
     <application
         android:allowBackup="true"
-        android:roundIcon="@drawable/applogo"
         android:icon="@drawable/applogo"
+        android:roundIcon="@drawable/applogo"
         android:label="Money Assistant"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".AddAssetActivity"/>
         <activity android:name=".RecurringTransactionActivity" />
         <activity android:name=".SharedWalletDetailsActivity" />
@@ -23,7 +24,7 @@
         <activity android:name=".ChangeUsernameActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity">`
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -59,11 +59,9 @@ public class HomeActivity extends AppCompatActivity {
     public final static String SHARED_PREFS = "sharedPrefs";
     public final static String DATE = "date";
 
-
     private static final String TAG = "HomeActivity";
     String uid;
-    boolean deducted = true;
-    @SuppressLint("ResourceType")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
