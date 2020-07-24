@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -95,7 +96,7 @@ public class RecurringTransactionActivity extends AppCompatActivity {
                 String TransactionType = type.getSelectedItem().toString();
                 String StartDate = rtDate.getText().toString();
                 String StringInterval = rtInterval.getText().toString();
-
+                SimpleDateFormat StartDateCheck = new SimpleDateFormat("dd/MM/yyyy");
 
                 //check if transaction name is empty
                 if (name.isEmpty()) {
@@ -111,7 +112,6 @@ public class RecurringTransactionActivity extends AppCompatActivity {
                         transactionAmt.requestFocus();
                     }
                     else if (!string_amt.isEmpty()) {
-
                         Double amt = Double.parseDouble(string_amt);
                         if (TransactionType.equals("Expenses")) {
                             finalAmount = -1 * amt;
@@ -120,11 +120,19 @@ public class RecurringTransactionActivity extends AppCompatActivity {
                         } else {
                             finalAmount = 0.00;
                         }
-
                         if(StartDate.isEmpty()){
                             //display error and bring focus to empty field
-                            transactionAmt.setError("Please enter date");
-                            transactionAmt.requestFocus();
+                            rtDate.setError("Please enter date");
+                            rtDate.requestFocus();
+                        }
+                        else if(!StartDate.isEmpty()){
+                            try {
+                                StartDateCheck.parse(StartDate);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                                rtDate.setError("Please enter a Date in the correct format");
+                                rtDate.requestFocus();
+                            }
                         }
                         if(StringInterval.isEmpty()){
                             transactionAmt.setError("Please enter a number larger than zero");
