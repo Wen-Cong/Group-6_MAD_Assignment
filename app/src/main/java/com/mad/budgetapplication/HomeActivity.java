@@ -51,7 +51,7 @@ public class HomeActivity extends AppCompatActivity {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     CircleImageView tempProfileImage;
     public User user;
-
+    DBHandler dbHandler;
     public final static int REQ_WALLET_CODE = 2001;
     public final static  int REQ_PROFILEPIC_CODE = 1001;
     public final static  int REQ_SHAREDWALLET_CODE = 5001;
@@ -62,7 +62,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private static final String TAG = "HomeActivity";
     String uid;
-    boolean deducted = true;
+
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -255,8 +255,11 @@ public class HomeActivity extends AppCompatActivity {
 
     }
     public void UpdateRecurringTransaction() {
+        dbHandler = new DBHandler(this, null, null, 1);
+
         String pattern = "dd/MM/yyyy";
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         for (Wallet wallet : user.getWallets()
         ) {
             ArrayList<RTransaction> rtList = wallet.getRTransactionList();
@@ -269,11 +272,11 @@ public class HomeActivity extends AppCompatActivity {
                 long diff = today.getTime() - startingDate.getTime();
                 int diffInDays = Integer.parseInt(String.valueOf(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)));
                 Log.v(TAG, "diff in days: " + diffInDays);
-                String preferenceDate = loadRTransactionPreference();
-                Log.d(TAG, "preferenceDate"+ preferenceDate+" today: "+todayInString);
-                if ((diffInDays % interval == 0) && (!todayInString.equals(preferenceDate))) {
+                String name = rTransaction.getName();
+
+
+                if ((diffInDays % interval == 0 && dbHandler.findHist(name, todayInString))) {
                     double amt = rTransaction.getAmount();
-                    String name = rTransaction.getName();
                     //String dateInString = new SimpleDateFormat(pattern).format(startingDate);
                     String type = rTransaction.getType();
                     Transaction newTransaction = new Transaction(name, amt, type);
@@ -282,26 +285,14 @@ public class HomeActivity extends AppCompatActivity {
                     double oldBalance = user.getWallets().get(walletPos).getBalance();
                     user.getWallets().get(walletPos).setBalance(oldBalance + newTransaction.getAmount());
                     UpdateWallet();
-                    //load in the date of update into shared preference
-                    UpdateRTransactionPreference(todayInString);
+                    //update SQLite db to add transaction into history
+                    dbHandler.addRTransactionHist(newTransaction, todayInString);
                 }
 
             }
         }
     }
-    //shared preference update
-    //this function is check whether the recurring transaction has already been updated
-    public void UpdateRTransactionPreference(String date){
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(DATE, date);
 
-    }
-    public String loadRTransactionPreference(){
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        String date = sharedPreferences.getString(DATE, "");
-        return date;
-    }
     //update wallet in firebase
     private void UpdateWallet() {
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -309,8 +300,8 @@ public class HomeActivity extends AppCompatActivity {
             databaseReference.child("Users").child(uid).child("wallets").orderByChild("name").equalTo(w.getName()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                   for(DataSnapshot childsnapshot : dataSnapshot.getChildren()){
-                       String key = childsnapshot.getKey();
+                   for(DataSnapshot childSnapShot : dataSnapshot.getChildren()){
+                       String key = childSnapShot.getKey();
                        databaseReference.child("Users").child(uid).child("wallets").child(key).setValue(w);
                    }
                 }
