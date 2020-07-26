@@ -273,7 +273,7 @@ public class HomeActivity extends AppCompatActivity {
                 int diffInDays = Integer.parseInt(String.valueOf(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS)));
                 Log.v(TAG, "diff in days: " + diffInDays);
                 String name = rTransaction.getName();
-
+                //use DBHandler to find history to validate
 
                 if ((diffInDays % interval == 0 && dbHandler.findHist(name, todayInString))) {
                     double amt = rTransaction.getAmount();
