@@ -71,16 +71,20 @@ Stage 2
 
 Screenshot:
 
-![DashboardScreenShot](https://user-images.githubusercontent.com/64005211/83962907-28d80400-a8d4-11ea-9a34-baa20f58e74c.PNG)
+![WhatsApp Image 2020-08-03 at 13 27 34](https://user-images.githubusercontent.com/64005211/89149023-08ec5600-d58e-11ea-9092-b7b7ca004d38.jpeg)
 
-![SignUpScreenShot](https://user-images.githubusercontent.com/64005211/83962908-2aa1c780-a8d4-11ea-8bb3-ddc4926ead85.PNG)
+![WhatsApp Image 2020-08-03 at 13 30 49](https://user-images.githubusercontent.com/64005211/89149026-0ab61980-d58e-11ea-912b-8136a2cf1a82.jpeg)
 
-![SupportPageScreenShot](https://user-images.githubusercontent.com/64005211/83962909-2b3a5e00-a8d4-11ea-9800-786b949b4f9c.PNG)
+![WhatsApp Image 2020-07-24 at 16 16 03 (3)](https://user-images.githubusercontent.com/64005211/89149029-0ab61980-d58e-11ea-9989-dce5c2b689e6.jpeg)
 
-![TransactionHistory](https://user-images.githubusercontent.com/64005211/83962910-2bd2f480-a8d4-11ea-9f2f-4d19529cef4a.PNG)
+![WhatsApp Image 2020-07-24 at 16 16 03 (4)](https://user-images.githubusercontent.com/64005211/89149032-0b4eb000-d58e-11ea-9c84-3a1a94f5172b.jpeg)
 
-![WalletScreenShot](https://user-images.githubusercontent.com/64005211/83962911-2c6b8b00-a8d4-11ea-9f55-3a285eba6b6f.PNG)
+![WhatsApp Image 2020-07-24 at 16 16 03 (5)](https://user-images.githubusercontent.com/64005211/89149034-0be74680-d58e-11ea-8bd0-db4cef7773f8.jpeg)
 
-![AddTransactionScreenShot](https://user-images.githubusercontent.com/64005211/83962914-35f4f300-a8d4-11ea-81fe-cff9a1034584.PNG)
+![WhatsApp Image 2020-07-24 at 16 46 48 (1)](https://user-images.githubusercontent.com/64005211/89149036-0c7fdd00-d58e-11ea-8aa4-43c4764ef72b.jpeg)
 
-![AccountPageScreenShot](https://user-images.githubusercontent.com/64005211/83962915-37262000-a8d4-11ea-9fb1-d93871a764fb.PNG)
+![WhatsApp Image 2020-07-24 at 18 05 10 (1)](https://user-images.githubusercontent.com/64005211/89149038-0c7fdd00-d58e-11ea-8e3e-36f16d8a62d6.jpeg)
+
+![WhatsApp Image 2020-08-03 at 13 26 05](https://user-images.githubusercontent.com/64005211/89149041-0d187380-d58e-11ea-8d52-6b2409834aaa.jpeg)
+
+![WhatsApp Image 2020-08-03 at 13 26 47](https://user-images.githubusercontent.com/64005211/89149043-0db10a00-d58e-11ea-8815-3d3cde5eaccd.jpeg)
