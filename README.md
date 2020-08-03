@@ -37,6 +37,20 @@ Yeo Wen Cong -
 8. User, Wallet, Transaction class
 9. README.md
 
+Stage 2 (Implemented Shared Wallet Feature)
+1. AddSharedTransactionFragment (java + xml)
+2. CreateSharedWalletActivity (java + xml)
+3. EditSharedWalletNameFragment (java +xml)
+4. EditSharedWalletPasswordFragment (java +xml)
+5. JoinWalletActivity (java + xml)
+6. SharedTransaction class, SharedWallet class
+7. SharedWalletActivity (java + xml)
+8. SharedWalletDetailsActivity (java + xml)
+9. SharedWalletHomeFragment (java + xml)
+10. SharedWalletTransactionFragment (java + xml)
+11. SharedWalletParticipantFragment (java + xml)
+
+
 Li Li Cheng - 
 1. LoginActivity (java)
 2. MainActivity (java)
@@ -50,8 +64,10 @@ Ramesh Harish -
 3. DashboardFragment (xml)
 4. LoginActivity (xml)
 5. MainActivity (xml)
-6. SupportActivity (java + xml)
-7. Implemented Dark Mode
+6. SupportActivity (xml)
+
+Stage 2
+1. Implemented Dark Mode
 
 Screenshot:
 
